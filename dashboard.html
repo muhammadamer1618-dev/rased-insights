@@ -42,7 +42,6 @@ overflow-x:hidden;
 width:290px;
 background:#0f172a;
 padding:25px;
-border-left:1px solid rgba(255,255,255,.05);
 display:flex;
 flex-direction:column;
 gap:15px;
@@ -76,7 +75,6 @@ transition:.3s;
 
 .menu button:hover{
 background:#2563eb;
-transform:translateY(-2px);
 }
 
 .logout{
@@ -89,12 +87,7 @@ padding:30px;
 }
 
 .topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
 margin-bottom:30px;
-flex-wrap:wrap;
-gap:15px;
 }
 
 .topbar h1{
@@ -104,40 +97,13 @@ font-weight:800;
 
 .topbar p{
 color:#94a3b8;
-font-size:14px;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin-bottom:30px;
-}
-
-.card{
-background:#111827;
-padding:25px;
-border-radius:26px;
-border:1px solid rgba(255,255,255,.05);
-}
-
-.card h3{
-color:#cbd5e1;
-margin-bottom:15px;
-font-size:17px;
-}
-
-.number{
-font-size:42px;
-font-weight:800;
-color:#facc15;
+margin-top:10px;
 }
 
 .section{
 background:#111827;
 padding:25px;
 border-radius:26px;
-border:1px solid rgba(255,255,255,.05);
 margin-bottom:25px;
 overflow:auto;
 }
@@ -147,13 +113,12 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:20px;
-flex-wrap:wrap;
 gap:15px;
+flex-wrap:wrap;
 }
 
 .section-header h2{
-font-size:25px;
-font-weight:800;
+font-size:24px;
 }
 
 .add-btn{
@@ -175,15 +140,12 @@ min-width:700px;
 th{
 background:rgba(255,255,255,.05);
 padding:16px;
-font-size:14px;
 }
 
 td{
 padding:16px;
 text-align:center;
 border-bottom:1px solid rgba(255,255,255,.05);
-color:#cbd5e1;
-font-size:14px;
 }
 
 .action-btn{
@@ -203,10 +165,6 @@ color:white;
 .delete{
 background:#dc2626;
 color:white;
-}
-
-.import-btn{
-background:#0f766e !important;
 }
 
 .modal{
@@ -287,12 +245,8 @@ width:100%;
 padding:20px;
 }
 
-.topbar h1{
-font-size:28px;
-}
-
-.cards{
-grid-template-columns:1fr;
+table{
+min-width:600px;
 }
 
 }
@@ -332,13 +286,6 @@ Insights
 إضافة اختبار
 </button>
 
-<button
-class="import-btn"
-id="importBtn"
->
-استيراد Excel
-</button>
-
 <button onclick="window.location.href='./reports.html'">
 التقارير
 </button>
@@ -350,13 +297,6 @@ onclick="window.location.href='./index.html'"
 تسجيل الخروج
 </button>
 
-<input
-type="file"
-id="excelFile"
-accept=".xlsx,.xls,.csv"
-style="display:none"
-/>
-
 </div>
 
 </div>
@@ -364,8 +304,6 @@ style="display:none"
 <div class="main">
 
 <div class="topbar">
-
-<div>
 
 <h1>
 لوحة الأدمن
@@ -377,57 +315,46 @@ style="display:none"
 
 </div>
 
-</div>
+<div class="section">
 
-<div class="cards">
+<div class="section-header">
 
-<div class="card">
+<h2>
+الفصول
+</h2>
 
-<h3>
-عدد الطلاب
-</h3>
-
-<div class="number">
-250
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>
-عدد المعلمين
-</h3>
-
-<div class="number">
-12
-</div>
+<button
+class="add-btn"
+onclick="openModal('class')"
+>
+إضافة فصل
+</button>
 
 </div>
 
-<div class="card">
+<table id="classesTable">
 
-<h3>
-عدد المشرفين
-</h3>
+<thead>
 
-<div class="number">
-4
-</div>
+<tr>
 
-</div>
+<th>
+اسم الفصل
+</th>
 
-<div class="card">
+<th>
+الإجراءات
+</th>
 
-<h3>
-عدد الفصول
-</h3>
+</tr>
 
-<div class="number">
-8
-</div>
+</thead>
 
-</div>
+<tbody>
+
+</tbody>
+
+</table>
 
 </div>
 
@@ -436,7 +363,7 @@ style="display:none"
 <div class="section-header">
 
 <h2>
-آخر الطلاب
+الطلاب
 </h2>
 
 <button
@@ -463,10 +390,6 @@ onclick="openModal('student')"
 </th>
 
 <th>
-المادة
-</th>
-
-<th>
 الإجراءات
 </th>
 
@@ -475,40 +398,6 @@ onclick="openModal('student')"
 </thead>
 
 <tbody>
-
-<tr>
-
-<td>
-محمد أحمد
-</td>
-
-<td>
-أول ثانوي A
-</td>
-
-<td>
-English
-</td>
-
-<td>
-
-<button
-class="action-btn edit"
-onclick="editRow(this)"
->
-تعديل
-</button>
-
-<button
-class="action-btn delete"
-onclick="deleteRow(this)"
->
-حذف
-</button>
-
-</td>
-
-</tr>
 
 </tbody>
 
@@ -539,43 +428,16 @@ placeholder="الاسم"
 
 </div>
 
-<div class="input-group">
-
-<input
-type="text"
-id="usernameInput"
-placeholder="اسم المستخدم"
-/>
-
-</div>
-
-<div class="input-group">
-
-<input
-type="password"
-id="passwordInput"
-placeholder="كلمة المرور"
-/>
-
-</div>
-
 <div
 class="input-group"
 id="classGroup"
+style="display:none"
 >
 
 <select id="classSelect">
 
-<option>
+<option value="">
 اختر الفصل
-</option>
-
-<option>
-أول ثانوي A
-</option>
-
-<option>
-أول ثانوي B
 </option>
 
 </select>
@@ -664,13 +526,18 @@ document.getElementById("modal");
 const modalTitle =
 document.getElementById("modalTitle");
 
-const examGroup =
-document.getElementById("examGroup");
-
 const classGroup =
 document.getElementById("classGroup");
 
+const examGroup =
+document.getElementById("examGroup");
+
+const classSelect =
+document.getElementById("classSelect");
+
 let currentType = "";
+
+let classes = [];
 
 function openModal(type){
 
@@ -678,9 +545,11 @@ currentType = type;
 
 modal.style.display = "flex";
 
-examGroup.style.display = "none";
+document.getElementById("nameInput").value = "";
 
-classGroup.style.display = "block";
+classGroup.style.display = "none";
+
+examGroup.style.display = "none";
 
 if(type === "teacher"){
 
@@ -703,6 +572,18 @@ modalTitle.innerText =
 
 }
 
+else if(type === "student"){
+
+modalTitle.innerText =
+"إضافة طالب";
+
+classGroup.style.display =
+"block";
+
+renderClassOptions();
+
+}
+
 else if(type === "exam"){
 
 modalTitle.innerText =
@@ -710,16 +591,6 @@ modalTitle.innerText =
 
 examGroup.style.display =
 "block";
-
-classGroup.style.display =
-"none";
-
-}
-
-else{
-
-modalTitle.innerText =
-"إضافة طالب";
 
 }
 
@@ -733,20 +604,45 @@ modal.style.display = "none";
 
 function saveData(){
 
-if(currentType === "exam"){
+const name =
+document.getElementById("nameInput").value;
 
-const exam =
-document.getElementById("examSelect").value;
+if(!name){
 
-alert(
-"تم إضافة " + exam
-);
+alert("أدخل الاسم");
+
+return;
+
+}
+
+if(currentType === "class"){
+
+classes.push(name);
+
+renderClasses();
+
+}
+
+else if(currentType === "student"){
+
+const selectedClass =
+classSelect.value;
+
+if(!selectedClass){
+
+alert("اختر الفصل");
+
+return;
+
+}
+
+addStudent(name, selectedClass);
 
 }
 
 else{
 
-alert("تم الحفظ بنجاح");
+alert("تم الحفظ");
 
 }
 
@@ -754,13 +650,137 @@ closeModal();
 
 }
 
-function deleteRow(button){
+function renderClasses(){
+
+const tbody =
+document.querySelector("#classesTable tbody");
+
+tbody.innerHTML = "";
+
+classes.forEach((className,index)=>{
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${className}</td>
+
+<td>
+
+<button
+class="action-btn edit"
+onclick="editClass(${index})"
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete"
+onclick="deleteClass(${index})"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+function renderClassOptions(){
+
+classSelect.innerHTML = `
+<option value="">
+اختر الفصل
+</option>
+`;
+
+classes.forEach(className=>{
+
+classSelect.innerHTML += `
+<option value="${className}">
+${className}
+</option>
+`;
+
+});
+
+}
+
+function deleteClass(index){
+
+classes.splice(index,1);
+
+renderClasses();
+
+}
+
+function editClass(index){
+
+const newName =
+prompt(
+"تعديل اسم الفصل",
+classes[index]
+);
+
+if(newName){
+
+classes[index] = newName;
+
+renderClasses();
+
+}
+
+}
+
+function addStudent(name,className){
+
+const tbody =
+document.querySelector("#studentsTable tbody");
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${name}</td>
+
+<td>${className}</td>
+
+<td>
+
+<button
+class="action-btn edit"
+onclick="editStudent(this)"
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete"
+onclick="deleteStudent(this)"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+function deleteStudent(button){
 
 button.closest("tr").remove();
 
 }
 
-function editRow(button){
+function editStudent(button){
 
 const row =
 button.closest("tr");
@@ -770,7 +790,7 @@ row.querySelectorAll("td");
 
 const newName =
 prompt(
-"تعديل الاسم",
+"تعديل اسم الطالب",
 cells[0].innerText
 );
 
@@ -782,24 +802,6 @@ newName;
 }
 
 }
-
-const importBtn =
-document.getElementById("importBtn");
-
-const excelFile =
-document.getElementById("excelFile");
-
-importBtn.addEventListener("click",()=>{
-
-excelFile.click();
-
-});
-
-excelFile.addEventListener("change",()=>{
-
-alert("تم اختيار ملف Excel");
-
-});
 
 </script>
 
