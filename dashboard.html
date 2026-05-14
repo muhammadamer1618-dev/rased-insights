@@ -2,27 +2,13 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rased Insights Dashboard</title>
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-/>
-
-<title>
-Rased Insights Dashboard
-</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link
-href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet"
-/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -50,7 +36,6 @@ gap:15px;
 .logo{
 font-size:34px;
 font-weight:800;
-line-height:1.4;
 color:#facc15;
 margin-bottom:20px;
 }
@@ -69,17 +54,12 @@ padding:15px;
 border-radius:16px;
 cursor:pointer;
 font-weight:700;
-font-size:15px;
 transition:.3s;
 }
 
-.menu button:hover{
-background:#2563eb;
-}
+.menu button:hover{background:#2563eb;}
 
-.logout{
-background:#dc2626 !important;
-}
+.logout{background:#dc2626 !important;}
 
 .main{
 flex:1;
@@ -91,7 +71,6 @@ background:#111827;
 padding:25px;
 border-radius:24px;
 margin-bottom:25px;
-overflow:auto;
 }
 
 .section-header{
@@ -99,12 +78,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:20px;
-gap:15px;
 flex-wrap:wrap;
-}
-
-.section-header h2{
-font-size:24px;
 }
 
 .add-btn{
@@ -123,12 +97,7 @@ border-collapse:collapse;
 min-width:700px;
 }
 
-th{
-background:rgba(255,255,255,.05);
-padding:15px;
-}
-
-td{
+th,td{
 padding:15px;
 text-align:center;
 border-bottom:1px solid rgba(255,255,255,.05);
@@ -136,22 +105,14 @@ border-bottom:1px solid rgba(255,255,255,.05);
 
 .action-btn{
 border:none;
-padding:8px 14px;
+padding:8px 12px;
 border-radius:10px;
 cursor:pointer;
 font-weight:700;
 margin:2px;
 }
 
-.edit{
-background:#2563eb;
-color:white;
-}
-
-.delete{
-background:#dc2626;
-color:white;
-}
+.delete{background:#dc2626;color:white;}
 
 .modal{
 position:fixed;
@@ -172,946 +133,331 @@ width:100%;
 max-width:450px;
 }
 
-.modal-content h2{
-margin-bottom:20px;
-text-align:center;
-}
-
 .input-group{
-margin-bottom:15px;
+margin-bottom:12px;
 }
 
-.input-group input,
-.input-group select{
+.input-group input{
 width:100%;
-padding:15px;
+padding:14px;
 border:none;
-border-radius:14px;
+border-radius:12px;
 background:#1e293b;
 color:white;
-outline:none;
 }
 
 .modal-actions{
 display:flex;
 gap:10px;
-margin-top:20px;
+margin-top:15px;
 }
 
-.modal-actions button{
-flex:1;
-padding:14px;
-border:none;
-border-radius:14px;
-cursor:pointer;
-font-weight:700;
-}
-
-.save-btn{
-background:#2563eb;
-color:white;
-}
-
-.cancel-btn{
-background:#334155;
-color:white;
-}
-
-@media(max-width:900px){
-
-body{
-flex-direction:column;
-}
-
-.sidebar{
-width:100%;
-}
-
-.main{
-padding:20px;
-}
-
-}
+.save-btn{background:#2563eb;color:white;}
+.cancel-btn{background:#334155;color:white;}
 
 </style>
-
 </head>
 
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
 
-<div class="logo">
-Rased<br>
-Insights
-</div>
+<div class="logo">Rased<br>Insights</div>
 
 <div class="menu">
 
-<button onclick="openModal('teacher')">
-إضافة معلم
-</button>
-
-<button onclick="openModal('supervisor')">
-إضافة مشرف
-</button>
-
-<button onclick="openModal('class')">
-إضافة فصل
-</button>
-
-<button onclick="openModal('student')">
-إضافة طالب
-</button>
-
-<button onclick="openModal('exam')">
-إضافة اختبار
-</button>
+<button onclick="openModal('teacher')">إضافة معلم</button>
+<button onclick="openModal('supervisor')">إضافة مشرف</button>
+<button onclick="openModal('class')">إضافة فصل</button>
+<button onclick="openModal('student')">إضافة طالب</button>
+<button onclick="openModal('exam')">إضافة اختبار</button>
 
 <button onclick="document.getElementById('importStudents').click()">
 استيراد الطلاب
 </button>
 
-<input
-type="file"
-id="importStudents"
-accept=".csv"
-style="display:none"
-/>
+<input type="file" id="importStudents" accept=".csv" style="display:none">
 
-<button
-class="logout"
-onclick="window.location.href='./index.html'"
->
-تسجيل الخروج
-</button>
+<button class="logout" onclick="logout()">تسجيل الخروج</button>
 
 </div>
-
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
 <div class="section">
-
 <div class="section-header">
-
-<h2>
-المعلمين
-</h2>
-
-<button
-class="add-btn"
-onclick="openModal('teacher')"
->
-إضافة معلم
-</button>
-
+<h2>المعلمين</h2>
 </div>
-
-<table id="teachersTable">
-
-<thead>
-
-<tr>
-
-<th>
-الاسم
-</th>
-
-<th>
-Username
-</th>
-
-<th>
-Password
-</th>
-
-<th>
-الإجراءات
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-</tbody>
-
-</table>
-
+<table id="teachersTable"><tbody></tbody></table>
 </div>
 
 <div class="section">
-
 <div class="section-header">
-
-<h2>
-المشرفين
-</h2>
-
-<button
-class="add-btn"
-onclick="openModal('supervisor')"
->
-إضافة مشرف
-</button>
-
+<h2>المشرفين</h2>
 </div>
-
-<table id="supervisorsTable">
-
-<thead>
-
-<tr>
-
-<th>
-الاسم
-</th>
-
-<th>
-Username
-</th>
-
-<th>
-Password
-</th>
-
-<th>
-الإجراءات
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-</tbody>
-
-</table>
-
+<table id="supervisorsTable"><tbody></tbody></table>
 </div>
 
 <div class="section">
-
 <div class="section-header">
-
-<h2>
-الفصول
-</h2>
-
-<button
-class="add-btn"
-onclick="openModal('class')"
->
-إضافة فصل
-</button>
-
+<h2>الفصول</h2>
 </div>
-
-<table id="classesTable">
-
-<thead>
-
-<tr>
-
-<th>
-اسم الفصل
-</th>
-
-<th>
-الإجراءات
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-</tbody>
-
-</table>
-
+<table id="classesTable"><tbody></tbody></table>
 </div>
 
 <div class="section">
-
 <div class="section-header">
-
-<h2>
-الطلاب
-</h2>
-
-<button
-class="add-btn"
-onclick="openModal('student')"
->
-إضافة طالب
-</button>
-
+<h2>الطلاب</h2>
 </div>
-
-<table id="studentsTable">
-
-<thead>
-
-<tr>
-
-<th>
-اسم الطالب
-</th>
-
-<th>
-الفصل
-</th>
-
-<th>
-الإجراءات
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-</tbody>
-
-</table>
-
+<table id="studentsTable"><tbody></tbody></table>
 </div>
 
 <div class="section">
-
 <div class="section-header">
-
-<h2>
-الاختبارات
-</h2>
-
-<button
-class="add-btn"
-onclick="openModal('exam')"
->
-إضافة اختبار
-</button>
-
+<h2>الاختبارات</h2>
 </div>
-
-<table id="examsTable">
-
-<thead>
-
-<tr>
-
-<th>
-اسم الاختبار
-</th>
-
-<th>
-الإجراءات
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-</tbody>
-
-</table>
-
+<table id="examsTable"><tbody></tbody></table>
 </div>
 
 </div>
 
-<div
-class="modal"
-id="modal"
->
-
+<!-- MODAL -->
+<div class="modal" id="modal">
 <div class="modal-content">
 
-<h2 id="modalTitle">
-إضافة
-</h2>
+<h2 id="modalTitle">إضافة</h2>
 
 <div class="input-group">
-
-<input
-type="text"
-id="nameInput"
-placeholder="الاسم"
-/>
-
+<input id="nameInput" placeholder="الاسم">
 </div>
 
-<div
-class="input-group"
-id="usernameGroup"
->
-
-<input
-type="text"
-id="usernameInput"
-placeholder="Username"
-/>
-
+<div class="input-group">
+<input id="usernameInput" placeholder="Username">
 </div>
 
-<div
-class="input-group"
-id="passwordGroup"
->
-
-<input
-type="text"
-id="passwordInput"
-placeholder="Password"
-/>
-
+<div class="input-group">
+<input id="passwordInput" placeholder="Password">
 </div>
 
-<div
-class="input-group"
-id="classGroup"
-style="display:none"
->
-
-<input
-type="text"
-id="classInput"
-placeholder="اسم الفصل"
-/>
-
-</div>
-
-<div
-class="input-group"
-id="examGroup"
-style="display:none"
->
-
-<select id="examSelect">
-
-<option>
-الاختبار الدوري الأول
-</option>
-
-<option>
-الاختبار الدوري الثاني
-</option>
-
-<option>
-الاختبار الدوري الثالث
-</option>
-
-<option>
-الاختبار الدوري الرابع
-</option>
-
-<option>
-الاختبار الدوري الخامس
-</option>
-
-<option>
-الاختبار الدوري السادس
-</option>
-
-<option>
-الاختبار الدوري السابع
-</option>
-
-<option>
-الاختبار الدوري الثامن
-</option>
-
-<option>
-اختبار الفترة الأولى
-</option>
-
-<option>
-اختبار الفترة الثانية
-</option>
-
-</select>
-
+<div class="input-group">
+<input id="classInput" placeholder="الفصل">
 </div>
 
 <div class="modal-actions">
-
-<button
-class="save-btn"
-onclick="saveData()"
->
-حفظ
-</button>
-
-<button
-class="cancel-btn"
-onclick="closeModal()"
->
-إلغاء
-</button>
-
+<button class="save-btn" onclick="saveData()">حفظ</button>
+<button class="cancel-btn" onclick="closeModal()">إلغاء</button>
 </div>
 
 </div>
-
 </div>
 
 <script>
 
-const modal =
-document.getElementById("modal");
+/* ================= AUTH ================= */
 
-const modalTitle =
-document.getElementById("modalTitle");
+const user = JSON.parse(localStorage.getItem("currentUser"));
 
-const usernameGroup =
-document.getElementById("usernameGroup");
+if (!user || user.role !== "admin") {
+window.location.href = "./index.html";
+}
 
-const passwordGroup =
-document.getElementById("passwordGroup");
+/* ================= MODAL ================= */
 
-const classGroup =
-document.getElementById("classGroup");
-
-const examGroup =
-document.getElementById("examGroup");
+const modal = document.getElementById("modal");
 
 let currentType = "";
 
 function openModal(type){
-
 currentType = type;
-
 modal.style.display = "flex";
-
-document.getElementById("nameInput").value = "";
-
-document.getElementById("usernameInput").value = "";
-
-document.getElementById("passwordInput").value = "";
-
-document.getElementById("classInput").value = "";
-
-usernameGroup.style.display =
-"none";
-
-passwordGroup.style.display =
-"none";
-
-classGroup.style.display =
-"none";
-
-examGroup.style.display =
-"none";
-
-if(type === "teacher"){
-
-modalTitle.innerText =
-"إضافة معلم";
-
-usernameGroup.style.display =
-"block";
-
-passwordGroup.style.display =
-"block";
-
-}
-
-else if(type === "supervisor"){
-
-modalTitle.innerText =
-"إضافة مشرف";
-
-usernameGroup.style.display =
-"block";
-
-passwordGroup.style.display =
-"block";
-
-}
-
-else if(type === "student"){
-
-modalTitle.innerText =
-"إضافة طالب";
-
-classGroup.style.display =
-"block";
-
-}
-
-else if(type === "exam"){
-
-modalTitle.innerText =
-"إضافة اختبار";
-
-examGroup.style.display =
-"block";
-
-}
-
-else{
-
-modalTitle.innerText =
-"إضافة فصل";
-
-}
-
 }
 
 function closeModal(){
-
 modal.style.display = "none";
-
 }
+
+/* ================= SAVE ================= */
 
 function saveData(){
 
-const name =
-document.getElementById("nameInput").value;
-
-const username =
-document.getElementById("usernameInput").value;
-
-const password =
-document.getElementById("passwordInput").value;
-
-const className =
-document.getElementById("classInput").value;
+const name = document.getElementById("nameInput").value;
+const username = document.getElementById("usernameInput").value;
+const password = document.getElementById("passwordInput").value;
+const className = document.getElementById("classInput").value;
 
 if(currentType === "teacher"){
-
-addTeacher(name,username,password);
-
-saveAccount(
-"teachers",
-name,
-username,
-password
-);
-
+saveAccount("teachers",{name,username,password});
 }
 
-else if(currentType === "supervisor"){
-
-addSupervisor(name,username,password);
-
-saveAccount(
-"supervisors",
-name,
-username,
-password
-);
-
+if(currentType === "supervisor"){
+saveAccount("supervisors",{name,username,password});
 }
 
-else if(currentType === "student"){
-
-addStudent(name,className);
-
+if(currentType === "student"){
+saveList("students",{name,className});
 }
 
-else if(currentType === "class"){
-
-addClass(name);
-
+if(currentType === "class"){
+saveList("classes",{name});
 }
 
-else if(currentType === "exam"){
-
-const exam =
-document.getElementById("examSelect").value;
-
-addExam(exam);
-
+if(currentType === "exam"){
+saveList("exams",{name});
 }
 
 closeModal();
-
+loadAll();
 }
 
-function saveAccount(type,name,username,password){
+function saveAccount(key,obj){
+let data = JSON.parse(localStorage.getItem(key)) || [];
+data.push(obj);
+localStorage.setItem(key,JSON.stringify(data));
+}
 
-const accounts =
-JSON.parse(
-localStorage.getItem(type)
-) || [];
+function saveList(key,obj){
+let data = JSON.parse(localStorage.getItem(key)) || [];
+data.push(obj);
+localStorage.setItem(key,JSON.stringify(data));
+}
 
-accounts.push({
-name,
-username,
-password
+/* ================= LOAD ================= */
+
+window.onload = loadAll;
+
+function loadAll(){
+loadTeachers();
+loadSupervisors();
+loadStudents();
+loadClasses();
+loadExams();
+}
+
+/* ================= TEACHERS ================= */
+
+function loadTeachers(){
+let data = JSON.parse(localStorage.getItem("teachers")) || [];
+const tbody = document.querySelector("#teachersTable tbody");
+tbody.innerHTML = "";
+
+data.forEach((t,i)=>{
+tbody.innerHTML += `
+<tr>
+<td>${t.name}</td>
+<td>${t.username}</td>
+<td>${t.password}</td>
+<td><button class="action-btn delete" onclick="deleteItem('teachers',${i})">حذف</button></td>
+</tr>`;
 });
-
-localStorage.setItem(
-type,
-JSON.stringify(accounts)
-);
-
 }
 
-function addTeacher(name,username,password){
+/* ================= SUPERVISORS ================= */
 
-const tbody =
-document.querySelector("#teachersTable tbody");
+function loadSupervisors(){
+let data = JSON.parse(localStorage.getItem("supervisors")) || [];
+const tbody = document.querySelector("#supervisorsTable tbody");
+tbody.innerHTML = "";
 
+data.forEach((t,i)=>{
 tbody.innerHTML += `
-
 <tr>
-
-<td>${name}</td>
-
-<td>${username}</td>
-
-<td>${password}</td>
-
-<td>
-
-<button
-class="action-btn edit"
-onclick="editRow(this)"
->
-تعديل
-</button>
-
-<button
-class="action-btn delete"
-onclick="deleteRow(this)"
->
-حذف
-</button>
-
-</td>
-
-</tr>
-
-`;
-
+<td>${t.name}</td>
+<td>${t.username}</td>
+<td>${t.password}</td>
+<td><button class="action-btn delete" onclick="deleteItem('supervisors',${i})">حذف</button></td>
+</tr>`;
+});
 }
 
-function addSupervisor(name,username,password){
+/* ================= STUDENTS ================= */
 
-const tbody =
-document.querySelector("#supervisorsTable tbody");
+function loadStudents(){
+let data = JSON.parse(localStorage.getItem("students")) || [];
+const tbody = document.querySelector("#studentsTable tbody");
+tbody.innerHTML = "";
 
+data.forEach((s,i)=>{
 tbody.innerHTML += `
-
 <tr>
-
-<td>${name}</td>
-
-<td>${username}</td>
-
-<td>${password}</td>
-
-<td>
-
-<button
-class="action-btn edit"
-onclick="editRow(this)"
->
-تعديل
-</button>
-
-<button
-class="action-btn delete"
-onclick="deleteRow(this)"
->
-حذف
-</button>
-
-</td>
-
-</tr>
-
-`;
-
+<td>${s.name}</td>
+<td>${s.className || ""}</td>
+<td><button class="action-btn delete" onclick="deleteItem('students',${i})">حذف</button></td>
+</tr>`;
+});
 }
 
-function addClass(name){
+/* ================= CLASSES ================= */
 
-const tbody =
-document.querySelector("#classesTable tbody");
+function loadClasses(){
+let data = JSON.parse(localStorage.getItem("classes")) || [];
+const tbody = document.querySelector("#classesTable tbody");
+tbody.innerHTML = "";
 
+data.forEach((c,i)=>{
 tbody.innerHTML += `
-
 <tr>
-
-<td>${name}</td>
-
-<td>
-
-<button
-class="action-btn edit"
-onclick="editRow(this)"
->
-تعديل
-</button>
-
-<button
-class="action-btn delete"
-onclick="deleteRow(this)"
->
-حذف
-</button>
-
-</td>
-
-</tr>
-
-`;
-
+<td>${c.name}</td>
+<td><button class="action-btn delete" onclick="deleteItem('classes',${i})">حذف</button></td>
+</tr>`;
+});
 }
 
-function addStudent(name,className){
+/* ================= EXAMS ================= */
 
-const tbody =
-document.querySelector("#studentsTable tbody");
+function loadExams(){
+let data = JSON.parse(localStorage.getItem("exams")) || [];
+const tbody = document.querySelector("#examsTable tbody");
+tbody.innerHTML = "";
 
+data.forEach((e,i)=>{
 tbody.innerHTML += `
-
 <tr>
-
-<td>${name}</td>
-
-<td>${className}</td>
-
-<td>
-
-<button
-class="action-btn edit"
-onclick="editRow(this)"
->
-تعديل
-</button>
-
-<button
-class="action-btn delete"
-onclick="deleteRow(this)"
->
-حذف
-</button>
-
-</td>
-
-</tr>
-
-`;
-
+<td>${e.name}</td>
+<td><button class="action-btn delete" onclick="deleteItem('exams',${i})">حذف</button></td>
+</tr>`;
+});
 }
 
-function addExam(name){
+/* ================= DELETE ================= */
 
-const tbody =
-document.querySelector("#examsTable tbody");
-
-tbody.innerHTML += `
-
-<tr>
-
-<td>${name}</td>
-
-<td>
-
-<button
-class="action-btn edit"
-onclick="editRow(this)"
->
-تعديل
-</button>
-
-<button
-class="action-btn delete"
-onclick="deleteRow(this)"
->
-حذف
-</button>
-
-</td>
-
-</tr>
-
-`;
-
+function deleteItem(key,index){
+let data = JSON.parse(localStorage.getItem(key)) || [];
+data.splice(index,1);
+localStorage.setItem(key,JSON.stringify(data));
+loadAll();
 }
 
-function deleteRow(button){
+/* ================= IMPORT STUDENTS ================= */
 
-button.closest("tr").remove();
-
-}
-
-function editRow(button){
-
-const row =
-button.closest("tr");
-
-const firstCell =
-row.querySelector("td");
-
-const newValue =
-prompt(
-"تعديل البيانات",
-firstCell.innerText
-);
-
-if(newValue){
-
-firstCell.innerText =
-newValue;
-
-}
-
-}
-
-document
-.getElementById("importStudents")
+document.getElementById("importStudents")
 .addEventListener("change",(e)=>{
 
-const file =
-e.target.files[0];
+const file = e.target.files[0];
+if(!file) return;
 
-if(!file){
+const reader = new FileReader();
 
-return;
+reader.onload = (event)=>{
 
-}
+const rows = event.target.result.split("\n");
 
-const reader =
-new FileReader();
+let data = JSON.parse(localStorage.getItem("students")) || [];
 
-reader.onload =
-function(event){
-
-const text =
-event.target.result;
-
-const rows =
-text.split("\n");
-
-rows.forEach(row=>{
-
-const cols =
-row.split(",");
-
+rows.forEach(r=>{
+const cols = r.split(",");
 if(cols.length >= 2){
-
-addStudent(
-cols[0].trim(),
-cols[1].trim()
-);
-
-}
-
+data.push({
+name: cols[0].trim(),
+className: cols[1].trim()
 });
+}
+});
+
+localStorage.setItem("students",JSON.stringify(data));
+loadStudents();
 
 };
 
@@ -1119,8 +465,14 @@ reader.readAsText(file);
 
 });
 
+/* ================= LOGOUT ================= */
+
+function logout(){
+localStorage.removeItem("currentUser");
+window.location.href="./index.html";
+}
+
 </script>
 
 </body>
-
 </html>
