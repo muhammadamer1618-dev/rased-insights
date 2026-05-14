@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -38,12 +39,6 @@ font-size:34px;
 font-weight:800;
 color:#facc15;
 margin-bottom:20px;
-}
-
-.menu{
-display:flex;
-flex-direction:column;
-gap:12px;
 }
 
 .menu button{
@@ -137,13 +132,15 @@ max-width:450px;
 margin-bottom:12px;
 }
 
-.input-group input{
+.input-group input,
+.input-group select{
 width:100%;
 padding:14px;
 border:none;
 border-radius:12px;
 background:#1e293b;
 color:white;
+outline:none;
 }
 
 .modal-actions{
@@ -182,43 +179,34 @@ margin-top:15px;
 <button class="logout" onclick="logout()">تسجيل الخروج</button>
 
 </div>
+
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
 <div class="section">
-<div class="section-header">
-<h2>المعلمين</h2>
-</div>
+<div class="section-header"><h2>المعلمين</h2></div>
 <table id="teachersTable"><tbody></tbody></table>
 </div>
 
 <div class="section">
-<div class="section-header">
-<h2>المشرفين</h2>
-</div>
+<div class="section-header"><h2>المشرفين</h2></div>
 <table id="supervisorsTable"><tbody></tbody></table>
 </div>
 
 <div class="section">
-<div class="section-header">
-<h2>الفصول</h2>
-</div>
+<div class="section-header"><h2>الفصول</h2></div>
 <table id="classesTable"><tbody></tbody></table>
 </div>
 
 <div class="section">
-<div class="section-header">
-<h2>الطلاب</h2>
-</div>
+<div class="section-header"><h2>الطلاب</h2></div>
 <table id="studentsTable"><tbody></tbody></table>
 </div>
 
 <div class="section">
-<div class="section-header">
-<h2>الاختبارات</h2>
-</div>
+<div class="section-header"><h2>الاختبارات</h2></div>
 <table id="examsTable"><tbody></tbody></table>
 </div>
 
@@ -226,6 +214,7 @@ margin-top:15px;
 
 <!-- MODAL -->
 <div class="modal" id="modal">
+
 <div class="modal-content">
 
 <h2 id="modalTitle">إضافة</h2>
@@ -242,8 +231,9 @@ margin-top:15px;
 <input id="passwordInput" placeholder="Password">
 </div>
 
-<div class="input-group">
-<input id="classInput" placeholder="الفصل">
+<!-- 🔥 DROPDOWN CLASS -->
+<div class="input-group" id="classGroup">
+<select id="classInput"></select>
 </div>
 
 <div class="modal-actions">
@@ -252,31 +242,48 @@ margin-top:15px;
 </div>
 
 </div>
+
 </div>
 
 <script>
-
-/* ================= AUTH ================= */
-
-const user = JSON.parse(localStorage.getItem("currentUser"));
-
-if (!user || user.role !== "admin") {
-window.location.href = "./index.html";
-}
-
-/* ================= MODAL ================= */
 
 const modal = document.getElementById("modal");
 
 let currentType = "";
 
+/* ================= OPEN MODAL ================= */
+
 function openModal(type){
 currentType = type;
 modal.style.display = "flex";
+
+document.getElementById("nameInput").value = "";
+document.getElementById("usernameInput").value = "";
+document.getElementById("passwordInput").value = "";
+
+if(type === "student"){
+loadClassOptions();
+}
 }
 
-function closeModal(){
-modal.style.display = "none";
+/* ================= LOAD CLASSES DROPDOWN ================= */
+
+function loadClassOptions(){
+
+let classes = JSON.parse(localStorage.getItem("classes")) || [];
+
+let select = document.getElementById("classInput");
+select.innerHTML = "";
+
+if(classes.length === 0){
+select.innerHTML = `<option>لا يوجد فصول</option>`;
+return;
+}
+
+classes.forEach(c=>{
+select.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+});
+
 }
 
 /* ================= SAVE ================= */
@@ -289,42 +296,68 @@ const password = document.getElementById("passwordInput").value;
 const className = document.getElementById("classInput").value;
 
 if(currentType === "teacher"){
-saveAccount("teachers",{name,username,password});
+
+saveAccount("teachers",{name,username,password,classes:[]});
+
 }
 
 if(currentType === "supervisor"){
+
 saveAccount("supervisors",{name,username,password});
+
 }
 
 if(currentType === "student"){
-saveList("students",{name,className});
+
+let students = JSON.parse(localStorage.getItem("students")) || [];
+
+students.push({
+name,
+className
+});
+
+localStorage.setItem("students",JSON.stringify(students));
+
 }
 
 if(currentType === "class"){
-saveList("classes",{name});
+
+let classes = JSON.parse(localStorage.getItem("classes")) || [];
+
+classes.push({name});
+
+localStorage.setItem("classes",JSON.stringify(classes));
+
 }
 
 if(currentType === "exam"){
-saveList("exams",{name});
+
+let exams = JSON.parse(localStorage.getItem("exams")) || [];
+
+exams.push({name});
+
+localStorage.setItem("exams",JSON.stringify(exams));
+
 }
 
 closeModal();
 loadAll();
+
 }
+
+/* ================= SAVE ACCOUNT ================= */
 
 function saveAccount(key,obj){
+
 let data = JSON.parse(localStorage.getItem(key)) || [];
+
 data.push(obj);
+
 localStorage.setItem(key,JSON.stringify(data));
+
 }
 
-function saveList(key,obj){
-let data = JSON.parse(localStorage.getItem(key)) || [];
-data.push(obj);
-localStorage.setItem(key,JSON.stringify(data));
-}
-
-/* ================= LOAD ================= */
+/* ================= LOAD ALL ================= */
 
 window.onload = loadAll;
 
@@ -336,140 +369,96 @@ loadClasses();
 loadExams();
 }
 
-/* ================= TEACHERS ================= */
+/* ================= LOAD FUNCTIONS ================= */
 
 function loadTeachers(){
 let data = JSON.parse(localStorage.getItem("teachers")) || [];
-const tbody = document.querySelector("#teachersTable tbody");
-tbody.innerHTML = "";
-
-data.forEach((t,i)=>{
-tbody.innerHTML += `
+document.querySelector("#teachersTable tbody").innerHTML =
+data.map(t=>`
 <tr>
 <td>${t.name}</td>
 <td>${t.username}</td>
 <td>${t.password}</td>
-<td><button class="action-btn delete" onclick="deleteItem('teachers',${i})">حذف</button></td>
-</tr>`;
-});
+<td><button class="action-btn delete" onclick="deleteItem('teachers','${t.username}')">حذف</button></td>
+</tr>
+`).join("");
 }
-
-/* ================= SUPERVISORS ================= */
 
 function loadSupervisors(){
 let data = JSON.parse(localStorage.getItem("supervisors")) || [];
-const tbody = document.querySelector("#supervisorsTable tbody");
-tbody.innerHTML = "";
-
-data.forEach((t,i)=>{
-tbody.innerHTML += `
+document.querySelector("#supervisorsTable tbody").innerHTML =
+data.map(t=>`
 <tr>
 <td>${t.name}</td>
 <td>${t.username}</td>
 <td>${t.password}</td>
-<td><button class="action-btn delete" onclick="deleteItem('supervisors',${i})">حذف</button></td>
-</tr>`;
-});
+<td><button class="action-btn delete" onclick="deleteItem('supervisors','${t.username}')">حذف</button></td>
+</tr>
+`).join("");
 }
-
-/* ================= STUDENTS ================= */
 
 function loadStudents(){
 let data = JSON.parse(localStorage.getItem("students")) || [];
-const tbody = document.querySelector("#studentsTable tbody");
-tbody.innerHTML = "";
-
-data.forEach((s,i)=>{
-tbody.innerHTML += `
+document.querySelector("#studentsTable tbody").innerHTML =
+data.map(s=>`
 <tr>
 <td>${s.name}</td>
-<td>${s.className || ""}</td>
-<td><button class="action-btn delete" onclick="deleteItem('students',${i})">حذف</button></td>
-</tr>`;
-});
+<td>${s.className}</td>
+<td><button class="action-btn delete" onclick="deleteStudent('${s.name}')">حذف</button></td>
+</tr>
+`).join("");
 }
-
-/* ================= CLASSES ================= */
 
 function loadClasses(){
 let data = JSON.parse(localStorage.getItem("classes")) || [];
-const tbody = document.querySelector("#classesTable tbody");
-tbody.innerHTML = "";
-
-data.forEach((c,i)=>{
-tbody.innerHTML += `
+document.querySelector("#classesTable tbody").innerHTML =
+data.map(c=>`
 <tr>
 <td>${c.name}</td>
-<td><button class="action-btn delete" onclick="deleteItem('classes',${i})">حذف</button></td>
-</tr>`;
-});
+<td><button class="action-btn delete" onclick="deleteClass('${c.name}')">حذف</button></td>
+</tr>
+`).join("");
 }
-
-/* ================= EXAMS ================= */
 
 function loadExams(){
 let data = JSON.parse(localStorage.getItem("exams")) || [];
-const tbody = document.querySelector("#examsTable tbody");
-tbody.innerHTML = "";
-
-data.forEach((e,i)=>{
-tbody.innerHTML += `
+document.querySelector("#examsTable tbody").innerHTML =
+data.map(e=>`
 <tr>
 <td>${e.name}</td>
-<td><button class="action-btn delete" onclick="deleteItem('exams',${i})">حذف</button></td>
-</tr>`;
-});
+<td><button class="action-btn delete" onclick="deleteExam('${e.name}')">حذف</button></td>
+</tr>
+`).join("");
 }
 
 /* ================= DELETE ================= */
 
-function deleteItem(key,index){
-let data = JSON.parse(localStorage.getItem(key)) || [];
-data.splice(index,1);
-localStorage.setItem(key,JSON.stringify(data));
-loadAll();
-}
-
-/* ================= IMPORT STUDENTS ================= */
-
-document.getElementById("importStudents")
-.addEventListener("change",(e)=>{
-
-const file = e.target.files[0];
-if(!file) return;
-
-const reader = new FileReader();
-
-reader.onload = (event)=>{
-
-const rows = event.target.result.split("\n");
-
+function deleteStudent(name){
 let data = JSON.parse(localStorage.getItem("students")) || [];
-
-rows.forEach(r=>{
-const cols = r.split(",");
-if(cols.length >= 2){
-data.push({
-name: cols[0].trim(),
-className: cols[1].trim()
-});
-}
-});
-
+data = data.filter(s=>s.name !== name);
 localStorage.setItem("students",JSON.stringify(data));
 loadStudents();
+}
 
-};
+function deleteClass(name){
+let data = JSON.parse(localStorage.getItem("classes")) || [];
+data = data.filter(c=>c.name !== name);
+localStorage.setItem("classes",JSON.stringify(data));
+loadClasses();
+}
 
-reader.readAsText(file);
-
-});
+function deleteExam(name){
+let data = JSON.parse(localStorage.getItem("exams")) || [];
+data = data.filter(e=>e.name !== name);
+localStorage.setItem("exams",JSON.stringify(data));
+loadExams();
+}
 
 /* ================= LOGOUT ================= */
 
 function logout(){
 localStorage.removeItem("currentUser");
-window.location.href="./index.html";
+window.location.href="index.html";
 }
 
 </script>
