@@ -1,3 +1,4 @@
+<!-- انسخ الملف كامل كما هو -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
@@ -5,21 +6,13 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>
-Rased Insights Dashboard
-</title>
+<title>Rased Insights Dashboard</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
-<link
-href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet"
-/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 
 <style>
 
@@ -50,27 +43,26 @@ gap:15px;
 .logo{
 font-size:34px;
 font-weight:800;
-line-height:1.5;
 color:#facc15;
 margin-bottom:20px;
+line-height:1.4;
 }
 
 .menu{
 display:flex;
 flex-direction:column;
-gap:14px;
+gap:12px;
 }
 
 .menu button{
 border:none;
 background:#1e293b;
 color:white;
-padding:16px;
-border-radius:18px;
-font-size:15px;
-font-weight:700;
+padding:15px;
+border-radius:16px;
 cursor:pointer;
-transition:.3s;
+font-weight:700;
+font-size:15px;
 }
 
 .menu button:hover{
@@ -86,24 +78,10 @@ flex:1;
 padding:30px;
 }
 
-.topbar{
-margin-bottom:30px;
-}
-
-.topbar h1{
-font-size:38px;
-font-weight:800;
-}
-
-.topbar p{
-color:#94a3b8;
-margin-top:10px;
-}
-
 .section{
 background:#111827;
 padding:25px;
-border-radius:26px;
+border-radius:24px;
 margin-bottom:25px;
 overflow:auto;
 }
@@ -113,20 +91,14 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:20px;
-gap:15px;
-flex-wrap:wrap;
-}
-
-.section-header h2{
-font-size:24px;
 }
 
 .add-btn{
 border:none;
 background:#2563eb;
 color:white;
-padding:14px 18px;
-border-radius:14px;
+padding:12px 18px;
+border-radius:12px;
 cursor:pointer;
 font-weight:700;
 }
@@ -139,11 +111,11 @@ min-width:700px;
 
 th{
 background:rgba(255,255,255,.05);
-padding:16px;
+padding:15px;
 }
 
 td{
-padding:16px;
+padding:15px;
 text-align:center;
 border-bottom:1px solid rgba(255,255,255,.05);
 }
@@ -186,11 +158,6 @@ width:100%;
 max-width:450px;
 }
 
-.modal-content h2{
-margin-bottom:20px;
-text-align:center;
-}
-
 .input-group{
 margin-bottom:15px;
 }
@@ -231,7 +198,7 @@ background:#334155;
 color:white;
 }
 
-@media (max-width:900px){
+@media(max-width:900px){
 
 body{
 flex-direction:column;
@@ -243,10 +210,6 @@ width:100%;
 
 .main{
 padding:20px;
-}
-
-table{
-min-width:600px;
 }
 
 }
@@ -282,18 +245,11 @@ Insights
 إضافة طالب
 </button>
 
-<button onclick="openModal('exam')">
-إضافة اختبار
-</button>
-
 <button onclick="window.location.href='./reports.html'">
 التقارير
 </button>
 
-<button
-class="logout"
-onclick="window.location.href='./index.html'"
->
+<button class="logout" onclick="window.location.href='./index.html'">
 تسجيل الخروج
 </button>
 
@@ -303,15 +259,99 @@ onclick="window.location.href='./index.html'"
 
 <div class="main">
 
-<div class="topbar">
+<div class="section">
 
-<h1>
-لوحة الأدمن
-</h1>
+<div class="section-header">
 
-<p>
-مدارس الفلاح الأهلية - قسم اللغة الإنجليزية
-</p>
+<h2>
+المعلمين
+</h2>
+
+<button class="add-btn" onclick="openModal('teacher')">
+إضافة معلم
+</button>
+
+</div>
+
+<table id="teachersTable">
+
+<thead>
+
+<tr>
+
+<th>
+الاسم
+</th>
+
+<th>
+Username
+</th>
+
+<th>
+Password
+</th>
+
+<th>
+الإجراءات
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<div class="section-header">
+
+<h2>
+المشرفين
+</h2>
+
+<button class="add-btn" onclick="openModal('supervisor')">
+إضافة مشرف
+</button>
+
+</div>
+
+<table id="supervisorsTable">
+
+<thead>
+
+<tr>
+
+<th>
+الاسم
+</th>
+
+<th>
+Username
+</th>
+
+<th>
+Password
+</th>
+
+<th>
+الإجراءات
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
 
 </div>
 
@@ -323,10 +363,7 @@ onclick="window.location.href='./index.html'"
 الفصول
 </h2>
 
-<button
-class="add-btn"
-onclick="openModal('class')"
->
+<button class="add-btn" onclick="openModal('class')">
 إضافة فصل
 </button>
 
@@ -358,59 +395,9 @@ onclick="openModal('class')"
 
 </div>
 
-<div class="section">
-
-<div class="section-header">
-
-<h2>
-الطلاب
-</h2>
-
-<button
-class="add-btn"
-onclick="openModal('student')"
->
-إضافة طالب
-</button>
-
 </div>
 
-<table id="studentsTable">
-
-<thead>
-
-<tr>
-
-<th>
-الاسم
-</th>
-
-<th>
-الفصل
-</th>
-
-<th>
-الإجراءات
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-<div
-class="modal"
-id="modal"
->
+<div class="modal" id="modal">
 
 <div class="modal-content">
 
@@ -428,87 +415,33 @@ placeholder="الاسم"
 
 </div>
 
-<div
-class="input-group"
-id="classGroup"
-style="display:none"
->
+<div class="input-group" id="usernameGroup">
 
-<select id="classSelect">
-
-<option value="">
-اختر الفصل
-</option>
-
-</select>
+<input
+type="text"
+id="usernameInput"
+placeholder="Username"
+/>
 
 </div>
 
-<div
-class="input-group"
-id="examGroup"
-style="display:none"
->
+<div class="input-group" id="passwordGroup">
 
-<select id="examSelect">
-
-<option>
-الاختبار الدوري الأول
-</option>
-
-<option>
-الاختبار الدوري الثاني
-</option>
-
-<option>
-الاختبار الدوري الثالث
-</option>
-
-<option>
-الاختبار الدوري الرابع
-</option>
-
-<option>
-الاختبار الدوري الخامس
-</option>
-
-<option>
-الاختبار الدوري السادس
-</option>
-
-<option>
-الاختبار الدوري السابع
-</option>
-
-<option>
-الاختبار الدوري الثامن
-</option>
-
-<option>
-اختبار الفترة الأولى
-</option>
-
-<option>
-اختبار الفترة الثانية
-</option>
-
-</select>
+<input
+type="text"
+id="passwordInput"
+placeholder="Password"
+/>
 
 </div>
 
 <div class="modal-actions">
 
-<button
-class="save-btn"
-onclick="saveData()"
->
+<button class="save-btn" onclick="saveData()">
 حفظ
 </button>
 
-<button
-class="cancel-btn"
-onclick="closeModal()"
->
+<button class="cancel-btn" onclick="closeModal()">
 إلغاء
 </button>
 
@@ -526,18 +459,13 @@ document.getElementById("modal");
 const modalTitle =
 document.getElementById("modalTitle");
 
-const classGroup =
-document.getElementById("classGroup");
+const usernameGroup =
+document.getElementById("usernameGroup");
 
-const examGroup =
-document.getElementById("examGroup");
-
-const classSelect =
-document.getElementById("classSelect");
+const passwordGroup =
+document.getElementById("passwordGroup");
 
 let currentType = "";
-
-let classes = [];
 
 function openModal(type){
 
@@ -546,15 +474,19 @@ currentType = type;
 modal.style.display = "flex";
 
 document.getElementById("nameInput").value = "";
-
-classGroup.style.display = "none";
-
-examGroup.style.display = "none";
+document.getElementById("usernameInput").value = "";
+document.getElementById("passwordInput").value = "";
 
 if(type === "teacher"){
 
 modalTitle.innerText =
 "إضافة معلم";
+
+usernameGroup.style.display =
+"block";
+
+passwordGroup.style.display =
+"block";
 
 }
 
@@ -563,34 +495,24 @@ else if(type === "supervisor"){
 modalTitle.innerText =
 "إضافة مشرف";
 
+usernameGroup.style.display =
+"block";
+
+passwordGroup.style.display =
+"block";
+
 }
 
-else if(type === "class"){
+else{
 
 modalTitle.innerText =
 "إضافة فصل";
 
-}
+usernameGroup.style.display =
+"none";
 
-else if(type === "student"){
-
-modalTitle.innerText =
-"إضافة طالب";
-
-classGroup.style.display =
-"block";
-
-renderClassOptions();
-
-}
-
-else if(type === "exam"){
-
-modalTitle.innerText =
-"إضافة اختبار";
-
-examGroup.style.display =
-"block";
+passwordGroup.style.display =
+"none";
 
 }
 
@@ -607,42 +529,35 @@ function saveData(){
 const name =
 document.getElementById("nameInput").value;
 
+const username =
+document.getElementById("usernameInput").value;
+
+const password =
+document.getElementById("passwordInput").value;
+
 if(!name){
 
-alert("أدخل الاسم");
+alert("أدخل البيانات");
 
 return;
 
 }
 
-if(currentType === "class"){
+if(currentType === "teacher"){
 
-classes.push(name);
-
-renderClasses();
+addTeacher(name,username,password);
 
 }
 
-else if(currentType === "student"){
+else if(currentType === "supervisor"){
 
-const selectedClass =
-classSelect.value;
-
-if(!selectedClass){
-
-alert("اختر الفصل");
-
-return;
-
-}
-
-addStudent(name, selectedClass);
+addSupervisor(name,username,password);
 
 }
 
 else{
 
-alert("تم الحفظ");
+addClass(name);
 
 }
 
@@ -650,97 +565,10 @@ closeModal();
 
 }
 
-function renderClasses(){
+function addTeacher(name,username,password){
 
 const tbody =
-document.querySelector("#classesTable tbody");
-
-tbody.innerHTML = "";
-
-classes.forEach((className,index)=>{
-
-tbody.innerHTML += `
-
-<tr>
-
-<td>${className}</td>
-
-<td>
-
-<button
-class="action-btn edit"
-onclick="editClass(${index})"
->
-تعديل
-</button>
-
-<button
-class="action-btn delete"
-onclick="deleteClass(${index})"
->
-حذف
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-}
-
-function renderClassOptions(){
-
-classSelect.innerHTML = `
-<option value="">
-اختر الفصل
-</option>
-`;
-
-classes.forEach(className=>{
-
-classSelect.innerHTML += `
-<option value="${className}">
-${className}
-</option>
-`;
-
-});
-
-}
-
-function deleteClass(index){
-
-classes.splice(index,1);
-
-renderClasses();
-
-}
-
-function editClass(index){
-
-const newName =
-prompt(
-"تعديل اسم الفصل",
-classes[index]
-);
-
-if(newName){
-
-classes[index] = newName;
-
-renderClasses();
-
-}
-
-}
-
-function addStudent(name,className){
-
-const tbody =
-document.querySelector("#studentsTable tbody");
+document.querySelector("#teachersTable tbody");
 
 tbody.innerHTML += `
 
@@ -748,20 +576,22 @@ tbody.innerHTML += `
 
 <td>${name}</td>
 
-<td>${className}</td>
+<td>${username}</td>
+
+<td>${password}</td>
 
 <td>
 
 <button
 class="action-btn edit"
-onclick="editStudent(this)"
+onclick="editRow(this)"
 >
 تعديل
 </button>
 
 <button
 class="action-btn delete"
-onclick="deleteStudent(this)"
+onclick="deleteRow(this)"
 >
 حذف
 </button>
@@ -774,13 +604,87 @@ onclick="deleteStudent(this)"
 
 }
 
-function deleteStudent(button){
+function addSupervisor(name,username,password){
+
+const tbody =
+document.querySelector("#supervisorsTable tbody");
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${name}</td>
+
+<td>${username}</td>
+
+<td>${password}</td>
+
+<td>
+
+<button
+class="action-btn edit"
+onclick="editRow(this)"
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete"
+onclick="deleteRow(this)"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+function addClass(name){
+
+const tbody =
+document.querySelector("#classesTable tbody");
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${name}</td>
+
+<td>
+
+<button
+class="action-btn edit"
+onclick="editRow(this)"
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete"
+onclick="deleteRow(this)"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+function deleteRow(button){
 
 button.closest("tr").remove();
 
 }
 
-function editStudent(button){
+function editRow(button){
 
 const row =
 button.closest("tr");
@@ -790,7 +694,7 @@ row.querySelectorAll("td");
 
 const newName =
 prompt(
-"تعديل اسم الطالب",
+"تعديل البيانات",
 cells[0].innerText
 );
 
