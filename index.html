@@ -1,542 +1,159 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<script>
 
-<head>
+let currentRole = "";
 
-  <meta charset="UTF-8" />
+const loginForm =
+document.getElementById("loginForm");
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+const loginTitle =
+document.getElementById("loginTitle");
 
-  <title>Rased Insights</title>
+const loginBtn =
+document.getElementById("loginBtn");
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+const status =
+document.getElementById("status");
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
+document
+.getElementById("adminBtn")
+.addEventListener("click",()=>{
 
-  <style>
+currentRole = "admin";
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Cairo', sans-serif;
-    }
+loginForm.style.display =
+"block";
 
-    body {
+loginTitle.innerText =
+"تسجيل دخول الأدمن";
 
-      background: linear-gradient(135deg, #0f172a, #1e293b);
+});
 
-      min-height: 100vh;
+document
+.getElementById("supervisorBtn")
+.addEventListener("click",()=>{
 
-      padding: 30px;
+currentRole = "supervisor";
 
-      display: flex;
+loginForm.style.display =
+"block";
 
-      justify-content: center;
+loginTitle.innerText =
+"تسجيل دخول المشرف";
 
-      align-items: center;
+});
 
-    }
+document
+.getElementById("teacherBtn")
+.addEventListener("click",()=>{
 
-    .login-card {
+currentRole = "teacher";
 
-      width: 100%;
+loginForm.style.display =
+"block";
 
-      max-width: 450px;
+loginTitle.innerText =
+"تسجيل دخول المعلم";
 
-      background: rgba(255,255,255,0.08);
+});
 
-      border-radius: 30px;
+loginBtn.addEventListener("click",()=>{
 
-      padding: 35px 25px;
+const username =
+document.getElementById("email")
+.value
+.trim();
 
-      border: 1px solid rgba(255,255,255,0.06);
+const password =
+document.getElementById("password")
+.value
+.trim();
 
-      backdrop-filter: blur(15px);
+if(!username || !password){
 
-    }
+status.innerText =
+"أدخل البيانات";
 
-    .logo {
+return;
 
-      width: 100px;
+}
 
-      height: 100px;
+if(currentRole === "admin"){
 
-      border-radius: 25px;
+status.innerText =
+"جاري الدخول...";
 
-      margin: auto;
+setTimeout(()=>{
 
-      margin-bottom: 25px;
+window.location.href =
+"./dashboard.html";
 
-      background: linear-gradient(135deg, #facc15, #f59e0b);
+},800);
 
-      display: flex;
+return;
 
-      justify-content: center;
+}
 
-      align-items: center;
+let accounts = [];
 
-      font-size: 42px;
+if(currentRole === "teacher"){
 
-      font-weight: 800;
+accounts =
+JSON.parse(
+localStorage.getItem("teachers")
+) || [];
 
-      color: #0f172a;
+}
 
-    }
+else if(currentRole === "supervisor"){
 
-    h1 {
+accounts =
+JSON.parse(
+localStorage.getItem("supervisors")
+) || [];
 
-      color: white;
+}
 
-      text-align: center;
+const found =
+accounts.find(account=>
 
-      font-size: 32px;
+account.username === username
+&&
+account.password === password
 
-      margin-bottom: 10px;
+);
 
-    }
+if(found){
 
-    .school {
+status.innerText =
+"تم تسجيل الدخول";
 
-      color: #f8fafc;
+setTimeout(()=>{
 
-      text-align: center;
+if(currentRole === "teacher"){
 
-      font-size: 18px;
+window.location.href =
+"./teacher.html";
 
-      margin-bottom: 8px;
+}
 
-    }
+else{
 
-    .department {
+window.location.href =
+"./supervisor.html";
 
-      text-align: center;
+}
 
-      color: #facc15;
+},800);
 
-      margin-bottom: 30px;
+}
 
-      font-size: 14px;
+else{
 
-    }
+status.innerText =
+"اسم المستخدم أو كلمة المرور غير صحيحة";
 
-    .roles {
+}
 
-      display: flex;
+});
 
-      flex-direction: column;
-
-      gap: 14px;
-
-    }
-
-    .role-btn {
-
-      border: none;
-
-      padding: 15px;
-
-      border-radius: 16px;
-
-      color: white;
-
-      font-size: 15px;
-
-      font-weight: 700;
-
-      cursor: pointer;
-
-      transition: 0.3s;
-
-    }
-
-    .role-btn:hover {
-
-      transform: translateY(-2px);
-
-    }
-
-    .admin {
-
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-
-    }
-
-    .supervisor {
-
-      background: linear-gradient(135deg, #0f766e, #115e59);
-
-    }
-
-    .teacher {
-
-      background: linear-gradient(135deg, #ca8a04, #a16207);
-
-    }
-
-    .login-form {
-
-      margin-top: 25px;
-
-      display: none;
-
-    }
-
-    .login-form h3 {
-
-      color: white;
-
-      text-align: center;
-
-      margin-bottom: 20px;
-
-    }
-
-    .input-group {
-
-      margin-bottom: 16px;
-
-    }
-
-    .input-group input {
-
-      width: 100%;
-
-      padding: 15px;
-
-      border-radius: 14px;
-
-      border: none;
-
-      background: rgba(255,255,255,0.08);
-
-      color: white;
-
-      font-size: 15px;
-
-      outline: none;
-
-    }
-
-    .input-group input::placeholder {
-
-      color: #cbd5e1;
-
-    }
-
-    .login-btn {
-
-      width: 100%;
-
-      border: none;
-
-      padding: 15px;
-
-      border-radius: 16px;
-
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-
-      color: white;
-
-      font-size: 15px;
-
-      font-weight: 700;
-
-      cursor: pointer;
-
-    }
-
-    .status {
-
-      margin-top: 15px;
-
-      text-align: center;
-
-      color: white;
-
-      font-size: 14px;
-
-    }
-
-    .footer {
-
-      margin-top: 30px;
-
-      text-align: center;
-
-      color: #94a3b8;
-
-      font-size: 13px;
-
-    }
-
-  </style>
-
-</head>
-
-<body>
-
-  <div class="login-card">
-
-    <div class="logo">
-      E
-    </div>
-
-    <h1>
-      Rased Insights
-    </h1>
-
-    <div class="school">
-      مدارس الفلاح الأهلية
-    </div>
-
-    <div class="department">
-      قسم اللغة الإنجليزية
-    </div>
-
-    <div class="roles">
-
-      <button
-        class="role-btn admin"
-        id="adminBtn"
-      >
-        دخول الأدمن
-      </button>
-
-      <button
-        class="role-btn supervisor"
-        id="supervisorBtn"
-      >
-        دخول المشرف
-      </button>
-
-      <button
-        class="role-btn teacher"
-        id="teacherBtn"
-      >
-        دخول المعلم
-      </button>
-
-    </div>
-
-    <div
-      class="login-form"
-      id="loginForm"
-    >
-
-      <h3 id="loginTitle"></h3>
-
-      <div class="input-group">
-
-        <input
-          type="email"
-          id="email"
-          placeholder="البريد الإلكتروني"
-        />
-
-      </div>
-
-      <div class="input-group">
-
-        <input
-          type="password"
-          id="password"
-          placeholder="كلمة المرور"
-        />
-
-      </div>
-
-      <button
-        class="login-btn"
-        id="loginBtn"
-      >
-        تسجيل الدخول
-      </button>
-
-      <div
-        class="status"
-        id="status"
-      ></div>
-
-    </div>
-
-    <div class="footer">
-      تصميم محمد عامر أحمد
-    </div>
-
-  </div>
-
-  <script type="module">
-
-    import {
-      initializeApp
-    }
-    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-
-    import {
-      getAuth,
-      signInWithEmailAndPassword
-    }
-    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
-
-    const firebaseConfig = {
-
-      apiKey: "AIzaSyAalS33kADTW9D2RkXXZ27n9TFvd9TAVJM",
-
-      authDomain: "englis-results.firebaseapp.com",
-
-      projectId: "englis-results",
-
-      storageBucket: "englis-results.firebasestorage.app",
-
-      messagingSenderId: "467628171773",
-
-      appId: "1:467628171773:web:26d848542fdb89aea17994"
-
-    };
-
-    const app =
-      initializeApp(firebaseConfig);
-
-    const auth =
-      getAuth(app);
-
-    let currentRole = "";
-
-    const loginForm =
-      document.getElementById("loginForm");
-
-    const loginTitle =
-      document.getElementById("loginTitle");
-
-    document
-      .getElementById("adminBtn")
-      .addEventListener("click", () => {
-
-        currentRole = "admin";
-
-        loginForm.style.display = "block";
-
-        loginTitle.innerText =
-          "تسجيل دخول الأدمن";
-
-      });
-
-    document
-      .getElementById("supervisorBtn")
-      .addEventListener("click", () => {
-
-        currentRole = "supervisor";
-
-        loginForm.style.display = "block";
-
-        loginTitle.innerText =
-          "تسجيل دخول المشرف";
-
-      });
-
-    document
-      .getElementById("teacherBtn")
-      .addEventListener("click", () => {
-
-        currentRole = "teacher";
-
-        loginForm.style.display = "block";
-
-        loginTitle.innerText =
-          "تسجيل دخول المعلم";
-
-      });
-
-    const loginBtn =
-      document.getElementById("loginBtn");
-
-    const status =
-      document.getElementById("status");
-
-    loginBtn.addEventListener("click", async () => {
-
-      const email =
-        document.getElementById("email")
-        .value
-        .trim();
-
-      const password =
-        document.getElementById("password")
-        .value
-        .trim();
-
-      if (!email || !password) {
-
-        status.innerText =
-          "أدخل البريد وكلمة المرور";
-
-        return;
-
-      }
-
-      try {
-
-        status.innerText =
-          "جاري تسجيل الدخول...";
-
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-        status.innerText =
-          "تم تسجيل الدخول";
-
-        setTimeout(() => {
-
-          if (currentRole === "admin") {
-
-            window.location.href =
-              "./dashboard.html";
-
-          }
-
-          else if (
-            currentRole === "supervisor"
-          ) {
-
-            window.location.href =
-              "./supervisor.html";
-
-          }
-
-          else {
-
-            window.location.href =
-              "./teacher.html";
-
-          }
-
-        }, 1000);
-
-      }
-
-      catch (error) {
-
-        console.error(error);
-
-        status.innerText =
-          "بيانات الدخول غير صحيحة";
-
-      }
-
-    });
-
-  </script>
-
-</body>
-
-</html>
+</script>
