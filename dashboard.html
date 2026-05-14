@@ -22,7 +22,6 @@ background:#020617;
 color:white;
 display:flex;
 min-height:100vh;
-overflow-x:hidden;
 }
 
 .sidebar{
@@ -73,7 +72,6 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:20px;
-flex-wrap:wrap;
 }
 
 .add-btn{
@@ -109,6 +107,7 @@ margin:2px;
 
 .delete{background:#dc2626;color:white;}
 
+/* MODAL */
 .modal{
 position:fixed;
 inset:0;
@@ -217,21 +216,20 @@ margin-top:15px;
 
 <div class="modal-content">
 
-<h2 id="modalTitle">إضافة</h2>
+<h2>إضافة</h2>
 
 <div class="input-group">
 <input id="nameInput" placeholder="الاسم">
 </div>
 
-<div class="input-group">
+<div class="input-group" id="usernameGroup">
 <input id="usernameInput" placeholder="Username">
 </div>
 
-<div class="input-group">
+<div class="input-group" id="passwordGroup">
 <input id="passwordInput" placeholder="Password">
 </div>
 
-<!-- 🔥 DROPDOWN CLASS -->
 <div class="input-group" id="classGroup">
 <select id="classInput"></select>
 </div>
@@ -251,28 +249,41 @@ const modal = document.getElementById("modal");
 
 let currentType = "";
 
-/* ================= OPEN MODAL ================= */
-
+/* OPEN MODAL */
 function openModal(type){
 currentType = type;
 modal.style.display = "flex";
 
+/* reset */
 document.getElementById("nameInput").value = "";
 document.getElementById("usernameInput").value = "";
 document.getElementById("passwordInput").value = "";
 
-if(type === "student"){
+/* hide all */
+document.getElementById("usernameGroup").style.display = "none";
+document.getElementById("passwordGroup").style.display = "none";
+document.getElementById("classGroup").style.display = "none";
+
+/* TEACHER / SUPERVISOR */
+if(type === "teacher" || type === "supervisor"){
+document.getElementById("usernameGroup").style.display = "block";
+document.getElementById("passwordGroup").style.display = "block";
+}
+
+/* STUDENT */
+else if(type === "student"){
+document.getElementById("classGroup").style.display = "block";
 loadClassOptions();
 }
+
 }
 
-/* ================= LOAD CLASSES DROPDOWN ================= */
-
+/* LOAD CLASSES */
 function loadClassOptions(){
 
 let classes = JSON.parse(localStorage.getItem("classes")) || [];
-
 let select = document.getElementById("classInput");
+
 select.innerHTML = "";
 
 if(classes.length === 0){
@@ -286,8 +297,7 @@ select.innerHTML += `<option value="${c.name}">${c.name}</option>`;
 
 }
 
-/* ================= SAVE ================= */
-
+/* SAVE DATA */
 function saveData(){
 
 const name = document.getElementById("nameInput").value;
@@ -297,46 +307,41 @@ const className = document.getElementById("classInput").value;
 
 if(currentType === "teacher"){
 
-saveAccount("teachers",{name,username,password,classes:[]});
+let data = JSON.parse(localStorage.getItem("teachers")) || [];
+data.push({name,username,password,classes:[]});
+localStorage.setItem("teachers",JSON.stringify(data));
 
 }
 
-if(currentType === "supervisor"){
+else if(currentType === "supervisor"){
 
-saveAccount("supervisors",{name,username,password});
-
-}
-
-if(currentType === "student"){
-
-let students = JSON.parse(localStorage.getItem("students")) || [];
-
-students.push({
-name,
-className
-});
-
-localStorage.setItem("students",JSON.stringify(students));
+let data = JSON.parse(localStorage.getItem("supervisors")) || [];
+data.push({name,username,password});
+localStorage.setItem("supervisors",JSON.stringify(data));
 
 }
 
-if(currentType === "class"){
+else if(currentType === "student"){
 
-let classes = JSON.parse(localStorage.getItem("classes")) || [];
-
-classes.push({name});
-
-localStorage.setItem("classes",JSON.stringify(classes));
+let data = JSON.parse(localStorage.getItem("students")) || [];
+data.push({name,className});
+localStorage.setItem("students",JSON.stringify(data));
 
 }
 
-if(currentType === "exam"){
+else if(currentType === "class"){
 
-let exams = JSON.parse(localStorage.getItem("exams")) || [];
+let data = JSON.parse(localStorage.getItem("classes")) || [];
+data.push({name});
+localStorage.setItem("classes",JSON.stringify(data));
 
-exams.push({name});
+}
 
-localStorage.setItem("exams",JSON.stringify(exams));
+else if(currentType === "exam"){
+
+let data = JSON.parse(localStorage.getItem("exams")) || [];
+data.push({name});
+localStorage.setItem("exams",JSON.stringify(data));
 
 }
 
@@ -345,31 +350,18 @@ loadAll();
 
 }
 
-/* ================= SAVE ACCOUNT ================= */
-
-function saveAccount(key,obj){
-
-let data = JSON.parse(localStorage.getItem(key)) || [];
-
-data.push(obj);
-
-localStorage.setItem(key,JSON.stringify(data));
-
-}
-
-/* ================= LOAD ALL ================= */
-
+/* LOAD ALL */
 window.onload = loadAll;
 
 function loadAll(){
 loadTeachers();
 loadSupervisors();
-loadStudents();
 loadClasses();
+loadStudents();
 loadExams();
 }
 
-/* ================= LOAD FUNCTIONS ================= */
+/* TABLES */
 
 function loadTeachers(){
 let data = JSON.parse(localStorage.getItem("teachers")) || [];
@@ -379,7 +371,6 @@ data.map(t=>`
 <td>${t.name}</td>
 <td>${t.username}</td>
 <td>${t.password}</td>
-<td><button class="action-btn delete" onclick="deleteItem('teachers','${t.username}')">حذف</button></td>
 </tr>
 `).join("");
 }
@@ -392,9 +383,14 @@ data.map(t=>`
 <td>${t.name}</td>
 <td>${t.username}</td>
 <td>${t.password}</td>
-<td><button class="action-btn delete" onclick="deleteItem('supervisors','${t.username}')">حذف</button></td>
 </tr>
 `).join("");
+}
+
+function loadClasses(){
+let data = JSON.parse(localStorage.getItem("classes")) || [];
+document.querySelector("#classesTable tbody").innerHTML =
+data.map(c=>`<tr><td>${c.name}</td></tr>`).join("");
 }
 
 function loadStudents(){
@@ -404,18 +400,6 @@ data.map(s=>`
 <tr>
 <td>${s.name}</td>
 <td>${s.className}</td>
-<td><button class="action-btn delete" onclick="deleteStudent('${s.name}')">حذف</button></td>
-</tr>
-`).join("");
-}
-
-function loadClasses(){
-let data = JSON.parse(localStorage.getItem("classes")) || [];
-document.querySelector("#classesTable tbody").innerHTML =
-data.map(c=>`
-<tr>
-<td>${c.name}</td>
-<td><button class="action-btn delete" onclick="deleteClass('${c.name}')">حذف</button></td>
 </tr>
 `).join("");
 }
@@ -423,39 +407,10 @@ data.map(c=>`
 function loadExams(){
 let data = JSON.parse(localStorage.getItem("exams")) || [];
 document.querySelector("#examsTable tbody").innerHTML =
-data.map(e=>`
-<tr>
-<td>${e.name}</td>
-<td><button class="action-btn delete" onclick="deleteExam('${e.name}')">حذف</button></td>
-</tr>
-`).join("");
+data.map(e=>`<tr><td>${e.name}</td></tr>`).join("");
 }
 
-/* ================= DELETE ================= */
-
-function deleteStudent(name){
-let data = JSON.parse(localStorage.getItem("students")) || [];
-data = data.filter(s=>s.name !== name);
-localStorage.setItem("students",JSON.stringify(data));
-loadStudents();
-}
-
-function deleteClass(name){
-let data = JSON.parse(localStorage.getItem("classes")) || [];
-data = data.filter(c=>c.name !== name);
-localStorage.setItem("classes",JSON.stringify(data));
-loadClasses();
-}
-
-function deleteExam(name){
-let data = JSON.parse(localStorage.getItem("exams")) || [];
-data = data.filter(e=>e.name !== name);
-localStorage.setItem("exams",JSON.stringify(data));
-loadExams();
-}
-
-/* ================= LOGOUT ================= */
-
+/* LOGOUT */
 function logout(){
 localStorage.removeItem("currentUser");
 window.location.href="index.html";
