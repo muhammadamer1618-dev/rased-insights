@@ -4,81 +4,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rased Insights</title>
+<title>Rased Admin</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo';}
 
 body{
-background:linear-gradient(135deg,#020617,#0f172a);
+background:#0f172a;
 color:white;
 display:flex;
 min-height:100vh;
 }
 
-/* SIDEBAR */
+/* sidebar */
 .sidebar{
-width:280px;
-background:#0b1220;
-padding:25px;
+width:260px;
+background:#111827;
+padding:20px;
 display:flex;
 flex-direction:column;
-gap:12px;
+gap:10px;
 }
 
-.logo{
-font-size:32px;
-font-weight:800;
-color:#facc15;
-margin-bottom:20px;
-}
-
-.menu button{
+.sidebar button{
+padding:12px;
 border:none;
-padding:14px;
-border-radius:14px;
+border-radius:10px;
+cursor:pointer;
 background:#1e293b;
 color:white;
-cursor:pointer;
 font-weight:700;
-transition:.2s;
 }
 
-.menu button:hover{
+.sidebar button:hover{
 background:#2563eb;
-transform:translateY(-2px);
 }
 
-.logout{
-background:#dc2626 !important;
-}
-
-/* MAIN */
+/* main */
 .main{
 flex:1;
-padding:25px;
+padding:20px;
 }
 
 .section{
 background:#111827;
 padding:20px;
-border-radius:20px;
+border-radius:16px;
 margin-bottom:20px;
 }
 
-.section h2{
-margin-bottom:15px;
-}
-
-/* TABLE */
 table{
 width:100%;
 border-collapse:collapse;
@@ -87,74 +64,57 @@ border-collapse:collapse;
 th,td{
 padding:12px;
 text-align:center;
-border-bottom:1px solid rgba(255,255,255,.08);
+border-bottom:1px solid #1e293b;
 }
 
-/* MODAL */
+.actions button{
+margin:0 3px;
+padding:6px 10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:700;
+}
+
+.edit{background:#2563eb;color:white;}
+.delete{background:#dc2626;color:white;}
+
+/* modal */
 .modal{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.75);
+background:rgba(0,0,0,.7);
 display:none;
 justify-content:center;
 align-items:center;
-z-index:1000;
 }
 
-.modal-box{
+.box{
 background:#0f172a;
-padding:25px;
-border-radius:20px;
-width:100%;
-max-width:420px;
+padding:20px;
+border-radius:14px;
+width:350px;
 display:flex;
 flex-direction:column;
-gap:12px;
-}
-
-.modal-box h2{
-text-align:center;
+gap:10px;
 }
 
 input,select{
-padding:12px;
+padding:10px;
 border:none;
-border-radius:12px;
+border-radius:8px;
 background:#1e293b;
 color:white;
-outline:none;
-}
-
-.buttons{
-display:flex;
-gap:10px;
-margin-top:10px;
 }
 
 .save{
-flex:1;
-background:#2563eb;
+background:#22c55e;
 border:none;
-padding:12px;
-border-radius:12px;
+padding:10px;
+border-radius:8px;
 color:white;
 font-weight:700;
 cursor:pointer;
-}
-
-.cancel{
-flex:1;
-background:#334155;
-border:none;
-padding:12px;
-border-radius:12px;
-color:white;
-font-weight:700;
-cursor:pointer;
-}
-
-.cancel:hover{
-background:#475569;
 }
 
 </style>
@@ -165,19 +125,10 @@ background:#475569;
 <!-- SIDEBAR -->
 <div class="sidebar">
 
-<div class="logo">Rased</div>
-
-<div class="menu">
-
 <button onclick="openModal('teacher')">إضافة معلم</button>
 <button onclick="openModal('supervisor')">إضافة مشرف</button>
 <button onclick="openModal('class')">إضافة فصل</button>
 <button onclick="openModal('student')">إضافة طالب</button>
-<button onclick="openModal('exam')">إضافة اختبار</button>
-
-<button class="logout" onclick="logout()">تسجيل خروج</button>
-
-</div>
 
 </div>
 
@@ -185,88 +136,81 @@ background:#475569;
 <div class="main">
 
 <div class="section">
-<h2>الطلاب</h2>
-<table id="studentsTable"></table>
+<h3>المعلمين</h3>
+<table>
+<thead>
+<tr><th>الاسم</th><th>يوزر</th><th>التحكم</th></tr>
+</thead>
+<tbody id="teachers"></tbody>
+</table>
+</div>
+
+<div class="section">
+<h3>المشرفين</h3>
+<table>
+<tbody id="supervisors"></tbody>
+</table>
+</div>
+
+<div class="section">
+<h3>الفصول</h3>
+<table>
+<tbody id="classes"></tbody>
+</table>
+</div>
+
+<div class="section">
+<h3>الطلاب</h3>
+<table>
+<tbody id="students"></tbody>
+</table>
 </div>
 
 </div>
 
 <!-- MODAL -->
 <div class="modal" id="modal">
-<div class="modal-box">
 
-<h2 id="title">إضافة</h2>
+<div class="box">
 
 <input id="name" placeholder="الاسم">
+<input id="username" placeholder="يوزر">
+<input id="password" placeholder="باسورد">
 
-<input id="username" placeholder="Username">
-
-<input id="password" placeholder="Password">
-
-<select id="classSelect"></select>
-
-<div class="buttons">
+<select id="classSelect" style="display:none"></select>
 
 <button class="save" onclick="save()">حفظ</button>
-<button class="cancel" onclick="closeModal()">إلغاء</button>
 
 </div>
 
-</div>
 </div>
 
 <script>
 
 let type = "";
 
-const modal = document.getElementById("modal");
-
 function openModal(t){
 type = t;
-modal.style.display = "flex";
+document.getElementById("modal").style.display="flex";
 
-document.getElementById("name").value = "";
-document.getElementById("username").value = "";
-document.getElementById("password").value = "";
+document.getElementById("name").value="";
+document.getElementById("username").value="";
+document.getElementById("password").value="";
 
-toggleFields(t);
+document.getElementById("classSelect").style.display = (t==="student") ? "block":"none";
+
+if(t==="student") loadClasses();
 }
 
-function closeModal(){
-modal.style.display = "none";
-}
-
-function toggleFields(t){
-
-document.getElementById("username").style.display = "none";
-document.getElementById("password").style.display = "none";
-document.getElementById("classSelect").style.display = "none";
-
-if(t === "teacher" || t === "supervisor"){
-document.getElementById("username").style.display = "block";
-document.getElementById("password").style.display = "block";
-}
-
-if(t === "student"){
-document.getElementById("classSelect").style.display = "block";
-loadClasses();
-}
-
-}
-
-/* CLASSES */
 function loadClasses(){
-let classes = JSON.parse(localStorage.getItem("classes")) || [];
-let select = document.getElementById("classSelect");
-
-select.innerHTML = "";
-
-classes.forEach(c=>{
-select.innerHTML += `<option>${c.name}</option>`;
+let c = JSON.parse(localStorage.getItem("classes"))||[];
+let s = document.getElementById("classSelect");
+s.innerHTML="";
+c.forEach(x=>{
+s.innerHTML += `<option>${x.name}</option>`;
 });
 }
 
-/* SAVE */
 function save(){
 
 let name = document.getElementById("name").value;
@@ -274,43 +218,97 @@ let username = document.getElementById("username").value;
 let password = document.getElementById("password").value;
 let className = document.getElementById("classSelect").value;
 
-if(type === "student"){
-let data = JSON.parse(localStorage.getItem("students")) || [];
-data.push({name,className});
-localStorage.setItem("students",JSON.stringify(data));
+if(type==="teacher"){
+let d = JSON.parse(localStorage.getItem("teachers"))||[];
+d.push({name,username,password});
+localStorage.setItem("teachers",JSON.stringify(d));
 }
 
-if(type === "class"){
-let data = JSON.parse(localStorage.getItem("classes")) || [];
-data.push({name});
-localStorage.setItem("classes",JSON.stringify(data));
+if(type==="supervisor"){
+let d = JSON.parse(localStorage.getItem("supervisors"))||[];
+d.push({name,username,password});
+localStorage.setItem("supervisors",JSON.stringify(d));
 }
 
-if(type === "teacher"){
-let data = JSON.parse(localStorage.getItem("teachers")) || [];
-data.push({name,username,password});
-localStorage.setItem("teachers",JSON.stringify(data));
+if(type==="class"){
+let d = JSON.parse(localStorage.getItem("classes"))||[];
+d.push({name});
+localStorage.setItem("classes",JSON.stringify(d));
 }
 
-if(type === "supervisor"){
-let data = JSON.parse(localStorage.getItem("supervisors")) || [];
-data.push({name,username,password});
-localStorage.setItem("supervisors",JSON.stringify(data));
+if(type==="student"){
+let d = JSON.parse(localStorage.getItem("students"))||[];
+d.push({name,className});
+localStorage.setItem("students",JSON.stringify(d));
 }
 
-if(type === "exam"){
-let data = JSON.parse(localStorage.getItem("exams")) || [];
-data.push({name});
-localStorage.setItem("exams",JSON.stringify(data));
+close();
+renderAll();
 }
 
-closeModal();
+function close(){
+document.getElementById("modal").style.display="none";
 }
 
-function logout(){
-localStorage.removeItem("currentUser");
-window.location.href="index.html";
+/* ================= RENDER ================= */
+
+function renderAll(){
+
+let teachers = JSON.parse(localStorage.getItem("teachers"))||[];
+document.getElementById("teachers").innerHTML =
+teachers.map((t,i)=>`
+<tr>
+<td>${t.name}</td>
+<td>${t.username}</td>
+<td>
+<button class="delete" onclick="del('teachers',${i})">حذف</button>
+</td>
+</tr>`).join("");
+
+let supervisors = JSON.parse(localStorage.getItem("supervisors"))||[];
+document.getElementById("supervisors").innerHTML =
+supervisors.map((t,i)=>`
+<tr>
+<td>${t.name}</td>
+<td>${t.username}</td>
+<td>
+<button class="delete" onclick="del('supervisors',${i})">حذف</button>
+</td>
+</tr>`).join("");
+
+let classes = JSON.parse(localStorage.getItem("classes"))||[];
+document.getElementById("classes").innerHTML =
+classes.map((t,i)=>`
+<tr>
+<td>${t.name}</td>
+<td>
+<button class="delete" onclick="del('classes',${i})">حذف</button>
+</td>
+</tr>`).join("");
+
+let students = JSON.parse(localStorage.getItem("students"))||[];
+document.getElementById("students").innerHTML =
+students.map((t,i)=>`
+<tr>
+<td>${t.name}</td>
+<td>${t.className}</td>
+<td>
+<button class="delete" onclick="del('students',${i})">حذف</button>
+</td>
+</tr>`).join("");
+
 }
+
+/* DELETE */
+function del(key,i){
+let d = JSON.parse(localStorage.getItem(key))||[];
+d.splice(i,1);
+localStorage.setItem(key,JSON.stringify(d));
+renderAll();
+}
+
+/* INIT */
+renderAll();
 
 </script>
 
