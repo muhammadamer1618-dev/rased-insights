@@ -2,299 +2,249 @@
 <html lang="ar" dir="rtl">
 
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Dashboard</title>
 
-  <meta charset="UTF-8" />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;800&display=swap" rel="stylesheet">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+<style>
 
-  <title>Supervisor Dashboard</title>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+body{
+background:#0f172a;
+color:white;
+min-height:100vh;
+}
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
+.container{
+padding:25px;
+}
 
-  <style>
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Cairo', sans-serif;
-    }
+select,button,input{
+padding:12px;
+border-radius:12px;
+border:none;
+outline:none;
+font-family:'Cairo';
+}
 
-    body {
-      background: #0f172a;
-      color: white;
-      min-height: 100vh;
-    }
+select{
+background:#1e293b;
+color:white;
+margin-left:10px;
+}
 
-    .container {
-      padding: 30px;
-    }
+button{
+cursor:pointer;
+background:#2563eb;
+color:white;
+font-weight:700;
+}
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
+.logout{
+background:#dc2626;
+}
 
-    .topbar h1 {
-      font-size: 30px;
-      font-weight: 800;
-    }
+.section{
+background:#1e293b;
+padding:20px;
+border-radius:20px;
+margin-top:20px;
+}
 
-    .logout-btn {
-      border: none;
-      background: #dc2626;
-      color: white;
-      padding: 12px 18px;
-      border-radius: 14px;
-      cursor: pointer;
-      font-weight: 700;
-    }
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
+th,td{
+padding:12px;
+text-align:center;
+border-bottom:1px solid rgba(255,255,255,.1);
+}
 
-    .card {
-      background: #1e293b;
-      border-radius: 24px;
-      padding: 25px;
-    }
+input.grade{
+width:80px;
+text-align:center;
+background:#0f172a;
+color:white;
+}
 
-    .card h3 {
-      color: #cbd5e1;
-      margin-bottom: 12px;
-    }
+.save-btn{
+margin-top:15px;
+width:100%;
+background:#22c55e;
+}
 
-    .number {
-      font-size: 36px;
-      font-weight: 800;
-      color: #facc15;
-    }
-
-    .section {
-      background: #1e293b;
-      border-radius: 24px;
-      padding: 25px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th {
-      background: rgba(255,255,255,0.06);
-      padding: 15px;
-    }
-
-    td {
-      padding: 15px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      text-align: center;
-    }
-
-    .excellent {
-      color: #22c55e;
-      font-weight: 700;
-    }
-
-    .weak {
-      color: #ef4444;
-      font-weight: 700;
-    }
-
-  </style>
-
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="topbar">
+<div class="header">
 
-      <h1>
-        لوحة المشرف
-      </h1>
+<h2>لوحة المعلم</h2>
 
-      <button
-        class="logout-btn"
-        id="logoutBtn"
-      >
-        تسجيل الخروج
-      </button>
+<button class="logout" onclick="logout()">تسجيل خروج</button>
 
-    </div>
+</div>
 
-    <div class="cards">
+<!-- SELECT CLASS -->
+<div class="section">
 
-      <div class="card">
+<h3>الفصول المسندة</h3>
 
-        <h3>
-          عدد الطلاب
-        </h3>
+<select id="classSelect" onchange="loadStudents()"></select>
 
-        <div class="number">
-          250
-        </div>
+<select id="examSelect">
+<option>الاختبار الأول</option>
+<option>الاختبار الثاني</option>
+<option>الاختبار الثالث</option>
+<option>نصف الفصل</option>
+<option>نهاية الفصل</option>
+</select>
 
-      </div>
+</div>
 
-      <div class="card">
+<!-- STUDENTS -->
+<div class="section">
 
-        <h3>
-          نسبة النجاح
-        </h3>
+<h3>الطلاب</h3>
 
-        <div class="number">
-          92%
-        </div>
+<table>
 
-      </div>
+<thead>
+<tr>
+<th>الطالب</th>
+<th>الدرجة</th>
+</tr>
+</thead>
 
-      <div class="card">
+<tbody id="studentsTable"></tbody>
 
-        <h3>
-          الطلاب المتفوقين
-        </h3>
+</table>
 
-        <div class="number">
-          48
-        </div>
+<button class="save-btn" onclick="saveGrades()">
+حفظ الدرجات
+</button>
 
-      </div>
+</div>
 
-    </div>
+</div>
 
-    <div class="section">
+<script>
 
-      <h2>
-        متابعة الأداء
-      </h2>
+/* AUTH */
+const user = JSON.parse(localStorage.getItem("currentUser"));
 
-      <table>
+if(!user || user.role !== "teacher"){
+window.location.href="index.html";
+}
 
-        <thead>
+/* GET TEACHER */
+const teachers = JSON.parse(localStorage.getItem("teachers")) || [];
+const teacher = teachers.find(t=>t.username === user.username);
 
-          <tr>
+/* LOAD CLASSES */
+const classSelect = document.getElementById("classSelect");
 
-            <th>
-              الطالب
-            </th>
+function loadClasses(){
 
-            <th>
-              المتوسط
-            </th>
+if(!teacher || !teacher.classes){
+classSelect.innerHTML = "<option>لا يوجد فصول مسندة</option>";
+return;
+}
 
-            <th>
-              الحالة
-            </th>
+classSelect.innerHTML = "";
 
-          </tr>
+teacher.classes.forEach(c=>{
+classSelect.innerHTML += `<option>${c}</option>`;
+});
 
-        </thead>
+loadStudents();
 
-        <tbody>
+}
 
-          <tr>
+/* LOAD STUDENTS */
+function loadStudents(){
 
-            <td>
-              محمد أحمد
-            </td>
+const className = classSelect.value;
 
-            <td>
-              95
-            </td>
+const students = JSON.parse(localStorage.getItem("students")) || [];
 
-            <td class="excellent">
-              ممتاز ↑
-            </td>
+const filtered = students.filter(s=>s.className === className);
 
-          </tr>
+const tbody = document.getElementById("studentsTable");
 
-          <tr>
+tbody.innerHTML = "";
 
-            <td>
-              علي خالد
-            </td>
+filtered.forEach(s=>{
 
-            <td>
-              54
-            </td>
+tbody.innerHTML += `
+<tr>
+<td>${s.name}</td>
+<td>
+<input class="grade" type="number" min="0" max="100" data-student="${s.name}">
+</td>
+</tr>
+`;
 
-            <td class="weak">
-              ضعيف ↓
-            </td>
+});
 
-          </tr>
+}
 
-        </tbody>
+/* SAVE GRADES */
+function saveGrades(){
 
-      </table>
+const className = classSelect.value;
+const exam = document.getElementById("examSelect").value;
 
-    </div>
+let grades = JSON.parse(localStorage.getItem("grades")) || [];
 
-  </div>
+document.querySelectorAll(".grade").forEach(input=>{
 
-  <script type="module">
+grades.push({
+student: input.dataset.student,
+className,
+exam,
+grade: Number(input.value || 0)
+});
 
-    import {
-      initializeApp
-    }
-    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+});
 
-    import {
-      getAuth,
-      signOut
-    }
-    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+localStorage.setItem("grades", JSON.stringify(grades));
 
-    const firebaseConfig = {
+alert("تم حفظ الدرجات");
 
-      apiKey: "AIzaSyAalS33kADTW9D2RkXXZ27n9TFvd9TAVJM",
+}
 
-      authDomain: "englis-results.firebaseapp.com",
+/* LOGOUT */
+function logout(){
+localStorage.removeItem("currentUser");
+window.location.href="index.html";
+}
 
-      projectId: "englis-results",
+/* INIT */
+loadClasses();
 
-      storageBucket: "englis-results.firebasestorage.app",
-
-      messagingSenderId: "467628171773",
-
-      appId: "1:467628171773:web:26d848542fdb89aea17994"
-
-    };
-
-    const app = initializeApp(firebaseConfig);
-
-    const auth = getAuth(app);
-
-    document
-      .getElementById("logoutBtn")
-      .addEventListener("click", async () => {
-
-        await signOut(auth);
-
-        window.location.href = "index.html";
-
-      });
-
-  </script>
+</script>
 
 </body>
-
 </html>
