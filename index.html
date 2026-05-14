@@ -1,3 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Rased Insights</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f172a,#1e293b);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.login-card{
+width:100%;
+max-width:420px;
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(12px);
+border-radius:25px;
+padding:30px;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+.logo{
+width:80px;
+height:80px;
+background:#facc15;
+color:#0f172a;
+font-weight:800;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:18px;
+margin:auto;
+font-size:30px;
+}
+
+h1{
+text-align:center;
+color:white;
+margin-top:15px;
+}
+
+.school{
+text-align:center;
+color:#e2e8f0;
+margin-top:5px;
+font-size:14px;
+}
+
+.department{
+text-align:center;
+color:#facc15;
+margin-top:5px;
+font-size:13px;
+}
+
+.roles{
+margin-top:25px;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+button{
+padding:14px;
+border:none;
+border-radius:14px;
+font-weight:700;
+cursor:pointer;
+color:white;
+transition:0.3s;
+}
+
+.admin{background:#2563eb;}
+.supervisor{background:#0f766e;}
+.teacher{background:#ca8a04;}
+
+button:hover{
+transform:translateY(-2px);
+}
+
+.login-form{
+margin-top:20px;
+display:none;
+flex-direction:column;
+gap:12px;
+}
+
+input{
+padding:14px;
+border:none;
+border-radius:12px;
+outline:none;
+background:rgba(255,255,255,0.1);
+color:white;
+}
+
+input::placeholder{
+color:#cbd5e1;
+}
+
+.login-btn{
+background:#2563eb;
+}
+
+.status{
+text-align:center;
+color:white;
+font-size:14px;
+margin-top:10px;
+}
+
+.footer{
+text-align:center;
+color:#94a3b8;
+font-size:12px;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-card">
+
+<div class="logo">E</div>
+
+<h1>Rased Insights</h1>
+
+<div class="school">مدارس الفلاح الأهلية</div>
+<div class="department">قسم اللغة الإنجليزية</div>
+
+<div class="roles">
+
+<button class="admin" id="adminBtn">دخول الأدمن</button>
+<button class="supervisor" id="supervisorBtn">دخول المشرف</button>
+<button class="teacher" id="teacherBtn">دخول المعلم</button>
+
+</div>
+
+<div class="login-form" id="loginForm">
+
+<input type="text" id="username" placeholder="اسم المستخدم">
+<input type="password" id="password" placeholder="كلمة المرور">
+
+<button class="login-btn" id="loginBtn">تسجيل الدخول</button>
+
+<div class="status" id="status"></div>
+
+</div>
+
+<div class="footer">
+تصميم محمد عامر أحمد
+</div>
+
+</div>
+
 <script>
 
 let currentRole = "";
@@ -5,73 +182,50 @@ let currentRole = "";
 const loginForm =
 document.getElementById("loginForm");
 
-const loginTitle =
-document.getElementById("loginTitle");
-
-const loginBtn =
-document.getElementById("loginBtn");
-
 const status =
 document.getElementById("status");
 
-document
-.getElementById("adminBtn")
-.addEventListener("click",()=>{
+document.getElementById("adminBtn").onclick = ()=>{
 
 currentRole = "admin";
 
-loginForm.style.display =
-"block";
+loginForm.style.display = "flex";
 
-loginTitle.innerText =
-"تسجيل دخول الأدمن";
+status.innerText = "";
 
-});
+};
 
-document
-.getElementById("supervisorBtn")
-.addEventListener("click",()=>{
+document.getElementById("supervisorBtn").onclick = ()=>{
 
 currentRole = "supervisor";
 
-loginForm.style.display =
-"block";
+loginForm.style.display = "flex";
 
-loginTitle.innerText =
-"تسجيل دخول المشرف";
+status.innerText = "";
 
-});
+};
 
-document
-.getElementById("teacherBtn")
-.addEventListener("click",()=>{
+document.getElementById("teacherBtn").onclick = ()=>{
 
 currentRole = "teacher";
 
-loginForm.style.display =
-"block";
+loginForm.style.display = "flex";
 
-loginTitle.innerText =
-"تسجيل دخول المعلم";
+status.innerText = "";
 
-});
+};
 
-loginBtn.addEventListener("click",()=>{
+document.getElementById("loginBtn").onclick = ()=>{
 
 const username =
-document.getElementById("email")
-.value
-.trim();
+document.getElementById("username").value.trim();
 
 const password =
-document.getElementById("password")
-.value
-.trim();
+document.getElementById("password").value.trim();
 
 if(!username || !password){
 
-status.innerText =
-"أدخل البيانات";
+status.innerText = "أدخل البيانات";
 
 return;
 
@@ -79,81 +233,48 @@ return;
 
 if(currentRole === "admin"){
 
-status.innerText =
-"جاري الدخول...";
-
-setTimeout(()=>{
-
-window.location.href =
-"./dashboard.html";
-
-},800);
+window.location.href = "./dashboard.html";
 
 return;
 
 }
 
-let accounts = [];
+let data = [];
 
 if(currentRole === "teacher"){
 
-accounts =
-JSON.parse(
-localStorage.getItem("teachers")
-) || [];
+data = JSON.parse(localStorage.getItem("teachers")) || [];
+
+window.location.href = "./teacher.html";
 
 }
 
 else if(currentRole === "supervisor"){
 
-accounts =
-JSON.parse(
-localStorage.getItem("supervisors")
-) || [];
+data = JSON.parse(localStorage.getItem("supervisors")) || [];
+
+window.location.href = "./supervisor.html";
 
 }
 
-const found =
-accounts.find(account=>
-
-account.username === username
-&&
-account.password === password
-
+const found = data.find(u =>
+u.username === username && u.password === password
 );
 
-if(found){
+if(!found && currentRole !== "admin"){
 
-status.innerText =
-"تم تسجيل الدخول";
+status.innerText = "بيانات الدخول غير صحيحة";
 
-setTimeout(()=>{
-
-if(currentRole === "teacher"){
-
-window.location.href =
-"./teacher.html";
+return;
 
 }
 
-else{
+status.innerText = "تم تسجيل الدخول";
 
-window.location.href =
-"./supervisor.html";
-
-}
-
-},800);
-
-}
-
-else{
-
-status.innerText =
-"اسم المستخدم أو كلمة المرور غير صحيحة";
-
-}
-
-});
+};
 
 </script>
+
+</body>
+
+</html>
