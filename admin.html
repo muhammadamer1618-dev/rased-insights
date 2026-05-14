@@ -1,446 +1,564 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<title>لوحة المشرف - مدارس الفلاح الأهلية</title>
-<link href="https://fonts.googleapis.com/css2?family=Calibri:wght@400;700&display=swap" rel="stylesheet">
 
-<!-- Firebase compat SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <meta charset="UTF-8" />
 
-<style>
-body{
-  font-family:Calibri;
-  background:#f4f4f4;
-  margin:0;
-}
-.header{
-  background:#1976d2;color:#fff;
-  padding:15px;text-align:center;
-}
-.header h1{margin:0;font-size:26px;}
-.header h2{margin:5px 0 0;font-size:20px;color:#ffeb3b;}
-.container{
-  max-width:1100px;margin:20px auto;padding:10px;
-}
-.box{
-  background:#fff;border-radius:10px;
-  padding:15px;margin-bottom:15px;
-  box-shadow:0 0 8px rgba(0,0,0,0.1);
-}
-.box h3{margin-top:0;color:#1976d2;}
-input,select,button{
-  font-family:Calibri;
-  font-size:16px;
-  padding:8px;
-  margin:5px 0;
-  border-radius:6px;
-  border:1px solid #999;
-}
-input,select{width:100%;box-sizing:border-box;}
-button{
-  cursor:pointer;border:none;
-  font-weight:bold;
-}
-.btn-primary{background:#1976d2;color:#fff;}
-.btn-danger{background:#d32f2f;color:#fff;}
-.btn-secondary{background:#757575;color:#fff;}
-.btn-save-marks{
-  width:100%;padding:12px;
-  margin-top:10px;font-size:18px;
-  border-radius:10px;
-  background:#388e3c;color:#fff;
-}
-.row{
-  display:flex;flex-wrap:wrap;gap:10px;
-}
-.col-3{flex:1 1 23%;}
-.col-4{flex:1 1 30%;}
-.col-6{flex:1 1 48%;}
-.col-12{flex:1 1 100%;}
-@media(max-width:768px){
-  .col-3,.col-4,.col-6{flex:1 1 100%;}
-}
-table{
-  width:100%;border-collapse:collapse;
-  margin-top:10px;font-size:14px;
-}
-th,td{
-  border:1px solid #000;
-  text-align:center;
-  padding:6px;
-}
-th{
-  background:#1976d2;color:#fff;
-}
-.mark-input{
-  width:70px;
-}
-.rating-cell{
-  font-weight:bold;
-}
-</style>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Admin Dashboard | Rased Insights</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: #111827;
+      border-left: 1px solid rgba(255,255,255,0.08);
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      margin-bottom: 40px;
+    }
+
+    .logo h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #facc15;
+    }
+
+    .logo p {
+      color: #94a3b8;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .menu button {
+      border: none;
+      background: rgba(255,255,255,0.04);
+      color: white;
+      padding: 15px;
+      border-radius: 16px;
+      text-align: right;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .menu button:hover {
+      background: #2563eb;
+    }
+
+    .logout-btn {
+      margin-top: auto;
+      background: #dc2626 !important;
+    }
+
+    .main {
+      flex: 1;
+      padding: 30px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .topbar h2 {
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .admin-info {
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 35px;
+    }
+
+    .card {
+      background: #1e293b;
+      border-radius: 24px;
+      padding: 25px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .card h3 {
+      font-size: 16px;
+      color: #cbd5e1;
+      margin-bottom: 12px;
+    }
+
+    .card .number {
+      font-size: 36px;
+      font-weight: 800;
+      color: #facc15;
+    }
+
+    .section {
+      background: #1e293b;
+      border-radius: 24px;
+      padding: 25px;
+      border: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 25px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .section-header h3 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .add-btn {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table th {
+      background: rgba(255,255,255,0.05);
+      padding: 15px;
+      text-align: center;
+      color: #f8fafc;
+    }
+
+    table td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #cbd5e1;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .edit-btn,
+    .delete-btn {
+      border: none;
+      padding: 8px 14px;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .edit-btn {
+      background: #ca8a04;
+    }
+
+    .delete-btn {
+      background: #dc2626;
+    }
+
+    @media (max-width: 900px) {
+
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+      }
+
+    }
+
+  </style>
+
 </head>
+
 <body>
 
-<div class="header">
-  <h1>مدارس الفلاح الأهلية</h1>
-  <h2>قسم اللغة الإنجليزية - لوحة المشرف</h2>
-</div>
+  <aside class="sidebar">
 
-<div class="container">
+    <div class="logo">
 
-  <!-- تسجيل / تعديل الطالب -->
-  <div class="box">
-    <h3>تسجيل / تعديل بيانات الطالب (مرة واحدة)</h3>
-    <div class="row">
-      <div class="col-3">
-        <label>كود الطالب</label>
-        <input id="st_code" placeholder="مثال: 1001">
-      </div>
-      <div class="col-3">
-        <label>اسم الطالب</label>
-        <input id="st_name" placeholder="اسم الطالب">
-      </div>
-      <div class="col-3">
-        <label>الصف</label>
-        <select id="st_grade"></select>
-      </div>
-      <div class="col-3">
-        <label>الشعبة</label>
-        <select id="st_section"></select>
-      </div>
+      <h1>Rased Insights</h1>
 
-      <div class="col-4">
-        <label>اسم المعلم</label>
-        <input id="st_teacher" placeholder="اسم المعلم">
-      </div>
-      <div class="col-4">
-        <label>نوع الاختبار</label>
-        <input id="st_examType" placeholder="نهائي / فترة / قصير">
-      </div>
-      <div class="col-4">
-        <label>الدرجة النهائية</label>
-        <input id="st_fullMark" type="number" placeholder="مثال: 20">
-      </div>
+      <p>
+        مدارس الفلاح الأهلية
+      </p>
+
     </div>
 
-    <div class="row">
-      <div class="col-6">
-        <button class="btn-primary" onclick="saveStudent()">حفظ / تحديث الطالب</button>
-      </div>
-      <div class="col-6">
-        <button class="btn-secondary" onclick="clearForm()">تفريغ النموذج</button>
-      </div>
-    </div>
-  </div>
+    <div class="menu">
 
-  <!-- البحث / كشف الطلاب / رصد الدرجات -->
-  <div class="box">
-    <h3>كشف الطلاب ورصد الدرجات</h3>
-    <div class="row">
-      <div class="col-3">
-        <label>الصف</label>
-        <select id="filter_grade"></select>
-      </div>
-      <div class="col-3">
-        <label>الشعبة</label>
-        <select id="filter_section">
-          <option value="">كل الشعب</option>
-          <option value="أ">أ</option>
-          <option value="ب">ب</option>
-          <option value="ج">ج</option>
-        </select>
-      </div>
-      <div class="col-3">
-        <label>بحث بالكود</label>
-        <input id="filter_code" placeholder="كود الطالب">
-      </div>
-      <div class="col-3">
-        <label>بحث بالاسم</label>
-        <input id="filter_name" placeholder="جزء من الاسم">
-      </div>
-    </div>
+      <button>
+        لوحة التحكم
+      </button>
 
-    <div class="row">
-      <div class="col-4">
-        <button class="btn-primary" onclick="loadStudents()">عرض كشف الطلاب</button>
-      </div>
-      <div class="col-4">
-        <button class="btn-secondary" onclick="reloadAll()">تحديث البيانات من السحابة</button>
-      </div>
-      <div class="col-4">
-        <span style="font-size:13px;color:#555;display:block;margin-top:10px;">ملاحظة: رصد الدرجات يكون بإدخال درجة الطالب فقط، ثم الضغط على حفظ جميع الدرجات.</span>
-      </div>
+      <button>
+        إدارة المعلمين
+      </button>
+
+      <button>
+        إدارة الفصول
+      </button>
+
+      <button>
+        إدارة الطلاب
+      </button>
+
+      <button>
+        إدارة الاختبارات
+      </button>
+
+      <button>
+        التقارير
+      </button>
+
+      <button>
+        الأرشيف
+      </button>
+
+      <button class="logout-btn" id="logoutBtn">
+        تسجيل الخروج
+      </button>
+
     </div>
 
-    <table id="students_table">
-      <thead>
-        <tr>
-          <th>الكود</th>
-          <th>اسم الطالب</th>
-          <th>الصف</th>
-          <th>الشعبة</th>
-          <th>المعلم</th>
-          <th>نوع الاختبار</th>
-          <th>الدرجة النهائية</th>
-          <th>درجة الطالب</th>
-          <th>التقدير</th>
-          <th>إجراءات</th>
-        </tr>
-      </thead>
-      <tbody id="students_body">
-      </tbody>
-    </table>
+  </aside>
 
-    <button class="btn-save-marks" onclick="saveAllMarks()">حفظ جميع الدرجات</button>
-  </div>
+  <main class="main">
 
-  <div class="box">
-    <button class="btn-secondary" onclick="location='index.html'">العودة للصفحة الرئيسية</button>
-    <button class="btn-secondary" onclick="location='student.html'">صفحة الطالب</button>
-  </div>
+    <div class="topbar">
 
-</div>
+      <h2>
+        لوحة تحكم الأدمن
+      </h2>
 
-<script>
-var firebaseConfig = {
-  apiKey: "AIzaSyCX-KNQTu0Y1tnTGWd1sKtXLDUmR7Tehek",
-  authDomain: "english-results.firebaseapp.com",
-  projectId: "english-results",
-  storageBucket: "english-results.firebasestorage.app",
-  messagingSenderId: "673616902884",
-  appId: "1:673616902884:web:62c38d39a3c1a0694a4af1"
-};
-firebase.initializeApp(firebaseConfig);
-var db = firebase.firestore();
+      <div class="admin-info" id="adminEmail">
+        جاري التحميل...
+      </div>
 
-var gradesList = [
-  "1 ابتدائي","2 ابتدائي","3 ابتدائي","4 ابتدائي","5 ابتدائي","6 ابتدائي",
-  "1 متوسط","2 متوسط","3 متوسط",
-  "1 ثانوي","2 ثانوي","3 ثانوي"
-];
+    </div>
 
-var studentsCache = [];
+    <div class="cards">
 
-function initSelects(){
-  var stGrade = document.getElementById('st_grade');
-  var filterGrade = document.getElementById('filter_grade');
-  stGrade.innerHTML = "";
-  filterGrade.innerHTML = "<option value=''>كل الصفوف</option>";
-  gradesList.forEach(function(g){
-    var o1 = document.createElement("option");
-    o1.value = g; o1.textContent = g;
-    stGrade.appendChild(o1);
+      <div class="card">
 
-    var o2 = document.createElement("option");
-    o2.value = g; o2.textContent = g;
-    filterGrade.appendChild(o2);
-  });
+        <h3>
+          عدد الطلاب
+        </h3>
 
-  var stSection = document.getElementById('st_section');
-  stSection.innerHTML = "";
-  ["أ","ب","ج"].forEach(function(s){
-    var o = document.createElement("option");
-    o.value = s; o.textContent = s;
-    stSection.appendChild(o);
-  });
-}
+        <div class="number" id="studentsCount">
+          0
+        </div>
 
-function calcRating(mark, full){
-  var m = Number(mark);
-  var f = Number(full);
-  if(!m || !f) return "";
-  var p = (m/f)*100;
-  if(p>=90) return "ممتاز";
-  if(p>=80) return "جيد جدًا";
-  if(p>=70) return "جيد";
-  if(p>=60) return "مقبول";
-  return "ضعيف";
-}
+      </div>
 
-function clearForm(){
-  document.getElementById('st_code').value = "";
-  document.getElementById('st_code').disabled = false;
-  document.getElementById('st_name').value = "";
-  document.getElementById('st_grade').value = gradesList[0];
-  document.getElementById('st_section').value = "أ";
-  document.getElementById('st_teacher').value = "";
-  document.getElementById('st_examType').value = "";
-  document.getElementById('st_fullMark').value = "";
-}
+      <div class="card">
 
-async function saveStudent(){
-  var code = document.getElementById('st_code').value.trim();
-  var name = document.getElementById('st_name').value.trim();
-  var grade = document.getElementById('st_grade').value;
-  var section = document.getElementById('st_section').value;
-  var teacher = document.getElementById('st_teacher').value.trim();
-  var examType = document.getElementById('st_examType').value.trim();
-  var fullMark = Number(document.getElementById('st_fullMark').value);
+        <h3>
+          عدد المعلمين
+        </h3>
 
-  if(!code || !name){
-    alert("برجاء إدخال كود الطالب واسم الطالب");
-    return;
-  }
+        <div class="number" id="teachersCount">
+          0
+        </div>
 
-  var data = {
-    name: name,
-    grade: grade,
-    section: section,
-    teacher: teacher,
-    examType: examType,
-    fullMark: isNaN(fullMark) ? 0 : fullMark
-  };
+      </div>
 
-  try{
-    await db.collection("students").doc(code).set(data, {merge:true});
-    alert("تم حفظ / تحديث بيانات الطالب بنجاح");
-    loadStudents();
-  }catch(e){
-    alert("خطأ في حفظ الطالب");
-    console.log(e);
-  }
-}
+      <div class="card">
 
-async function loadStudents(){
-  var filterGrade = document.getElementById('filter_grade').value;
-  var filterSection = document.getElementById('filter_section').value;
-  var searchCode = document.getElementById('filter_code').value.trim();
-  var searchName = document.getElementById('filter_name').value.trim();
+        <h3>
+          عدد الفصول
+        </h3>
 
-  var tbody = document.getElementById('students_body');
-  tbody.innerHTML = "";
-  studentsCache = [];
+        <div class="number" id="classesCount">
+          0
+        </div>
 
-  try{
-    var ref = db.collection("students");
-    if(filterGrade){
-      ref = ref.where("grade","==",filterGrade);
+      </div>
+
+      <div class="card">
+
+        <h3>
+          عدد الاختبارات
+        </h3>
+
+        <div class="number" id="examsCount">
+          0
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="section">
+
+      <div class="section-header">
+
+        <h3>
+          الطلاب
+        </h3>
+
+        <button class="add-btn">
+          إضافة طالب
+        </button>
+
+      </div>
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              الاسم
+            </th>
+
+            <th>
+              الفصل
+            </th>
+
+            <th>
+              الرقم الأكاديمي
+            </th>
+
+            <th>
+              الإجراءات
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="studentsTable">
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </main>
+
+  <script type="module">
+
+    import {
+      initializeApp
     }
-    var snap = await ref.get();
-    snap.forEach(function(doc){
-      var s = doc.data();
-      s.code = doc.id;
-      studentsCache.push(s);
-    });
+    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
-    var filtered = studentsCache.filter(function(s){
-      if(filterSection && s.section !== filterSection) return false;
-      if(searchCode && s.code.indexOf(searchCode) === -1) return false;
-      if(searchName && (!s.name || s.name.indexOf(searchName) === -1)) return false;
-      return true;
-    });
-
-    filtered.forEach(function(s){
-      var tr = document.createElement("tr");
-
-      var markVal = (s.mark !== undefined && s.mark !== null) ? s.mark : "";
-      var rating = calcRating(markVal, s.fullMark);
-
-      tr.innerHTML =
-        "<td>"+(s.code||"")+"</td>"+
-        "<td>"+(s.name||"")+"</td>"+
-        "<td>"+(s.grade||"")+"</td>"+
-        "<td>"+(s.section||"")+"</td>"+
-        "<td>"+(s.teacher||"")+"</td>"+
-        "<td>"+(s.examType||"")+"</td>"+
-        "<td>"+(s.fullMark||"")+"</td>"+
-        "<td><input class='mark-input' data-code='"+s.code+"' data-full='"+(s.fullMark||0)+"' value='"+markVal+"'></td>"+
-        "<td class='rating-cell' id='rating_"+s.code+"'>"+rating+"</td>"+
-        "<td>"+
-          "<button class='btn-secondary' style='margin-bottom:3px;' onclick='fillForm(\""+s.code+"\")'>تعديل</button><br>"+
-          "<button class='btn-danger' onclick='deleteStudent(\""+s.code+"\")'>حذف</button>"+
-        "</td>";
-
-      tbody.appendChild(tr);
-    });
-
-  }catch(e){
-    alert("خطأ في تحميل الطلاب");
-    console.log(e);
-  }
-}
-
-function reloadAll(){
-  document.getElementById('filter_grade').value = "";
-  document.getElementById('filter_section').value = "";
-  document.getElementById('filter_code').value = "";
-  document.getElementById('filter_name').value = "";
-  loadStudents();
-}
-
-async function fillForm(code){
-  try{
-    var doc = await db.collection("students").doc(code).get();
-    if(!doc.exists){
-      alert("الطالب غير موجود");
-      return;
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
     }
-    var s = doc.data();
-    document.getElementById('st_code').value = code;
-    document.getElementById('st_code').disabled = true;
-    document.getElementById('st_name').value = s.name || "";
-    document.getElementById('st_grade').value = s.grade || gradesList[0];
-    document.getElementById('st_section').value = s.section || "أ";
-    document.getElementById('st_teacher').value = s.teacher || "";
-    document.getElementById('st_examType').value = s.examType || "";
-    document.getElementById('st_fullMark').value = s.fullMark || "";
-    window.scrollTo({top:0,behavior:"smooth"});
-  }catch(e){
-    alert("خطأ في جلب بيانات الطالب");
-    console.log(e);
-  }
-}
+    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-async function deleteStudent(code){
-  if(!confirm("هل تريد حذف هذا الطالب؟")) return;
-  try{
-    await db.collection("students").doc(code).delete();
-    alert("تم حذف الطالب");
-    loadStudents();
-  }catch(e){
-    alert("خطأ في حذف الطالب");
-    console.log(e);
-  }
-}
+    import {
+      getFirestore,
+      collection,
+      getDocs
+    }
+    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-async function saveAllMarks(){
-  var inputs = document.querySelectorAll(".mark-input");
-  var batch = db.batch();
-  var changed = 0;
+    const firebaseConfig = {
 
-  inputs.forEach(function(inp){
-    var code = inp.getAttribute("data-code");
-    var full = Number(inp.getAttribute("data-full"));
-    var val = inp.value.trim();
-    if(val === "") return;
-    var m = Number(val);
-    if(isNaN(m)) return;
-    var ref = db.collection("students").doc(code);
-    batch.update(ref, {mark:m, fullMark: isNaN(full)?0:full});
-    changed++;
-  });
+      apiKey: "AIzaSyAalS33kADTW9D2RkXXZ27n9TFvd9TAVJM",
 
-  if(changed === 0){
-    alert("لا توجد درجات لإ保存ها");
-    return;
-  }
+      authDomain: "englis-results.firebaseapp.com",
 
-  try{
-    await batch.commit();
-    alert("تم حفظ جميع الدرجات");
-    loadStudents();
-  }catch(e){
-    alert("خطأ في حفظ الدرجات");
-    console.log(e);
-  }
-}
+      projectId: "englis-results",
 
-initSelects();
-loadStudents();
-</script>
+      storageBucket: "englis-results.firebasestorage.app",
+
+      messagingSenderId: "467628171773",
+
+      appId: "1:467628171773:web:26d848542fdb89aea17994"
+
+    };
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+    const db = getFirestore(app);
+
+    const adminEmail =
+      document.getElementById("adminEmail");
+
+    const studentsCount =
+      document.getElementById("studentsCount");
+
+    const teachersCount =
+      document.getElementById("teachersCount");
+
+    const classesCount =
+      document.getElementById("classesCount");
+
+    const examsCount =
+      document.getElementById("examsCount");
+
+    const studentsTable =
+      document.getElementById("studentsTable");
+
+    onAuthStateChanged(auth, async (user) => {
+
+      if (!user) {
+
+        window.location.href = "index.html";
+
+        return;
+
+      }
+
+      adminEmail.innerText = user.email;
+
+      loadDashboardData();
+
+    });
+
+    async function loadDashboardData() {
+
+      const studentsSnapshot =
+        await getDocs(collection(db, "students"));
+
+      const teachersSnapshot =
+        await getDocs(collection(db, "users"));
+
+      const classesSnapshot =
+        await getDocs(collection(db, "classes"));
+
+      const examsSnapshot =
+        await getDocs(collection(db, "exams"));
+
+      studentsCount.innerText =
+        studentsSnapshot.size;
+
+      teachersCount.innerText =
+        teachersSnapshot.size;
+
+      classesCount.innerText =
+        classesSnapshot.size;
+
+      examsCount.innerText =
+        examsSnapshot.size;
+
+      studentsTable.innerHTML = "";
+
+      studentsSnapshot.forEach((doc) => {
+
+        const student = doc.data();
+
+        studentsTable.innerHTML += `
+
+          <tr>
+
+            <td>
+              ${student.name || "-"}
+            </td>
+
+            <td>
+              ${student.className || "-"}
+            </td>
+
+            <td>
+              ${student.academicNumber || "-"}
+            </td>
+
+            <td>
+
+              <div class="actions">
+
+                <button class="edit-btn">
+                  تعديل
+                </button>
+
+                <button class="delete-btn">
+                  حذف
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      });
+
+    }
+
+    document
+      .getElementById("logoutBtn")
+      .addEventListener("click", async () => {
+
+        await signOut(auth);
+
+        window.location.href = "index.html";
+
+      });
+
+  </script>
 
 </body>
+
 </html>
