@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>التقارير</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: white;
+      min-height: 100vh;
+      padding: 30px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .topbar h1 {
+      font-size: 32px;
+      font-weight: 800;
+    }
+
+    .print-btn {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 14px 20px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .section {
+      background: #1e293b;
+      border-radius: 24px;
+      padding: 25px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      background: #334155;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: rgba(255,255,255,0.05);
+      padding: 15px;
+      text-align: center;
+      color: #f8fafc;
+      font-size: 14px;
+    }
+
+    td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .excellent {
+      color: #22c55e;
+      font-weight: 700;
+    }
+
+    .good {
+      color: #3b82f6;
+      font-weight: 700;
+    }
+
+    .weak {
+      color: #ef4444;
+      font-weight: 700;
+    }
+
+    .up {
+      color: #22c55e;
+      font-weight: 700;
+    }
+
+    .down {
+      color: #ef4444;
+      font-weight: 700;
+    }
+
+    .stable {
+      color: #94a3b8;
+      font-weight: 700;
+    }
+
+    @media print {
+
+      body {
+        background: white;
+        color: black;
+      }
+
+      .print-btn,
+      .filters {
+        display: none;
+      }
+
+      .section {
+        border: none;
+        background: white;
+      }
+
+      table {
+        color: black;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="topbar">
+
+    <h1>
+      التقارير والتحليلات
+    </h1>
+
+    <button
+      class="print-btn"
+      onclick="window.print()"
+    >
+      طباعة التقرير
+    </button>
+
+  </div>
+
+  <div class="section">
+
+    <div class="filters">
+
+      <select>
+
+        <option>
+          اختر الفصل
+        </option>
+
+        <option>
+          أول ثانوي A
+        </option>
+
+        <option>
+          أول ثانوي B
+        </option>
+
+      </select>
+
+      <select>
+
+        <option>
+          جميع الاختبارات
+        </option>
+
+        <option>
+          الاختبار الدوري الأول
+        </option>
+
+        <option>
+          الاختبار الدوري الثاني
+        </option>
+
+        <option>
+          اختبار الفترة الأولى
+        </option>
+
+      </select>
+
+    </div>
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>
+            الطالب
+          </th>
+
+          <th>
+            دوري 1
+          </th>
+
+          <th>
+            دوري 2
+          </th>
+
+          <th>
+            دوري 3
+          </th>
+
+          <th>
+            الفترة 1
+          </th>
+
+          <th>
+            المتوسط
+          </th>
+
+          <th>
+            التقييم
+          </th>
+
+          <th>
+            الحالة
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr>
+
+          <td>
+            محمد أحمد
+          </td>
+
+          <td>
+            80
+          </td>
+
+          <td>
+            86
+          </td>
+
+          <td>
+            94
+          </td>
+
+          <td>
+            96
+          </td>
+
+          <td>
+            89
+          </td>
+
+          <td class="excellent">
+            ممتاز
+          </td>
+
+          <td class="up">
+            ↑ تحسن
+          </td>
+
+        </tr>
+
+        <tr>
+
+          <td>
+            علي خالد
+          </td>
+
+          <td>
+            75
+          </td>
+
+          <td>
+            71
+          </td>
+
+          <td>
+            68
+          </td>
+
+          <td>
+            65
+          </td>
+
+          <td>
+            69
+          </td>
+
+          <td class="good">
+            جيد
+          </td>
+
+          <td class="down">
+            ↓ انخفاض
+          </td>
+
+        </tr>
+
+        <tr>
+
+          <td>
+            عبدالله سالم
+          </td>
+
+          <td>
+            83
+          </td>
+
+          <td>
+            84
+          </td>
+
+          <td>
+            84
+          </td>
+
+          <td>
+            85
+          </td>
+
+          <td>
+            84
+          </td>
+
+          <td class="excellent">
+            جيد جدًا
+          </td>
+
+          <td class="stable">
+            → ثابت
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</body>
+
+</html>
