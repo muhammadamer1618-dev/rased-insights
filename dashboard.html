@@ -5,13 +5,21 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
 
-<title>Dashboard</title>
+<title>
+Rased Insights Dashboard
+</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet"
+/>
 
 <style>
 
@@ -23,23 +31,29 @@ font-family:'Cairo',sans-serif;
 }
 
 body{
-background:#0f172a;
+background:#020617;
 color:white;
-min-height:100vh;
 display:flex;
+min-height:100vh;
+overflow-x:hidden;
 }
 
 .sidebar{
-width:260px;
-background:#111827;
+width:290px;
+background:#0f172a;
 padding:25px;
+border-left:1px solid rgba(255,255,255,.05);
+display:flex;
+flex-direction:column;
+gap:15px;
 }
 
 .logo{
-font-size:28px;
+font-size:34px;
 font-weight:800;
+line-height:1.5;
 color:#facc15;
-margin-bottom:40px;
+margin-bottom:20px;
 }
 
 .menu{
@@ -52,16 +66,21 @@ gap:14px;
 border:none;
 background:#1e293b;
 color:white;
-padding:15px;
-border-radius:16px;
-cursor:pointer;
+padding:16px;
+border-radius:18px;
 font-size:15px;
 font-weight:700;
+cursor:pointer;
 transition:.3s;
 }
 
 .menu button:hover{
 background:#2563eb;
+transform:translateY(-2px);
+}
+
+.logout{
+background:#dc2626 !important;
 }
 
 .main{
@@ -74,6 +93,18 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:30px;
+flex-wrap:wrap;
+gap:15px;
+}
+
+.topbar h1{
+font-size:38px;
+font-weight:800;
+}
+
+.topbar p{
+color:#94a3b8;
+font-size:14px;
 }
 
 .cards{
@@ -84,43 +115,75 @@ margin-bottom:30px;
 }
 
 .card{
-background:#1e293b;
+background:#111827;
 padding:25px;
-border-radius:24px;
+border-radius:26px;
+border:1px solid rgba(255,255,255,.05);
 }
 
 .card h3{
 color:#cbd5e1;
-margin-bottom:10px;
+margin-bottom:15px;
+font-size:17px;
 }
 
 .number{
-font-size:36px;
+font-size:42px;
 font-weight:800;
 color:#facc15;
 }
 
 .section{
-background:#1e293b;
+background:#111827;
 padding:25px;
-border-radius:24px;
+border-radius:26px;
+border:1px solid rgba(255,255,255,.05);
+margin-bottom:25px;
+overflow:auto;
+}
+
+.section-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+flex-wrap:wrap;
+gap:15px;
+}
+
+.section-header h2{
+font-size:25px;
+font-weight:800;
+}
+
+.add-btn{
+border:none;
+background:#2563eb;
+color:white;
+padding:14px 18px;
+border-radius:14px;
+cursor:pointer;
+font-weight:700;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:20px;
+min-width:700px;
 }
 
 th{
 background:rgba(255,255,255,.05);
-padding:15px;
+padding:16px;
+font-size:14px;
 }
 
 td{
-padding:15px;
+padding:16px;
 text-align:center;
 border-bottom:1px solid rgba(255,255,255,.05);
+color:#cbd5e1;
+font-size:14px;
 }
 
 .action-btn{
@@ -129,6 +192,7 @@ padding:8px 14px;
 border-radius:10px;
 cursor:pointer;
 font-weight:700;
+margin:2px;
 }
 
 .edit{
@@ -141,6 +205,98 @@ background:#dc2626;
 color:white;
 }
 
+.import-btn{
+background:#0f766e !important;
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.7);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:1000;
+}
+
+.modal-content{
+background:#0f172a;
+padding:30px;
+border-radius:24px;
+width:100%;
+max-width:450px;
+}
+
+.modal-content h2{
+margin-bottom:20px;
+text-align:center;
+}
+
+.input-group{
+margin-bottom:15px;
+}
+
+.input-group input,
+.input-group select{
+width:100%;
+padding:15px;
+border:none;
+border-radius:14px;
+background:#1e293b;
+color:white;
+outline:none;
+}
+
+.modal-actions{
+display:flex;
+gap:10px;
+margin-top:20px;
+}
+
+.modal-actions button{
+flex:1;
+padding:14px;
+border:none;
+border-radius:14px;
+cursor:pointer;
+font-weight:700;
+}
+
+.save-btn{
+background:#2563eb;
+color:white;
+}
+
+.cancel-btn{
+background:#334155;
+color:white;
+}
+
+@media (max-width:900px){
+
+body{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
+.main{
+padding:20px;
+}
+
+.topbar h1{
+font-size:28px;
+}
+
+.cards{
+grid-template-columns:1fr;
+}
+
+}
+
 </style>
 
 </head>
@@ -150,21 +306,33 @@ color:white;
 <div class="sidebar">
 
 <div class="logo">
-Rased Insights
+Rased<br>
+Insights
 </div>
 
 <div class="menu">
 
-<button>
-المعلمين
+<button onclick="openModal('teacher')">
+إضافة معلم
 </button>
 
-<button>
-الفصول
+<button onclick="openModal('supervisor')">
+إضافة مشرف
 </button>
 
-<button>
-الطلاب
+<button onclick="openModal('class')">
+إضافة فصل
+</button>
+
+<button onclick="openModal('student')">
+إضافة طالب
+</button>
+
+<button
+class="import-btn"
+id="importBtn"
+>
+استيراد Excel
 </button>
 
 <button>
@@ -175,9 +343,19 @@ Rased Insights
 التقارير
 </button>
 
-<button onclick="window.location.href='./index.html'">
+<button
+class="logout"
+onclick="window.location.href='./index.html'"
+>
 تسجيل الخروج
 </button>
+
+<input
+type="file"
+id="excelFile"
+accept=".xlsx,.xls,.csv"
+style="display:none"
+/>
 
 </div>
 
@@ -187,9 +365,17 @@ Rased Insights
 
 <div class="topbar">
 
+<div>
+
 <h1>
 لوحة الأدمن
 </h1>
+
+<p>
+مدارس الفلاح الأهلية - قسم اللغة الإنجليزية
+</p>
+
+</div>
 
 </div>
 
@@ -222,6 +408,18 @@ Rased Insights
 <div class="card">
 
 <h3>
+عدد المشرفين
+</h3>
+
+<div class="number">
+4
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>
 عدد الفصول
 </h3>
 
@@ -235,9 +433,20 @@ Rased Insights
 
 <div class="section">
 
+<div class="section-header">
+
 <h2>
 آخر الطلاب
 </h2>
+
+<button
+class="add-btn"
+onclick="openModal('student')"
+>
+إضافة طالب
+</button>
+
+</div>
 
 <table>
 
@@ -251,6 +460,10 @@ Rased Insights
 
 <th>
 الفصل
+</th>
+
+<th>
+المادة
 </th>
 
 <th>
@@ -271,6 +484,10 @@ Rased Insights
 
 <td>
 أول ثانوي A
+</td>
+
+<td>
+English
 </td>
 
 <td>
@@ -298,6 +515,10 @@ Rased Insights
 </td>
 
 <td>
+English
+</td>
+
+<td>
 
 <button class="action-btn edit">
 تعديل
@@ -318,6 +539,162 @@ Rased Insights
 </div>
 
 </div>
+
+<div
+class="modal"
+id="modal"
+>
+
+<div class="modal-content">
+
+<h2 id="modalTitle">
+إضافة
+</h2>
+
+<div class="input-group">
+
+<input
+type="text"
+placeholder="الاسم"
+/>
+
+</div>
+
+<div class="input-group">
+
+<input
+type="email"
+placeholder="البريد الإلكتروني"
+/>
+
+</div>
+
+<div class="input-group">
+
+<input
+type="password"
+placeholder="كلمة المرور"
+/>
+
+</div>
+
+<div class="input-group">
+
+<select>
+
+<option>
+اختر الفصل
+</option>
+
+<option>
+أول ثانوي A
+</option>
+
+<option>
+أول ثانوي B
+</option>
+
+</select>
+
+</div>
+
+<div class="modal-actions">
+
+<button
+class="save-btn"
+onclick="saveData()"
+>
+حفظ
+</button>
+
+<button
+class="cancel-btn"
+onclick="closeModal()"
+>
+إلغاء
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const modal =
+document.getElementById("modal");
+
+const modalTitle =
+document.getElementById("modalTitle");
+
+function openModal(type){
+
+modal.style.display = "flex";
+
+if(type === "teacher"){
+
+modalTitle.innerText =
+"إضافة معلم";
+
+}
+
+else if(type === "supervisor"){
+
+modalTitle.innerText =
+"إضافة مشرف";
+
+}
+
+else if(type === "class"){
+
+modalTitle.innerText =
+"إضافة فصل";
+
+}
+
+else{
+
+modalTitle.innerText =
+"إضافة طالب";
+
+}
+
+}
+
+function closeModal(){
+
+modal.style.display = "none";
+
+}
+
+function saveData(){
+
+alert("تم الحفظ بنجاح");
+
+closeModal();
+
+}
+
+const importBtn =
+document.getElementById("importBtn");
+
+const excelFile =
+document.getElementById("excelFile");
+
+importBtn.addEventListener("click",()=>{
+
+excelFile.click();
+
+});
+
+excelFile.addEventListener("change",()=>{
+
+alert("تم اختيار ملف Excel");
+
+});
+
+</script>
 
 </body>
 
