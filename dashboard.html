@@ -39,7 +39,7 @@ overflow-x:hidden;
 }
 
 .sidebar{
-width:290px;
+width:300px;
 background:#0f172a;
 padding:25px;
 display:flex;
@@ -50,9 +50,9 @@ gap:15px;
 .logo{
 font-size:34px;
 font-weight:800;
+line-height:1.4;
 color:#facc15;
 margin-bottom:20px;
-line-height:1.4;
 }
 
 .menu{
@@ -99,8 +99,12 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:20px;
-flex-wrap:wrap;
 gap:15px;
+flex-wrap:wrap;
+}
+
+.section-header h2{
+font-size:24px;
 }
 
 .add-btn{
@@ -264,7 +268,21 @@ Insights
 إضافة اختبار
 </button>
 
-<button class="logout" onclick="window.location.href='./index.html'">
+<button onclick="document.getElementById('importStudents').click()">
+استيراد الطلاب
+</button>
+
+<input
+type="file"
+id="importStudents"
+accept=".csv"
+style="display:none"
+/>
+
+<button
+class="logout"
+onclick="window.location.href='./index.html'"
+>
 تسجيل الخروج
 </button>
 
@@ -282,7 +300,10 @@ Insights
 المعلمين
 </h2>
 
-<button class="add-btn" onclick="openModal('teacher')">
+<button
+class="add-btn"
+onclick="openModal('teacher')"
+>
 إضافة معلم
 </button>
 
@@ -330,7 +351,10 @@ Password
 المشرفين
 </h2>
 
-<button class="add-btn" onclick="openModal('supervisor')">
+<button
+class="add-btn"
+onclick="openModal('supervisor')"
+>
 إضافة مشرف
 </button>
 
@@ -378,7 +402,10 @@ Password
 الفصول
 </h2>
 
-<button class="add-btn" onclick="openModal('class')">
+<button
+class="add-btn"
+onclick="openModal('class')"
+>
 إضافة فصل
 </button>
 
@@ -415,10 +442,60 @@ Password
 <div class="section-header">
 
 <h2>
+الطلاب
+</h2>
+
+<button
+class="add-btn"
+onclick="openModal('student')"
+>
+إضافة طالب
+</button>
+
+</div>
+
+<table id="studentsTable">
+
+<thead>
+
+<tr>
+
+<th>
+اسم الطالب
+</th>
+
+<th>
+الفصل
+</th>
+
+<th>
+الإجراءات
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="section">
+
+<div class="section-header">
+
+<h2>
 الاختبارات
 </h2>
 
-<button class="add-btn" onclick="openModal('exam')">
+<button
+class="add-btn"
+onclick="openModal('exam')"
+>
 إضافة اختبار
 </button>
 
@@ -452,7 +529,10 @@ Password
 
 </div>
 
-<div class="modal" id="modal">
+<div
+class="modal"
+id="modal"
+>
 
 <div class="modal-content">
 
@@ -492,6 +572,20 @@ id="passwordGroup"
 type="text"
 id="passwordInput"
 placeholder="Password"
+/>
+
+</div>
+
+<div
+class="input-group"
+id="classGroup"
+style="display:none"
+>
+
+<input
+type="text"
+id="classInput"
+placeholder="اسم الفصل"
 />
 
 </div>
@@ -550,11 +644,17 @@ style="display:none"
 
 <div class="modal-actions">
 
-<button class="save-btn" onclick="saveData()">
+<button
+class="save-btn"
+onclick="saveData()"
+>
 حفظ
 </button>
 
-<button class="cancel-btn" onclick="closeModal()">
+<button
+class="cancel-btn"
+onclick="closeModal()"
+>
 إلغاء
 </button>
 
@@ -578,6 +678,9 @@ document.getElementById("usernameGroup");
 const passwordGroup =
 document.getElementById("passwordGroup");
 
+const classGroup =
+document.getElementById("classGroup");
+
 const examGroup =
 document.getElementById("examGroup");
 
@@ -595,6 +698,20 @@ document.getElementById("usernameInput").value = "";
 
 document.getElementById("passwordInput").value = "";
 
+document.getElementById("classInput").value = "";
+
+usernameGroup.style.display =
+"none";
+
+passwordGroup.style.display =
+"none";
+
+classGroup.style.display =
+"none";
+
+examGroup.style.display =
+"none";
+
 if(type === "teacher"){
 
 modalTitle.innerText =
@@ -605,9 +722,6 @@ usernameGroup.style.display =
 
 passwordGroup.style.display =
 "block";
-
-examGroup.style.display =
-"none";
 
 }
 
@@ -622,8 +736,15 @@ usernameGroup.style.display =
 passwordGroup.style.display =
 "block";
 
-examGroup.style.display =
-"none";
+}
+
+else if(type === "student"){
+
+modalTitle.innerText =
+"إضافة طالب";
+
+classGroup.style.display =
+"block";
 
 }
 
@@ -631,12 +752,6 @@ else if(type === "exam"){
 
 modalTitle.innerText =
 "إضافة اختبار";
-
-usernameGroup.style.display =
-"none";
-
-passwordGroup.style.display =
-"none";
 
 examGroup.style.display =
 "block";
@@ -647,15 +762,6 @@ else{
 
 modalTitle.innerText =
 "إضافة فصل";
-
-usernameGroup.style.display =
-"none";
-
-passwordGroup.style.display =
-"none";
-
-examGroup.style.display =
-"none";
 
 }
 
@@ -678,15 +784,38 @@ document.getElementById("usernameInput").value;
 const password =
 document.getElementById("passwordInput").value;
 
+const className =
+document.getElementById("classInput").value;
+
 if(currentType === "teacher"){
 
 addTeacher(name,username,password);
+
+saveAccount(
+"teachers",
+name,
+username,
+password
+);
 
 }
 
 else if(currentType === "supervisor"){
 
 addSupervisor(name,username,password);
+
+saveAccount(
+"supervisors",
+name,
+username,
+password
+);
+
+}
+
+else if(currentType === "student"){
+
+addStudent(name,className);
 
 }
 
@@ -706,6 +835,26 @@ addExam(exam);
 }
 
 closeModal();
+
+}
+
+function saveAccount(type,name,username,password){
+
+const accounts =
+JSON.parse(
+localStorage.getItem(type)
+) || [];
+
+accounts.push({
+name,
+username,
+password
+});
+
+localStorage.setItem(
+type,
+JSON.stringify(accounts)
+);
 
 }
 
@@ -822,6 +971,43 @@ onclick="deleteRow(this)"
 
 }
 
+function addStudent(name,className){
+
+const tbody =
+document.querySelector("#studentsTable tbody");
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${name}</td>
+
+<td>${className}</td>
+
+<td>
+
+<button
+class="action-btn edit"
+onclick="editRow(this)"
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete"
+onclick="deleteRow(this)"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
 function addExam(name){
 
 const tbody =
@@ -868,23 +1054,70 @@ function editRow(button){
 const row =
 button.closest("tr");
 
-const cells =
-row.querySelectorAll("td");
+const firstCell =
+row.querySelector("td");
 
 const newValue =
 prompt(
 "تعديل البيانات",
-cells[0].innerText
+firstCell.innerText
 );
 
 if(newValue){
 
-cells[0].innerText =
+firstCell.innerText =
 newValue;
 
 }
 
 }
+
+document
+.getElementById("importStudents")
+.addEventListener("change",(e)=>{
+
+const file =
+e.target.files[0];
+
+if(!file){
+
+return;
+
+}
+
+const reader =
+new FileReader();
+
+reader.onload =
+function(event){
+
+const text =
+event.target.result;
+
+const rows =
+text.split("\n");
+
+rows.forEach(row=>{
+
+const cols =
+row.split(",");
+
+if(cols.length >= 2){
+
+addStudent(
+cols[0].trim(),
+cols[1].trim()
+);
+
+}
+
+});
+
+};
+
+reader.readAsText(file);
+
+});
 
 </script>
 
