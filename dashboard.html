@@ -4,9 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rased Insights Dashboard</title>
+<title>Rased Insights</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
@@ -18,23 +18,24 @@ font-family:'Cairo',sans-serif;
 }
 
 body{
-background:#020617;
+background:linear-gradient(135deg,#020617,#0f172a);
 color:white;
 display:flex;
 min-height:100vh;
 }
 
+/* SIDEBAR */
 .sidebar{
-width:300px;
-background:#0f172a;
+width:280px;
+background:#0b1220;
 padding:25px;
 display:flex;
 flex-direction:column;
-gap:15px;
+gap:12px;
 }
 
 .logo{
-font-size:34px;
+font-size:32px;
 font-weight:800;
 color:#facc15;
 margin-bottom:20px;
@@ -42,99 +43,81 @@ margin-bottom:20px;
 
 .menu button{
 border:none;
+padding:14px;
+border-radius:14px;
 background:#1e293b;
 color:white;
-padding:15px;
-border-radius:16px;
 cursor:pointer;
 font-weight:700;
-transition:.3s;
+transition:.2s;
 }
 
-.menu button:hover{background:#2563eb;}
+.menu button:hover{
+background:#2563eb;
+transform:translateY(-2px);
+}
 
-.logout{background:#dc2626 !important;}
+.logout{
+background:#dc2626 !important;
+}
 
+/* MAIN */
 .main{
 flex:1;
-padding:30px;
+padding:25px;
 }
 
 .section{
 background:#111827;
-padding:25px;
-border-radius:24px;
-margin-bottom:25px;
-}
-
-.section-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
+padding:20px;
+border-radius:20px;
 margin-bottom:20px;
 }
 
-.add-btn{
-border:none;
-background:#2563eb;
-color:white;
-padding:12px 18px;
-border-radius:12px;
-cursor:pointer;
-font-weight:700;
+.section h2{
+margin-bottom:15px;
 }
 
+/* TABLE */
 table{
 width:100%;
 border-collapse:collapse;
-min-width:700px;
 }
 
 th,td{
-padding:15px;
+padding:12px;
 text-align:center;
-border-bottom:1px solid rgba(255,255,255,.05);
+border-bottom:1px solid rgba(255,255,255,.08);
 }
-
-.action-btn{
-border:none;
-padding:8px 12px;
-border-radius:10px;
-cursor:pointer;
-font-weight:700;
-margin:2px;
-}
-
-.delete{background:#dc2626;color:white;}
 
 /* MODAL */
 .modal{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.7);
+background:rgba(0,0,0,.75);
 display:none;
 justify-content:center;
 align-items:center;
-padding:20px;
 z-index:1000;
 }
 
-.modal-content{
+.modal-box{
 background:#0f172a;
-padding:30px;
-border-radius:24px;
+padding:25px;
+border-radius:20px;
 width:100%;
-max-width:450px;
+max-width:420px;
+display:flex;
+flex-direction:column;
+gap:12px;
 }
 
-.input-group{
-margin-bottom:12px;
+.modal-box h2{
+text-align:center;
 }
 
-.input-group input,
-.input-group select{
-width:100%;
-padding:14px;
+input,select{
+padding:12px;
 border:none;
 border-radius:12px;
 background:#1e293b;
@@ -142,14 +125,37 @@ color:white;
 outline:none;
 }
 
-.modal-actions{
+.buttons{
 display:flex;
 gap:10px;
-margin-top:15px;
+margin-top:10px;
 }
 
-.save-btn{background:#2563eb;color:white;}
-.cancel-btn{background:#334155;color:white;}
+.save{
+flex:1;
+background:#2563eb;
+border:none;
+padding:12px;
+border-radius:12px;
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+.cancel{
+flex:1;
+background:#334155;
+border:none;
+padding:12px;
+border-radius:12px;
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+.cancel:hover{
+background:#475569;
+}
 
 </style>
 </head>
@@ -159,7 +165,7 @@ margin-top:15px;
 <!-- SIDEBAR -->
 <div class="sidebar">
 
-<div class="logo">Rased<br>Insights</div>
+<div class="logo">Rased</div>
 
 <div class="menu">
 
@@ -169,13 +175,7 @@ margin-top:15px;
 <button onclick="openModal('student')">إضافة طالب</button>
 <button onclick="openModal('exam')">إضافة اختبار</button>
 
-<button onclick="document.getElementById('importStudents').click()">
-استيراد الطلاب
-</button>
-
-<input type="file" id="importStudents" accept=".csv" style="display:none">
-
-<button class="logout" onclick="logout()">تسجيل الخروج</button>
+<button class="logout" onclick="logout()">تسجيل خروج</button>
 
 </div>
 
@@ -185,232 +185,128 @@ margin-top:15px;
 <div class="main">
 
 <div class="section">
-<div class="section-header"><h2>المعلمين</h2></div>
-<table id="teachersTable"><tbody></tbody></table>
-</div>
-
-<div class="section">
-<div class="section-header"><h2>المشرفين</h2></div>
-<table id="supervisorsTable"><tbody></tbody></table>
-</div>
-
-<div class="section">
-<div class="section-header"><h2>الفصول</h2></div>
-<table id="classesTable"><tbody></tbody></table>
-</div>
-
-<div class="section">
-<div class="section-header"><h2>الطلاب</h2></div>
-<table id="studentsTable"><tbody></tbody></table>
-</div>
-
-<div class="section">
-<div class="section-header"><h2>الاختبارات</h2></div>
-<table id="examsTable"><tbody></tbody></table>
+<h2>الطلاب</h2>
+<table id="studentsTable"></table>
 </div>
 
 </div>
 
 <!-- MODAL -->
 <div class="modal" id="modal">
+<div class="modal-box">
 
-<div class="modal-content">
+<h2 id="title">إضافة</h2>
 
-<h2>إضافة</h2>
+<input id="name" placeholder="الاسم">
 
-<div class="input-group">
-<input id="nameInput" placeholder="الاسم">
-</div>
+<input id="username" placeholder="Username">
 
-<div class="input-group" id="usernameGroup">
-<input id="usernameInput" placeholder="Username">
-</div>
+<input id="password" placeholder="Password">
 
-<div class="input-group" id="passwordGroup">
-<input id="passwordInput" placeholder="Password">
-</div>
+<select id="classSelect"></select>
 
-<div class="input-group" id="classGroup">
-<select id="classInput"></select>
-</div>
+<div class="buttons">
 
-<div class="modal-actions">
-<button class="save-btn" onclick="saveData()">حفظ</button>
-<button class="cancel-btn" onclick="closeModal()">إلغاء</button>
-</div>
+<button class="save" onclick="save()">حفظ</button>
+<button class="cancel" onclick="closeModal()">إلغاء</button>
 
 </div>
 
+</div>
 </div>
 
 <script>
 
+let type = "";
+
 const modal = document.getElementById("modal");
 
-let currentType = "";
-
-/* OPEN MODAL */
-function openModal(type){
-currentType = type;
+function openModal(t){
+type = t;
 modal.style.display = "flex";
 
-/* reset */
-document.getElementById("nameInput").value = "";
-document.getElementById("usernameInput").value = "";
-document.getElementById("passwordInput").value = "";
+document.getElementById("name").value = "";
+document.getElementById("username").value = "";
+document.getElementById("password").value = "";
 
-/* hide all */
-document.getElementById("usernameGroup").style.display = "none";
-document.getElementById("passwordGroup").style.display = "none";
-document.getElementById("classGroup").style.display = "none";
-
-/* TEACHER / SUPERVISOR */
-if(type === "teacher" || type === "supervisor"){
-document.getElementById("usernameGroup").style.display = "block";
-document.getElementById("passwordGroup").style.display = "block";
+toggleFields(t);
 }
 
-/* STUDENT */
-else if(type === "student"){
-document.getElementById("classGroup").style.display = "block";
-loadClassOptions();
+function closeModal(){
+modal.style.display = "none";
+}
+
+function toggleFields(t){
+
+document.getElementById("username").style.display = "none";
+document.getElementById("password").style.display = "none";
+document.getElementById("classSelect").style.display = "none";
+
+if(t === "teacher" || t === "supervisor"){
+document.getElementById("username").style.display = "block";
+document.getElementById("password").style.display = "block";
+}
+
+if(t === "student"){
+document.getElementById("classSelect").style.display = "block";
+loadClasses();
 }
 
 }
 
-/* LOAD CLASSES */
-function loadClassOptions(){
-
+/* CLASSES */
+function loadClasses(){
 let classes = JSON.parse(localStorage.getItem("classes")) || [];
-let select = document.getElementById("classInput");
+let select = document.getElementById("classSelect");
 
 select.innerHTML = "";
 
-if(classes.length === 0){
-select.innerHTML = `<option>لا يوجد فصول</option>`;
-return;
-}
-
 classes.forEach(c=>{
-select.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+select.innerHTML += `<option>${c.name}</option>`;
 });
-
 }
 
-/* SAVE DATA */
-function saveData(){
+/* SAVE */
+function save(){
 
-const name = document.getElementById("nameInput").value;
-const username = document.getElementById("usernameInput").value;
-const password = document.getElementById("passwordInput").value;
-const className = document.getElementById("classInput").value;
+let name = document.getElementById("name").value;
+let username = document.getElementById("username").value;
+let password = document.getElementById("password").value;
+let className = document.getElementById("classSelect").value;
 
-if(currentType === "teacher"){
-
-let data = JSON.parse(localStorage.getItem("teachers")) || [];
-data.push({name,username,password,classes:[]});
-localStorage.setItem("teachers",JSON.stringify(data));
-
-}
-
-else if(currentType === "supervisor"){
-
-let data = JSON.parse(localStorage.getItem("supervisors")) || [];
-data.push({name,username,password});
-localStorage.setItem("supervisors",JSON.stringify(data));
-
-}
-
-else if(currentType === "student"){
-
+if(type === "student"){
 let data = JSON.parse(localStorage.getItem("students")) || [];
 data.push({name,className});
 localStorage.setItem("students",JSON.stringify(data));
-
 }
 
-else if(currentType === "class"){
-
+if(type === "class"){
 let data = JSON.parse(localStorage.getItem("classes")) || [];
 data.push({name});
 localStorage.setItem("classes",JSON.stringify(data));
-
 }
 
-else if(currentType === "exam"){
+if(type === "teacher"){
+let data = JSON.parse(localStorage.getItem("teachers")) || [];
+data.push({name,username,password});
+localStorage.setItem("teachers",JSON.stringify(data));
+}
 
+if(type === "supervisor"){
+let data = JSON.parse(localStorage.getItem("supervisors")) || [];
+data.push({name,username,password});
+localStorage.setItem("supervisors",JSON.stringify(data));
+}
+
+if(type === "exam"){
 let data = JSON.parse(localStorage.getItem("exams")) || [];
 data.push({name});
 localStorage.setItem("exams",JSON.stringify(data));
-
 }
 
 closeModal();
-loadAll();
-
 }
 
-/* LOAD ALL */
-window.onload = loadAll;
-
-function loadAll(){
-loadTeachers();
-loadSupervisors();
-loadClasses();
-loadStudents();
-loadExams();
-}
-
-/* TABLES */
-
-function loadTeachers(){
-let data = JSON.parse(localStorage.getItem("teachers")) || [];
-document.querySelector("#teachersTable tbody").innerHTML =
-data.map(t=>`
-<tr>
-<td>${t.name}</td>
-<td>${t.username}</td>
-<td>${t.password}</td>
-</tr>
-`).join("");
-}
-
-function loadSupervisors(){
-let data = JSON.parse(localStorage.getItem("supervisors")) || [];
-document.querySelector("#supervisorsTable tbody").innerHTML =
-data.map(t=>`
-<tr>
-<td>${t.name}</td>
-<td>${t.username}</td>
-<td>${t.password}</td>
-</tr>
-`).join("");
-}
-
-function loadClasses(){
-let data = JSON.parse(localStorage.getItem("classes")) || [];
-document.querySelector("#classesTable tbody").innerHTML =
-data.map(c=>`<tr><td>${c.name}</td></tr>`).join("");
-}
-
-function loadStudents(){
-let data = JSON.parse(localStorage.getItem("students")) || [];
-document.querySelector("#studentsTable tbody").innerHTML =
-data.map(s=>`
-<tr>
-<td>${s.name}</td>
-<td>${s.className}</td>
-</tr>
-`).join("");
-}
-
-function loadExams(){
-let data = JSON.parse(localStorage.getItem("exams")) || [];
-document.querySelector("#examsTable tbody").innerHTML =
-data.map(e=>`<tr><td>${e.name}</td></tr>`).join("");
-}
-
-/* LOGOUT */
 function logout(){
 localStorage.removeItem("currentUser");
 window.location.href="index.html";
