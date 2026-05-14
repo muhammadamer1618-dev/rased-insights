@@ -328,15 +328,15 @@ Insights
 إضافة طالب
 </button>
 
+<button onclick="openModal('exam')">
+إضافة اختبار
+</button>
+
 <button
 class="import-btn"
 id="importBtn"
 >
 استيراد Excel
-</button>
-
-<button>
-الاختبارات
 </button>
 
 <button onclick="window.location.href='./reports.html'">
@@ -448,7 +448,7 @@ onclick="openModal('student')"
 
 </div>
 
-<table>
+<table id="studentsTable">
 
 <thead>
 
@@ -492,39 +492,17 @@ English
 
 <td>
 
-<button class="action-btn edit">
+<button
+class="action-btn edit"
+onclick="editRow(this)"
+>
 تعديل
 </button>
 
-<button class="action-btn delete">
-حذف
-</button>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-علي خالد
-</td>
-
-<td>
-أول ثانوي B
-</td>
-
-<td>
-English
-</td>
-
-<td>
-
-<button class="action-btn edit">
-تعديل
-</button>
-
-<button class="action-btn delete">
+<button
+class="action-btn delete"
+onclick="deleteRow(this)"
+>
 حذف
 </button>
 
@@ -555,6 +533,7 @@ id="modal"
 
 <input
 type="text"
+id="nameInput"
 placeholder="الاسم"
 />
 
@@ -563,8 +542,9 @@ placeholder="الاسم"
 <div class="input-group">
 
 <input
-type="email"
-placeholder="البريد الإلكتروني"
+type="text"
+id="usernameInput"
+placeholder="اسم المستخدم"
 />
 
 </div>
@@ -573,14 +553,18 @@ placeholder="البريد الإلكتروني"
 
 <input
 type="password"
+id="passwordInput"
 placeholder="كلمة المرور"
 />
 
 </div>
 
-<div class="input-group">
+<div
+class="input-group"
+id="classGroup"
+>
 
-<select>
+<select id="classSelect">
 
 <option>
 اختر الفصل
@@ -592,6 +576,58 @@ placeholder="كلمة المرور"
 
 <option>
 أول ثانوي B
+</option>
+
+</select>
+
+</div>
+
+<div
+class="input-group"
+id="examGroup"
+style="display:none"
+>
+
+<select id="examSelect">
+
+<option>
+الاختبار الدوري الأول
+</option>
+
+<option>
+الاختبار الدوري الثاني
+</option>
+
+<option>
+الاختبار الدوري الثالث
+</option>
+
+<option>
+الاختبار الدوري الرابع
+</option>
+
+<option>
+الاختبار الدوري الخامس
+</option>
+
+<option>
+الاختبار الدوري السادس
+</option>
+
+<option>
+الاختبار الدوري السابع
+</option>
+
+<option>
+الاختبار الدوري الثامن
+</option>
+
+<option>
+اختبار الفترة الأولى
+</option>
+
+<option>
+اختبار الفترة الثانية
 </option>
 
 </select>
@@ -628,9 +664,23 @@ document.getElementById("modal");
 const modalTitle =
 document.getElementById("modalTitle");
 
+const examGroup =
+document.getElementById("examGroup");
+
+const classGroup =
+document.getElementById("classGroup");
+
+let currentType = "";
+
 function openModal(type){
 
+currentType = type;
+
 modal.style.display = "flex";
+
+examGroup.style.display = "none";
+
+classGroup.style.display = "block";
 
 if(type === "teacher"){
 
@@ -653,6 +703,19 @@ modalTitle.innerText =
 
 }
 
+else if(type === "exam"){
+
+modalTitle.innerText =
+"إضافة اختبار";
+
+examGroup.style.display =
+"block";
+
+classGroup.style.display =
+"none";
+
+}
+
 else{
 
 modalTitle.innerText =
@@ -670,9 +733,53 @@ modal.style.display = "none";
 
 function saveData(){
 
+if(currentType === "exam"){
+
+const exam =
+document.getElementById("examSelect").value;
+
+alert(
+"تم إضافة " + exam
+);
+
+}
+
+else{
+
 alert("تم الحفظ بنجاح");
 
+}
+
 closeModal();
+
+}
+
+function deleteRow(button){
+
+button.closest("tr").remove();
+
+}
+
+function editRow(button){
+
+const row =
+button.closest("tr");
+
+const cells =
+row.querySelectorAll("td");
+
+const newName =
+prompt(
+"تعديل الاسم",
+cells[0].innerText
+);
+
+if(newName){
+
+cells[0].innerText =
+newName;
+
+}
 
 }
 
