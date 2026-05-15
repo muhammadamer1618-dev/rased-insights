@@ -43,6 +43,12 @@
     <div class="input-group">
       <input type="text" value="لغة إنجليزية" readonly/>
     </div>
+
+    <div class="input-group">
+      <select id="clearExamSelect">
+        <option>اختر اختبار للتفريغ</option>
+      </select>
+    </div>
   </div>
 
   <div style="overflow:auto;">
@@ -52,8 +58,16 @@
     </table>
   </div>
 
-  <div style="margin-top:20px;display:flex;justify-content:center;">
+  <div style="margin-top:20px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
     <button class="primary-btn" onclick="saveAllGrades()">حفظ جميع الدرجات</button>
+
+    <button class="primary-btn" style="background:#dc2626;color:white;" onclick="clearSelectedExam()">
+      تفريغ الاختبار المحدد
+    </button>
+
+    <button class="primary-btn" style="background:#7f1d1d;color:white;" onclick="clearAllExams()">
+      تفريغ جميع الاختبارات
+    </button>
   </div>
 
 </div>
@@ -73,6 +87,7 @@ import {
   where,
   addDoc,
   updateDoc,
+  deleteDoc,
   doc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
@@ -86,6 +101,7 @@ document.getElementById("teacherName").innerText =
   teacherName || "Teacher";
 
 const classSelect = document.getElementById("classSelect");
+const clearExamSelect = document.getElementById("clearExamSelect");
 const tableHead = document.getElementById("tableHead");
 const tableBody = document.getElementById("tableBody");
 
@@ -139,6 +155,16 @@ async function loadExams() {
   });
 
   exams.sort((a, b) => a.order - b.order);
+
+  clearExamSelect.innerHTML = "<option>اختر اختبار للتفريغ</option>";
+
+  exams.forEach(exam => {
+    clearExamSelect.innerHTML += `
+      <option value="${exam.examName}">
+        ${exam.examName}
+      </option>
+    `;
+  });
 }
 
 async function loadAllGrades() {
@@ -180,7 +206,6 @@ async function loadStudentsTable() {
   await loadAllGrades();
 
   if (exams.length === 0) {
-    tableHead.innerHTML = "";
     tableBody.innerHTML = `
       <tr>
         <td colspan="50">لا توجد اختبارات مضافة من الأدمن</td>
@@ -332,6 +357,81 @@ window.saveAllGrades = async function() {
   }
 
   alert("تم حفظ جميع الدرجات");
+  await loadStudentsTable();
+};
+
+window.clearSelectedExam = async function() {
+  const className = classSelect.value;
+  const examName = clearExamSelect.value;
+
+  if (className === "اختر الفصل") {
+    alert("اختر الفصل أولًا");
+    return;
+  }
+
+  if (examName === "اختر اختبار للتفريغ") {
+    alert("اختر الاختبار المطلوب تفريغه");
+    return;
+  }
+
+  const confirmClear = confirm(
+    `هل تريد تفريغ درجات "${examName}" لهذا الفصل؟`
+  );
+
+  if (!confirmClear) {
+    return;
+  }
+
+  const snapshot = await getDocs(
+    query(
+      collection(db, "grades"),
+      where("teacherName", "==", teacherName),
+      where("className", "==", className),
+      where("examName", "==", examName)
+    )
+  );
+
+  for (const item of snapshot.docs) {
+    await deleteDoc(
+      doc(db, "grades", item.id)
+    );
+  }
+
+  alert("تم تفريغ درجات الاختبار المحدد");
+  await loadStudentsTable();
+};
+
+window.clearAllExams = async function() {
+  const className = classSelect.value;
+
+  if (className === "اختر الفصل") {
+    alert("اختر الفصل أولًا");
+    return;
+  }
+
+  const confirmClear = confirm(
+    "هل تريد تفريغ جميع درجات هذا الفصل؟"
+  );
+
+  if (!confirmClear) {
+    return;
+  }
+
+  const snapshot = await getDocs(
+    query(
+      collection(db, "grades"),
+      where("teacherName", "==", teacherName),
+      where("className", "==", className)
+    )
+  );
+
+  for (const item of snapshot.docs) {
+    await deleteDoc(
+      doc(db, "grades", item.id)
+    );
+  }
+
+  alert("تم تفريغ جميع درجات الفصل");
   await loadStudentsTable();
 };
 
