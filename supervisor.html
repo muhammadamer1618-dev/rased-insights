@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
 <title>Supervisor Panel</title>
-<link rel="stylesheet" href="style.css"/>
+
+<link
+rel="stylesheet"
+href="style.css"
+/>
+
 </head>
 
 <body>
@@ -12,50 +24,110 @@
 <div class="dashboard-layout">
 
 <div class="sidebar">
-  <div class="logo-box">Rased<br>Insights</div>
 
-  <div class="user-box">
-    <div class="user-title">المشرف الحالي</div>
-    <div class="user-name" id="supervisorName">Supervisor</div>
-  </div>
+<div class="logo-box">
+Rased<br>
+Insights
+</div>
 
-  <div class="menu">
-    <button onclick="showSection('reportsSection')">متابعة النتائج</button>
-    <button onclick="window.location.href='reports.html'">التقارير التحليلية</button>
-    <button onclick="archiveResults()">أرشفة النتائج</button>
-    <button onclick="window.location.href='archive.html'">عرض الأرشيف</button>
-    <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
-  </div>
+<div class="user-box">
+
+<div class="user-title">
+المشرف الحالي
+</div>
+
+<div
+class="user-name"
+id="supervisorName"
+>
+Supervisor
+</div>
+
+</div>
+
+<div class="menu">
+
+<button onclick="showSection('reportsSection')">
+متابعة النتائج
+</button>
+
+<button onclick="window.location.href='reports.html'">
+التقارير التحليلية
+</button>
+
+<button onclick="archiveResults()">
+أرشفة النتائج
+</button>
+
+<button onclick="window.location.href='archive.html'">
+عرض الأرشيف
+</button>
+
+<button
+class="logout-btn"
+onclick="logout()"
+>
+تسجيل الخروج
+</button>
+
+</div>
+
 </div>
 
 <div class="main">
 
-<div class="section active-section" id="reportsSection">
+<div
+class="section active-section"
+id="reportsSection"
+>
 
-  <div class="section-header">
-    <div class="section-title">متابعة نتائج الطلاب</div>
-  </div>
+<div class="section-header">
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-bottom:25px;">
-    <div class="input-group">
-      <select id="teacherSelect">
-        <option>اختر المعلم</option>
-      </select>
-    </div>
+<div class="section-title">
+متابعة نتائج الطلاب
+</div>
 
-    <div class="input-group">
-      <select id="classSelect">
-        <option>اختر الفصل</option>
-      </select>
-    </div>
-  </div>
+</div>
 
-  <div style="overflow:auto;">
-    <table>
-      <thead id="tableHead"></thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-  </div>
+<div
+style="
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
+margin-bottom:25px;
+"
+>
+
+<div class="input-group">
+
+<select id="teacherSelect">
+<option>اختر المعلم</option>
+</select>
+
+</div>
+
+<div class="input-group">
+
+<select id="classSelect">
+<option>اختر الفصل</option>
+</select>
+
+</div>
+
+</div>
+
+<div style="overflow:auto;">
+
+<table>
+
+<thead id="tableHead"></thead>
+
+<tbody id="tableBody"></tbody>
+
+</table>
+
+</div>
 
 </div>
 
@@ -65,323 +137,697 @@
 
 <script type="module">
 
-import { db } from "./firebase.js";
+import { db }
+from "./firebase.js";
 
 import {
-  collection,
-  getDocs,
-  query,
-  where,
-  addDoc
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-if (localStorage.getItem("rasedRole") !== "supervisor") {
-  window.location.href = "index.html";
+collection,
+getDocs,
+query,
+where,
+addDoc
+
 }
 
-document.getElementById("supervisorName").innerText =
-  localStorage.getItem("supervisorName") || "Supervisor";
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-const teacherSelect = document.getElementById("teacherSelect");
-const classSelect = document.getElementById("classSelect");
-const tableHead = document.getElementById("tableHead");
-const tableBody = document.getElementById("tableBody");
+if(
+localStorage.getItem("rasedRole")
+!== "supervisor"
+){
+
+window.location.href =
+"index.html";
+
+}
+
+document.getElementById(
+"supervisorName"
+).innerText =
+
+localStorage.getItem(
+"supervisorName"
+)
+
+||
+
+"Supervisor";
+
+const teacherSelect =
+document.getElementById(
+"teacherSelect"
+);
+
+const classSelect =
+document.getElementById(
+"classSelect"
+);
+
+const tableHead =
+document.getElementById(
+"tableHead"
+);
+
+const tableBody =
+document.getElementById(
+"tableBody"
+);
 
 let exams = [];
+let allGrades = [];
 
-window.showSection = function(id) {
-  document.querySelectorAll(".section").forEach(section => {
-    section.classList.remove("active-section");
-  });
+window.showSection =
+function(id){
 
-  document.getElementById(id).classList.add("active-section");
+document
+.querySelectorAll(".section")
+.forEach(section=>{
+
+section.classList.remove(
+"active-section"
+);
+
+});
+
+document
+.getElementById(id)
+.classList.add(
+"active-section"
+);
+
 };
 
-async function loadTeachers() {
-  teacherSelect.innerHTML = "<option>اختر المعلم</option>";
+async function loadTeachers(){
 
-  const snapshot = await getDocs(collection(db, "teachers"));
+teacherSelect.innerHTML =
+"<option>اختر المعلم</option>";
 
-  snapshot.forEach(item => {
-    const data = item.data();
+const snapshot =
+await getDocs(
+collection(db,"teachers")
+);
 
-    teacherSelect.innerHTML += `
-      <option>${data.name}</option>
-    `;
-  });
+const teachers = [];
+
+snapshot.forEach(item=>{
+
+teachers.push(
+item.data().name
+);
+
+});
+
+teachers.sort((a,b)=>
+a.localeCompare(b,'ar')
+);
+
+teachers.forEach(name=>{
+
+teacherSelect.innerHTML += `
+<option>
+${name}
+</option>
+`;
+
+});
+
 }
 
-async function loadExams() {
-  exams = [];
+async function loadExams(){
 
-  const snapshot = await getDocs(collection(db, "exams"));
+exams = [];
 
-  snapshot.forEach(item => {
-    const data = item.data();
+const snapshot =
+await getDocs(
+collection(db,"exams")
+);
 
-    exams.push({
-      examName: data.examName,
-      maxDegree: Number(data.maxDegree || 0),
-      order: Number(data.order || 999)
-    });
-  });
+snapshot.forEach(item=>{
 
-  exams.sort((a, b) => a.order - b.order);
+const data =
+item.data();
+
+exams.push({
+
+examName:
+data.examName,
+
+maxDegree:
+Number(
+data.maxDegree || 0
+),
+
+order:
+Number(
+data.order || 999
+)
+
+});
+
+});
+
+exams.sort((a,b)=>
+a.order - b.order
+);
+
 }
 
-teacherSelect.addEventListener("change", loadTeacherClasses);
-classSelect.addEventListener("change", loadReportTable);
+async function loadAllGrades(){
 
-async function loadTeacherClasses() {
-  classSelect.innerHTML = "<option>اختر الفصل</option>";
-  tableHead.innerHTML = "";
-  tableBody.innerHTML = "";
+allGrades = [];
 
-  const teacherName = teacherSelect.value;
+const snapshot =
+await getDocs(
+collection(db,"grades")
+);
 
-  if (teacherName === "اختر المعلم") {
-    return;
-  }
+snapshot.forEach(item=>{
 
-  const snapshot = await getDocs(
-    query(
-      collection(db, "assignments"),
-      where("teacherName", "==", teacherName)
-    )
-  );
+allGrades.push({
+id:item.id,
+...item.data()
+});
 
-  snapshot.forEach(item => {
-    const data = item.data();
+});
 
-    classSelect.innerHTML += `
-      <option>${data.className}</option>
-    `;
-  });
 }
 
-function getChangeLabel(currentPercent, previousPercent) {
-  if (previousPercent === null) {
-    return {
-      text: "-",
-      color: "#94a3b8"
-    };
-  }
+teacherSelect.addEventListener(
+"change",
+loadTeacherClasses
+);
 
-  if (currentPercent > previousPercent) {
-    return {
-      text: "↑ تحسن",
-      color: "#22c55e"
-    };
-  }
+classSelect.addEventListener(
+"change",
+loadReportTable
+);
 
-  if (currentPercent < previousPercent) {
-    return {
-      text: "↓ نزول",
-      color: "#ef4444"
-    };
-  }
+async function loadTeacherClasses(){
 
-  return {
-    text: "→ ثابت",
-    color: "#facc15"
-  };
+classSelect.innerHTML =
+"<option>اختر الفصل</option>";
+
+tableHead.innerHTML = "";
+tableBody.innerHTML = "";
+
+const teacherName =
+teacherSelect.value;
+
+if(
+teacherName ===
+"اختر المعلم"
+){
+return;
 }
 
-function getOverallStatus(changes) {
-  const up = changes.filter(item => item === "up").length;
-  const down = changes.filter(item => item === "down").length;
+const snapshot =
+await getDocs(
 
-  if (up > down) {
-    return {
-      text: "تحسن عام",
-      color: "#22c55e"
-    };
-  }
+query(
 
-  if (down > up) {
-    return {
-      text: "نزول عام",
-      color: "#ef4444"
-    };
-  }
+collection(
+db,
+"assignments"
+),
 
-  return {
-    text: "ثابت",
-    color: "#facc15"
-  };
+where(
+"teacherName",
+"==",
+teacherName
+)
+
+)
+
+);
+
+const classes = [];
+
+snapshot.forEach(item=>{
+
+classes.push(
+item.data().className
+);
+
+});
+
+classes.sort((a,b)=>
+a.localeCompare(b,'ar')
+);
+
+classes.forEach(className=>{
+
+classSelect.innerHTML += `
+<option>
+${className}
+</option>
+`;
+
+});
+
 }
 
-async function loadReportTable() {
-  tableHead.innerHTML = "";
-  tableBody.innerHTML = "";
+function getChangeLabel(
+currentPercent,
+previousPercent
+){
 
-  const teacherName = teacherSelect.value;
-  const className = classSelect.value;
+if(previousPercent === null){
 
-  if (
-    teacherName === "اختر المعلم" ||
-    className === "اختر الفصل"
-  ) {
-    return;
-  }
+return{
+text:"-",
+color:"#94a3b8"
+};
 
-  if (exams.length === 0) {
-    tableBody.innerHTML = `
-      <tr>
-        <td colspan="10">لا توجد اختبارات مضافة من الأدمن</td>
-      </tr>
-    `;
-    return;
-  }
+}
 
-  let head = `
-    <tr>
-      <th>اسم الطالب</th>
-  `;
+if(currentPercent > previousPercent){
 
-  exams.forEach(exam => {
-    head += `
-      <th>
-        ${exam.examName}
-        <br>
-        من ${exam.maxDegree}
-      </th>
-    `;
-  });
+return{
+text:"↑ تحسن",
+color:"#22c55e"
+};
 
-  head += `
-      <th>الاتجاه العام</th>
-    </tr>
-  `;
+}
 
-  tableHead.innerHTML = head;
+if(currentPercent < previousPercent){
 
-const studentsSnapshot = await getDocs(
-  query(
-    collection(db, "students"),
-    where("className", "==", className)
-  )
+return{
+text:"↓ نزول",
+color:"#ef4444"
+};
+
+}
+
+return{
+text:"→ ثابت",
+color:"#facc15"
+};
+
+}
+
+function getOverallStatus(changes){
+
+const up =
+changes.filter(
+item=>item==="up"
+).length;
+
+const down =
+changes.filter(
+item=>item==="down"
+).length;
+
+if(up > down){
+
+return{
+text:"تحسن عام",
+color:"#22c55e"
+};
+
+}
+
+if(down > up){
+
+return{
+text:"نزول عام",
+color:"#ef4444"
+};
+
+}
+
+return{
+text:"ثابت",
+color:"#facc15"
+};
+
+}
+
+async function loadReportTable(){
+
+tableHead.innerHTML = "";
+
+tableBody.innerHTML = `
+<tr class="loading-row">
+<td colspan="50">
+جاري تحميل النتائج...
+</td>
+</tr>
+`;
+
+const teacherName =
+teacherSelect.value;
+
+const className =
+classSelect.value;
+
+if(
+
+teacherName ===
+"اختر المعلم"
+
+||
+
+className ===
+"اختر الفصل"
+
+){
+
+tableBody.innerHTML = "";
+return;
+
+}
+
+await loadAllGrades();
+
+if(exams.length === 0){
+
+tableBody.innerHTML = `
+<tr>
+<td colspan="50">
+لا توجد اختبارات
+</td>
+</tr>
+`;
+
+return;
+
+}
+
+let head = `
+<tr>
+<th>اسم الطالب</th>
+`;
+
+exams.forEach(exam=>{
+
+head += `
+
+<th>
+
+${exam.examName}
+
+<br>
+
+من ${exam.maxDegree}
+
+</th>
+
+`;
+
+});
+
+head += `
+<th>الاتجاه العام</th>
+</tr>
+`;
+
+tableHead.innerHTML = head;
+
+const studentsSnapshot =
+await getDocs(
+
+query(
+
+collection(
+db,
+"students"
+),
+
+where(
+"className",
+"==",
+className
+)
+
+)
+
 );
 
 const students = [];
 
-studentsSnapshot.forEach(studentDoc => {
-  students.push(studentDoc.data());
-});
+studentsSnapshot.forEach(studentDoc=>{
 
-students.sort((a, b) =>
-  a.name.localeCompare(b.name, 'ar')
+students.push(
+studentDoc.data()
 );
 
-for (const student of students) {
+});
 
-    let row = `
-      <tr>
-        <td>${student.name}</td>
-    `;
+students.sort((a,b)=>
 
-    let previousPercent = null;
-    let changes = [];
+a.name.localeCompare(
+b.name,
+'ar'
+)
 
-    for (const exam of exams) {
-      let grade = "";
+);
 
-      const gradesSnapshot = await getDocs(
-        query(
-          collection(db, "grades"),
-          where("studentName", "==", student.name),
-          where("className", "==", className),
-          where("examName", "==", exam.examName),
-          where("teacherName", "==", teacherName)
-        )
-      );
+let html = "";
 
-      gradesSnapshot.forEach(g => {
-        grade = g.data().grade;
-      });
+for(const student of students){
 
-      if (grade !== "") {
-        const percent = exam.maxDegree
-          ? Math.round((Number(grade) / Number(exam.maxDegree)) * 100)
-          : 0;
+html += `
+<tr>
 
-        const change = getChangeLabel(percent, previousPercent);
+<td class="student-name">
+${student.name}
+</td>
+`;
 
-        if (previousPercent !== null) {
-          if (percent > previousPercent) {
-            changes.push("up");
-          } else if (percent < previousPercent) {
-            changes.push("down");
-          } else {
-            changes.push("stable");
-          }
-        }
+let previousPercent = null;
+let changes = [];
 
-        previousPercent = percent;
+for(const exam of exams){
 
-        let color = "#facc15";
+const gradeData =
+allGrades.find(item=>
 
-        if (percent >= 85) {
-          color = "#22c55e";
-        } else if (percent < 60) {
-          color = "#ef4444";
-        }
+item.studentName ===
+student.name
 
-        row += `
-          <td>
-            <div style="color:${color};font-weight:800;">
-              ${grade} / ${exam.maxDegree}
-            </div>
-            <div style="color:${color};font-weight:700;">
-              ${percent}%
-            </div>
-            <div style="color:${change.color};font-weight:900;margin-top:6px;">
-              ${change.text}
-            </div>
-          </td>
-        `;
-      } else {
-        row += `<td>-</td>`;
-      }
-    }
+&&
 
-    const overall = getOverallStatus(changes);
+item.className ===
+className
 
-    row += `
-        <td style="color:${overall.color};font-weight:900;">
-          ${overall.text}
-        </td>
-      </tr>
-    `;
+&&
 
-    tableBody.innerHTML += row;
-  }
+item.examName ===
+exam.examName
+
+&&
+
+item.teacherName ===
+teacherName
+
+);
+
+if(gradeData){
+
+const percent =
+
+exam.maxDegree
+
+?
+
+Math.round(
+
+(
+Number(
+gradeData.grade
+)
+
+/
+
+Number(
+exam.maxDegree
+)
+
+)
+
+* 100
+
+)
+
+:0;
+
+const change =
+getChangeLabel(
+percent,
+previousPercent
+);
+
+if(previousPercent !== null){
+
+if(percent > previousPercent){
+
+changes.push("up");
+
+}else if(percent < previousPercent){
+
+changes.push("down");
+
+}else{
+
+changes.push("stable");
+
 }
 
-window.archiveResults = async function() {
-  const snapshot = await getDocs(collection(db, "grades"));
+}
 
-  for (const item of snapshot.docs) {
-    const data = item.data();
+previousPercent = percent;
 
-    await addDoc(collection(db, "archive"), {
-      studentName: data.studentName,
-      className: data.className,
-      subject: data.subject,
-      examName: data.examName,
-      grade: data.grade,
-      maxDegree: data.maxDegree || "",
-      teacherName: data.teacherName,
-      archivedAt: new Date().toLocaleString()
-    });
-  }
+let color = "#facc15";
 
-  alert("تمت أرشفة النتائج");
+if(percent >= 85){
+
+color = "#22c55e";
+
+}else if(percent < 60){
+
+color = "#ef4444";
+
+}
+
+html += `
+
+<td>
+
+<div
+style="
+color:${color};
+font-weight:800;
+"
+>
+
+${gradeData.grade}
+/
+${exam.maxDegree}
+
+</div>
+
+<div
+style="
+color:${color};
+font-weight:700;
+"
+>
+
+${percent}%
+
+</div>
+
+<div
+style="
+color:${change.color};
+font-weight:900;
+margin-top:6px;
+"
+>
+
+${change.text}
+
+</div>
+
+</td>
+
+`;
+
+}else{
+
+html += `<td>-</td>`;
+
+}
+
+}
+
+const overall =
+getOverallStatus(
+changes
+);
+
+html += `
+
+<td
+style="
+color:${overall.color};
+font-weight:900;
+"
+>
+
+${overall.text}
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+tableBody.innerHTML = html;
+
+}
+
+window.archiveResults =
+async function(){
+
+const snapshot =
+await getDocs(
+collection(db,"grades")
+);
+
+for(const item of snapshot.docs){
+
+const data =
+item.data();
+
+await addDoc(
+collection(db,"archive"),
+{
+studentName:
+data.studentName,
+
+className:
+data.className,
+
+subject:
+data.subject,
+
+examName:
+data.examName,
+
+grade:
+data.grade,
+
+maxDegree:
+data.maxDegree || "",
+
+teacherName:
+data.teacherName,
+
+archivedAt:
+new Date().toLocaleString()
+}
+);
+
+}
+
+alert(
+"تمت أرشفة النتائج"
+);
+
 };
 
-window.logout = function() {
-  localStorage.clear();
-  window.location.href = "index.html";
+window.logout =
+function(){
+
+localStorage.clear();
+
+window.location.href =
+"index.html";
+
 };
 
 await loadExams();
@@ -390,4 +836,5 @@ await loadTeachers();
 </script>
 
 </body>
+
 </html>
