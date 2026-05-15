@@ -3,380 +3,419 @@
 
 <head>
 
-  <meta charset="UTF-8" />
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
 
-  <title>التقارير</title>
+<title>Reports</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
-
-  <style>
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Cairo', sans-serif;
-    }
-
-    body {
-      background: #0f172a;
-      color: white;
-      min-height: 100vh;
-      padding: 30px;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-
-    .topbar h1 {
-      font-size: 32px;
-      font-weight: 800;
-    }
-
-    .print-btn {
-      border: none;
-      background: #2563eb;
-      color: white;
-      padding: 14px 20px;
-      border-radius: 16px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .section {
-      background: #1e293b;
-      border-radius: 24px;
-      padding: 25px;
-      margin-bottom: 25px;
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .filters {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 18px;
-      margin-bottom: 25px;
-    }
-
-    select {
-      width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      border: none;
-      background: #334155;
-      color: white;
-      font-size: 15px;
-      outline: none;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th {
-      background: rgba(255,255,255,0.05);
-      padding: 15px;
-      text-align: center;
-      color: #f8fafc;
-      font-size: 14px;
-    }
-
-    td {
-      padding: 15px;
-      text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      color: #cbd5e1;
-      font-size: 14px;
-    }
-
-    .excellent {
-      color: #22c55e;
-      font-weight: 700;
-    }
-
-    .good {
-      color: #3b82f6;
-      font-weight: 700;
-    }
-
-    .weak {
-      color: #ef4444;
-      font-weight: 700;
-    }
-
-    .up {
-      color: #22c55e;
-      font-weight: 700;
-    }
-
-    .down {
-      color: #ef4444;
-      font-weight: 700;
-    }
-
-    .stable {
-      color: #94a3b8;
-      font-weight: 700;
-    }
-
-    @media print {
-
-      body {
-        background: white;
-        color: black;
-      }
-
-      .print-btn,
-      .filters {
-        display: none;
-      }
-
-      .section {
-        border: none;
-        background: white;
-      }
-
-      table {
-        color: black;
-      }
-
-    }
-
-  </style>
+<link
+rel="stylesheet"
+href="style.css"
+/>
 
 </head>
 
 <body>
 
-  <div class="topbar">
+<div class="dashboard-layout">
 
-    <h1>
-      التقارير والتحليلات
-    </h1>
+<div class="sidebar">
 
-    <button
-      class="print-btn"
-      onclick="window.print()"
-    >
-      طباعة التقرير
-    </button>
+<div class="logo-box">
+Rased<br>
+Insights
+</div>
 
-  </div>
+<div class="user-box">
 
-  <div class="section">
+<div class="user-title">
+التقارير العامة
+</div>
 
-    <div class="filters">
+<div class="user-name">
+قسم اللغة الإنجليزية
+</div>
 
-      <select>
+</div>
 
-        <option>
-          اختر الفصل
-        </option>
+<div class="menu">
 
-        <option>
-          أول ثانوي A
-        </option>
+<button onclick="showSection('summarySection')">
+ملخص النتائج
+</button>
 
-        <option>
-          أول ثانوي B
-        </option>
+<button onclick="showSection('topStudentsSection')">
+الطلاب الأعلى
+</button>
 
-      </select>
+<button onclick="showSection('statisticsSection')">
+الإحصائيات
+</button>
 
-      <select>
+<button
+class="logout-btn"
+onclick="logout()"
+>
+خروج
+</button>
 
-        <option>
-          جميع الاختبارات
-        </option>
+</div>
 
-        <option>
-          الاختبار الدوري الأول
-        </option>
+</div>
 
-        <option>
-          الاختبار الدوري الثاني
-        </option>
+<div class="main">
 
-        <option>
-          اختبار الفترة الأولى
-        </option>
+<div
+class="section active-section"
+id="summarySection"
+>
 
-      </select>
+<div class="section-header">
 
-    </div>
+<div class="section-title">
+ملخص نتائج الطلاب
+</div>
 
-    <table>
+</div>
 
-      <thead>
+<table>
 
-        <tr>
+<thead>
 
-          <th>
-            الطالب
-          </th>
+<tr>
 
-          <th>
-            دوري 1
-          </th>
+<th>
+الطالب
+</th>
 
-          <th>
-            دوري 2
-          </th>
+<th>
+الفصل
+</th>
 
-          <th>
-            دوري 3
-          </th>
+<th>
+الاختبار
+</th>
 
-          <th>
-            الفترة 1
-          </th>
+<th>
+الدرجة
+</th>
 
-          <th>
-            المتوسط
-          </th>
+<th>
+المعلم
+</th>
 
-          <th>
-            التقييم
-          </th>
+</tr>
 
-          <th>
-            الحالة
-          </th>
+</thead>
 
-        </tr>
+<tbody id="summaryTable"></tbody>
 
-      </thead>
+</table>
 
-      <tbody>
+</div>
 
-        <tr>
+<div
+class="section"
+id="topStudentsSection"
+>
 
-          <td>
-            محمد أحمد
-          </td>
+<div class="section-header">
 
-          <td>
-            80
-          </td>
+<div class="section-title">
+الطلاب الأعلى درجات
+</div>
 
-          <td>
-            86
-          </td>
+</div>
 
-          <td>
-            94
-          </td>
+<table>
 
-          <td>
-            96
-          </td>
+<thead>
 
-          <td>
-            89
-          </td>
+<tr>
 
-          <td class="excellent">
-            ممتاز
-          </td>
+<th>
+الترتيب
+</th>
 
-          <td class="up">
-            ↑ تحسن
-          </td>
+<th>
+الطالب
+</th>
 
-        </tr>
+<th>
+الفصل
+</th>
 
-        <tr>
+<th>
+الدرجة
+</th>
 
-          <td>
-            علي خالد
-          </td>
+</tr>
 
-          <td>
-            75
-          </td>
+</thead>
 
-          <td>
-            71
-          </td>
+<tbody id="topStudentsTable"></tbody>
 
-          <td>
-            68
-          </td>
+</table>
 
-          <td>
-            65
-          </td>
+</div>
 
-          <td>
-            69
-          </td>
+<div
+class="section"
+id="statisticsSection"
+>
 
-          <td class="good">
-            جيد
-          </td>
+<div class="section-header">
 
-          <td class="down">
-            ↓ انخفاض
-          </td>
+<div class="section-title">
+الإحصائيات العامة
+</div>
 
-        </tr>
+</div>
 
-        <tr>
+<div class="stats-grid">
 
-          <td>
-            عبدالله سالم
-          </td>
+<div class="stat-card">
 
-          <td>
-            83
-          </td>
+<div class="stat-title">
+عدد الطلاب
+</div>
 
-          <td>
-            84
-          </td>
+<div
+class="stat-number"
+id="studentsCount"
+>
+0
+</div>
 
-          <td>
-            84
-          </td>
+</div>
 
-          <td>
-            85
-          </td>
+<div class="stat-card">
 
-          <td>
-            84
-          </td>
+<div class="stat-title">
+عدد الاختبارات
+</div>
 
-          <td class="excellent">
-            جيد جدًا
-          </td>
+<div
+class="stat-number"
+id="examsCount"
+>
+0
+</div>
 
-          <td class="stable">
-            → ثابت
-          </td>
+</div>
 
-        </tr>
+<div class="stat-card">
 
-      </tbody>
+<div class="stat-title">
+متوسط الدرجات
+</div>
 
-    </table>
+<div
+class="stat-number"
+id="averageGrade"
+>
+0
+</div>
 
-  </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { db }
+from "./firebase.js";
+
+import {
+
+collection,
+getDocs
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+window.showSection =
+function(id){
+
+document
+.querySelectorAll(".section")
+.forEach(section=>{
+
+section.classList.remove(
+"active-section"
+);
+
+});
+
+document
+.getElementById(id)
+.classList.add(
+"active-section"
+);
+
+};
+
+async function loadReports(){
+
+const snapshot =
+await getDocs(
+collection(db,"grades")
+);
+
+const summaryTable =
+document.getElementById(
+"summaryTable"
+);
+
+const topStudentsTable =
+document.getElementById(
+"topStudentsTable"
+);
+
+summaryTable.innerHTML = "";
+
+let grades = [];
+
+snapshot.forEach(item=>{
+
+const data =
+item.data();
+
+grades.push(data);
+
+summaryTable.innerHTML += `
+
+<tr>
+
+<td>
+${data.studentName}
+</td>
+
+<td>
+${data.className}
+</td>
+
+<td>
+${data.examName}
+</td>
+
+<td>
+${data.grade}
+</td>
+
+<td>
+${data.teacherName}
+</td>
+
+</tr>
+
+`;
+
+});
+
+grades.sort(
+(a,b)=>
+Number(b.grade)
+-
+Number(a.grade)
+);
+
+topStudentsTable.innerHTML = "";
+
+grades
+.slice(0,10)
+.forEach((student,index)=>{
+
+topStudentsTable.innerHTML += `
+
+<tr>
+
+<td>
+${index + 1}
+</td>
+
+<td>
+${student.studentName}
+</td>
+
+<td>
+${student.className}
+</td>
+
+<td>
+${student.grade}
+</td>
+
+</tr>
+
+`;
+
+});
+
+document
+.getElementById("studentsCount")
+.innerText =
+grades.length;
+
+document
+.getElementById("examsCount")
+.innerText =
+new Set(
+grades.map(
+g=>g.examName
+)
+).size;
+
+let total = 0;
+
+grades.forEach(g=>{
+
+total +=
+Number(g.grade);
+
+});
+
+document
+.getElementById("averageGrade")
+.innerText =
+
+grades.length
+?
+
+Math.round(
+total / grades.length
+)
+
+:
+
+0;
+
+}
+
+window.logout =
+function(){
+
+localStorage.clear();
+
+window.location.href =
+"index.html";
+
+};
+
+loadReports();
+
+</script>
 
 </body>
 
