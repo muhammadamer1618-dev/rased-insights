@@ -1,4 +1,4 @@
-```html
+<!-- dashboard.html -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
@@ -19,6 +19,14 @@ href="style.css"
 />
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<style>
+
+.hidden{
+display:none;
+}
+
+</style>
 
 </head>
 
@@ -68,7 +76,7 @@ Insights
 </button>
 
 <button onclick="showSection('assignmentsSection')">
-إسناد الفصول
+الإسناد
 </button>
 
 <button onclick="showSection('examsSection')">
@@ -234,7 +242,7 @@ onclick="openModal('class')"
 <thead>
 
 <tr>
-<th>اسم الفصل</th>
+<th>الفصل</th>
 <th>الإجراءات</th>
 </tr>
 
@@ -316,7 +324,7 @@ id="assignmentsSection"
 <div class="section-header">
 
 <div class="section-title">
-إسناد الفصول للمعلمين
+إسناد المعلمين
 </div>
 
 <button
@@ -371,92 +379,19 @@ onclick="openModal('exam')"
 <thead>
 
 <tr>
-
-<th>
-اسم الاختبار
-</th>
-
-<th>
-الدرجة النهائية
-</th>
-
-<th>
-الإجراءات
-</th>
-
+<th>الاختبار</th>
+<th>الدرجة النهائية</th>
+<th>الإجراءات</th>
 </tr>
 
 </thead>
 
-<tbody id="examsTable">
-
-<tr>
-<td>الاختبار الدوري الأول</td>
-<td>10</td>
-<td></td>
-</tr>
-
-<tr>
-<td>الاختبار الدوري الثاني</td>
-<td>10</td>
-<td></td>
-</tr>
-
-<tr>
-<td>الاختبار الدوري الثالث</td>
-<td>10</td>
-<td></td>
-</tr>
-
-<tr>
-<td>الاختبار الدوري الرابع</td>
-<td>10</td>
-<td></td>
-</tr>
-
-<tr>
-<td>الاختبار الدوري الخامس</td>
-<td>10</td>
-<td></td>
-</tr>
-
-<tr>
-<td>الاختبار الدوري السادس</td>
-<td>10</td>
-<td></td>
-</tr>
-
-<tr>
-<td>الاختبار الدوري السابع</td>
-<td>10</td>
-<td></td>
-</tr>
-
-<tr>
-<td>الاختبار الدوري الثامن</td>
-<td>10</td>
-<td></td>
-</tr>
-
-<tr>
-<td>اختبار الفترة الأولى</td>
-<td>20</td>
-<td></td>
-</tr>
-
-<tr>
-<td>اختبار الفترة الثانية</td>
-<td>20</td>
-<td></td>
-</tr>
-
-</tbody>
+<tbody id="examsTable"></tbody>
 
 </table>
 
 </div>
-```
-```html id="nq5zpm"
+
 <div
 class="section"
 id="archiveSection"
@@ -470,20 +405,18 @@ id="archiveSection"
 
 </div>
 
-<table>
+<div
+style="
+background:#0f172a;
+padding:20px;
+border-radius:20px;
+color:white;
+"
+>
 
-<thead>
+إدارة أرشيف النتائج.
 
-<tr>
-<th>العنصر</th>
-<th>النوع</th>
-</tr>
-
-</thead>
-
-<tbody id="archiveTable"></tbody>
-
-</table>
+</div>
 
 </div>
 
@@ -561,12 +494,12 @@ id="teacherGroup"
 
 <div
 class="input-group hidden"
-id="examDegreeGroup"
+id="degreeGroup"
 >
 
 <input
 type="number"
-id="examDegreeInput"
+id="degreeInput"
 placeholder="الدرجة النهائية"
 />
 
@@ -605,9 +538,7 @@ collection,
 addDoc,
 getDocs,
 deleteDoc,
-doc,
-query,
-where
+doc
 
 }
 
@@ -626,9 +557,12 @@ window.location.href =
 let currentType = "";
 
 const modal =
-document.getElementById("modal");
+document.getElementById(
+"modal"
+);
 
-window.showSection = function(id){
+window.showSection =
+function(id){
 
 document
 .querySelectorAll(".section")
@@ -648,11 +582,13 @@ document
 
 };
 
-window.openModal = async(type)=>{
+window.openModal =
+async function(type){
 
 currentType = type;
 
-modal.style.display = "flex";
+modal.style.display =
+"flex";
 
 document
 .getElementById("nameInput")
@@ -667,7 +603,7 @@ document
 .value = "";
 
 document
-.getElementById("examDegreeInput")
+.getElementById("degreeInput")
 .value = "";
 
 document
@@ -687,7 +623,7 @@ document
 .classList.add("hidden");
 
 document
-.getElementById("examDegreeGroup")
+.getElementById("degreeGroup")
 .classList.add("hidden");
 
 if(type === "teacher"){
@@ -777,20 +713,23 @@ document
 "إضافة اختبار";
 
 document
-.getElementById("examDegreeGroup")
+.getElementById("degreeGroup")
 .classList.remove("hidden");
 
 }
 
 };
 
-window.closeModal = function(){
+window.closeModal =
+function(){
 
-modal.style.display = "none";
+modal.style.display =
+"none";
 
 };
 
-window.saveData = async function(){
+window.saveData =
+async function(){
 
 const name =
 document
@@ -817,9 +756,9 @@ document
 .getElementById("teacherSelect")
 .value;
 
-const examDegree =
+const maxDegree =
 document
-.getElementById("examDegreeInput")
+.getElementById("degreeInput")
 .value;
 
 if(currentType === "teacher"){
@@ -895,33 +834,15 @@ loadAssignments();
 
 if(currentType === "exam"){
 
-const examsTable =
-document.getElementById(
-"examsTable"
+await addDoc(
+collection(db,"exams"),
+{
+examName:name,
+maxDegree
+}
 );
 
-examsTable.innerHTML += `
-
-<tr>
-
-<td>${name}</td>
-
-<td>${examDegree}</td>
-
-<td>
-
-<button
-class="action-btn delete-btn"
-onclick="this.parentElement.parentElement.remove()"
->
-حذف
-</button>
-
-</td>
-
-</tr>
-
-`;
+loadExams();
 
 }
 
@@ -973,12 +894,15 @@ onclick="deleteTeacher('${item.id}')"
 
 });
 
-updateCounts();
+document.getElementById(
+"teachersCount"
+).innerText =
+snapshot.size;
 
 }
 
 window.deleteTeacher =
-async(id)=>{
+async function(id){
 
 await deleteDoc(
 doc(db,"teachers",id)
@@ -1032,13 +956,15 @@ onclick="deleteSupervisor('${item.id}')"
 
 });
 
-updateCounts();
+document.getElementById(
+"supervisorsCount"
+).innerText =
+snapshot.size;
 
 }
-```
-```html id="q7xmle"
+
 window.deleteSupervisor =
-async(id)=>{
+async function(id){
 
 await deleteDoc(
 doc(db,"supervisors",id)
@@ -1090,12 +1016,15 @@ onclick="deleteClass('${item.id}')"
 
 });
 
-updateCounts();
+document.getElementById(
+"classesCount"
+).innerText =
+snapshot.size;
 
 }
 
 window.deleteClass =
-async(id)=>{
+async function(id){
 
 await deleteDoc(
 doc(db,"classes",id)
@@ -1129,7 +1058,6 @@ table.innerHTML += `
 <tr>
 
 <td>${data.name}</td>
-
 <td>${data.className}</td>
 
 <td>
@@ -1149,12 +1077,15 @@ onclick="deleteStudent('${item.id}')"
 
 });
 
-updateCounts();
+document.getElementById(
+"studentsCount"
+).innerText =
+snapshot.size;
 
 }
 
 window.deleteStudent =
-async(id)=>{
+async function(id){
 
 await deleteDoc(
 doc(db,"students",id)
@@ -1188,7 +1119,6 @@ table.innerHTML += `
 <tr>
 
 <td>${data.className}</td>
-
 <td>${data.teacherName}</td>
 
 <td>
@@ -1211,13 +1141,69 @@ onclick="deleteAssignment('${item.id}')"
 }
 
 window.deleteAssignment =
-async(id)=>{
+async function(id){
 
 await deleteDoc(
 doc(db,"assignments",id)
 );
 
 loadAssignments();
+
+};
+
+async function loadExams(){
+
+const table =
+document.getElementById(
+"examsTable"
+);
+
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"exams")
+);
+
+snapshot.forEach(item=>{
+
+const data =
+item.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>${data.examName}</td>
+<td>${data.maxDegree}</td>
+
+<td>
+
+<button
+class="action-btn delete-btn"
+onclick="deleteExam('${item.id}')"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+window.deleteExam =
+async function(id){
+
+await deleteDoc(
+doc(db,"exams",id)
+);
+
+loadExams();
 
 };
 
@@ -1237,11 +1223,10 @@ collection(db,"classes")
 
 snapshot.forEach(item=>{
 
-const data =
-item.data();
-
 select.innerHTML += `
-<option>${data.name}</option>
+<option>
+${item.data().name}
+</option>
 `;
 
 });
@@ -1264,46 +1249,13 @@ collection(db,"teachers")
 
 snapshot.forEach(item=>{
 
-const data =
-item.data();
-
 select.innerHTML += `
-<option>${data.name}</option>
+<option>
+${item.data().name}
+</option>
 `;
 
 });
-
-}
-
-function updateCounts(){
-
-document.getElementById(
-"teachersCount"
-).innerText =
-document.querySelectorAll(
-"#teachersTable tr"
-).length;
-
-document.getElementById(
-"supervisorsCount"
-).innerText =
-document.querySelectorAll(
-"#supervisorsTable tr"
-).length;
-
-document.getElementById(
-"classesCount"
-).innerText =
-document.querySelectorAll(
-"#classesTable tr"
-).length;
-
-document.getElementById(
-"studentsCount"
-).innerText =
-document.querySelectorAll(
-"#studentsTable tr"
-).length;
 
 }
 
@@ -1354,23 +1306,13 @@ i < rows.length;
 i++
 ){
 
-const studentName =
-rows[i][0];
-
-const className =
-rows[i][1];
-
-if(studentName){
-
 await addDoc(
 collection(db,"students"),
 {
-name:studentName,
-className:className || ""
+name:rows[i][0],
+className:rows[i][1]
 }
 );
-
-}
 
 }
 
@@ -1383,11 +1325,10 @@ reader.readAsArrayBuffer(file);
 }
 );
 
-window.logout = function(){
+window.logout =
+function(){
 
-localStorage.removeItem(
-"rasedRole"
-);
+localStorage.clear();
 
 window.location.href =
 "index.html";
@@ -1395,18 +1336,14 @@ window.location.href =
 };
 
 loadTeachers();
-
 loadSupervisors();
-
 loadClasses();
-
 loadStudents();
-
 loadAssignments();
+loadExams();
 
 </script>
 
 </body>
 
 </html>
-```
