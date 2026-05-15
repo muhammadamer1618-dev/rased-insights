@@ -2,137 +2,200 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Supervisor Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;800&display=swap" rel="stylesheet">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
 
-<style>
+<title>Supervisor Panel</title>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
+<link
+rel="stylesheet"
+href="style.css"
+/>
 
-body{
-background:#0f172a;
-color:white;
-min-height:100vh;
-}
-
-.container{
-padding:30px;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-}
-
-.logout-btn{
-background:#dc2626;
-border:none;
-padding:12px 18px;
-border-radius:12px;
-color:white;
-font-weight:700;
-cursor:pointer;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin-bottom:30px;
-}
-
-.card{
-background:#1e293b;
-padding:25px;
-border-radius:20px;
-}
-
-.number{
-font-size:32px;
-font-weight:800;
-color:#facc15;
-}
-
-.section{
-background:#1e293b;
-padding:25px;
-border-radius:20px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
-
-th,td{
-padding:15px;
-text-align:center;
-border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.excellent{color:#22c55e;font-weight:700;}
-.weak{color:#ef4444;font-weight:700;}
-
-</style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="dashboard-layout">
 
-<div class="topbar">
-<h1>لوحة المشرف</h1>
+<div class="sidebar">
 
-<button class="logout-btn" onclick="logout()">
+<div class="logo-box">
+Rased<br>
+Insights
+</div>
+
+<div class="user-box">
+
+<div class="user-title">
+المشرف الحالي
+</div>
+
+<div
+class="user-name"
+id="supervisorName"
+>
+Supervisor
+</div>
+
+</div>
+
+<div class="menu">
+
+<button onclick="showSection('reportsSection')">
+التقارير
+</button>
+
+<button
+class="logout-btn"
+onclick="logout()"
+>
 تسجيل الخروج
 </button>
-</div>
 
-<div class="cards">
-
-<div class="card">
-<h3>عدد الطلاب</h3>
-<div class="number" id="studentsCount">0</div>
-</div>
-
-<div class="card">
-<h3>المتفوقين</h3>
-<div class="number" id="excellentCount">0</div>
-</div>
-
-<div class="card">
-<h3>الضعاف</h3>
-<div class="number" id="weakCount">0</div>
 </div>
 
 </div>
 
-<div class="section">
+<div class="main">
 
-<h2>متابعة الأداء</h2>
+<div
+class="section active-section"
+id="reportsSection"
+>
+
+<div class="section-header">
+
+<div class="section-title">
+تقارير الطلاب
+</div>
+
+</div>
+
+<div
+style="
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
+margin-bottom:25px;
+"
+>
+
+<div class="input-group">
+
+<select id="teacherSelect">
+<option>
+اختر المعلم
+</option>
+</select>
+
+</div>
+
+<div class="input-group">
+
+<select id="classSelect">
+<option>
+اختر الفصل
+</option>
+</select>
+
+</div>
+
+<div class="input-group">
+
+<select id="examSelect">
+
+<option>
+كل الاختبارات
+</option>
+
+<option>
+الاختبار الدوري الأول
+</option>
+
+<option>
+الاختبار الدوري الثاني
+</option>
+
+<option>
+الاختبار الدوري الثالث
+</option>
+
+<option>
+الاختبار الدوري الرابع
+</option>
+
+<option>
+الاختبار الدوري الخامس
+</option>
+
+<option>
+الاختبار الدوري السادس
+</option>
+
+<option>
+الاختبار الدوري السابع
+</option>
+
+<option>
+الاختبار الدوري الثامن
+</option>
+
+<option>
+اختبار الفترة الأولى
+</option>
+
+<option>
+اختبار الفترة الثانية
+</option>
+
+</select>
+
+</div>
+
+</div>
 
 <table>
 
 <thead>
+
 <tr>
-<th>الطالب</th>
-<th>المتوسط</th>
-<th>الحالة</th>
+
+<th>
+اسم الطالب
+</th>
+
+<th>
+الفصل
+</th>
+
+<th>
+المادة
+</th>
+
+<th>
+الاختبار
+</th>
+
+<th>
+الدرجة
+</th>
+
+<th>
+المعلم
+</th>
+
 </tr>
+
 </thead>
 
-<tbody id="studentsTable"></tbody>
+<tbody id="reportsTable"></tbody>
 
 </table>
 
@@ -140,70 +203,274 @@ border-bottom:1px solid rgba(255,255,255,.08);
 
 </div>
 
-<script>
+</div>
 
-/* AUTH CHECK */
-const user = JSON.parse(localStorage.getItem("currentUser"));
+<script type="module">
 
-if(!user || user.role !== "supervisor"){
-window.location.href = "index.html";
+import { db }
+from "./firebase.js";
+
+import {
+
+collection,
+getDocs,
+query,
+where
+
 }
 
-/* DATA */
-function loadDashboard(){
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-const students = JSON.parse(localStorage.getItem("students")) || [];
+if(
+localStorage.getItem("rasedRole")
+!== "supervisor"
+){
 
-document.getElementById("studentsCount").innerText = students.length;
+window.location.href =
+"index.html";
 
-let excellent = 0;
-let weak = 0;
-
-const tbody = document.getElementById("studentsTable");
-tbody.innerHTML = "";
-
-/* simulate grades if not exist */
-students.forEach(s=>{
-
-let avg = s.avg || Math.floor(Math.random()*100);
-
-let status = "";
-
-if(avg >= 85){
-status = `<span class="excellent">ممتاز ↑</span>`;
-excellent++;
-}
-else if(avg >= 60){
-status = "جيد";
-}
-else{
-status = `<span class="weak">ضعيف ↓</span>`;
-weak++;
 }
 
-tbody.innerHTML += `
-<tr>
-<td>${s.name}</td>
-<td>${avg}</td>
-<td>${status}</td>
-</tr>
+document
+.getElementById("supervisorName")
+.innerText =
+localStorage.getItem(
+"supervisorName"
+);
+
+window.showSection =
+function(id){
+
+document
+.querySelectorAll(".section")
+.forEach(section=>{
+
+section.classList.remove(
+"active-section"
+);
+
+});
+
+document
+.getElementById(id)
+.classList.add(
+"active-section"
+);
+
+};
+
+const teacherSelect =
+document.getElementById(
+"teacherSelect"
+);
+
+const classSelect =
+document.getElementById(
+"classSelect"
+);
+
+const examSelect =
+document.getElementById(
+"examSelect"
+);
+
+const reportsTable =
+document.getElementById(
+"reportsTable"
+);
+
+async function loadTeachers(){
+
+const snapshot =
+await getDocs(
+collection(db,"teachers")
+);
+
+snapshot.forEach(item=>{
+
+const data =
+item.data();
+
+teacherSelect.innerHTML += `
+
+<option>
+${data.name}
+</option>
+
 `;
 
 });
 
-document.getElementById("excellentCount").innerText = excellent;
-document.getElementById("weakCount").innerText = weak;
+}
+
+teacherSelect.addEventListener(
+"change",
+loadTeacherClasses
+);
+
+async function loadTeacherClasses(){
+
+classSelect.innerHTML = `
+<option>
+اختر الفصل
+</option>
+`;
+
+const teacherName =
+teacherSelect.value;
+
+const snapshot =
+await getDocs(
+query(
+collection(db,"assignments"),
+where(
+"teacherName",
+"==",
+teacherName
+)
+)
+);
+
+snapshot.forEach(item=>{
+
+const data =
+item.data();
+
+classSelect.innerHTML += `
+
+<option>
+${data.className}
+</option>
+
+`;
+
+});
+
+loadReports();
 
 }
 
-function logout(){
-localStorage.removeItem("currentUser");
-window.location.href="index.html";
+classSelect.addEventListener(
+"change",
+loadReports
+);
+
+examSelect.addEventListener(
+"change",
+loadReports
+);
+
+async function loadReports(){
+
+reportsTable.innerHTML = "";
+
+const teacherName =
+teacherSelect.value;
+
+const className =
+classSelect.value;
+
+const examName =
+examSelect.value;
+
+if(
+teacherName ===
+"اختر المعلم"
+){
+
+return;
+
 }
 
-loadDashboard();
+const snapshot =
+await getDocs(
+query(
+collection(db,"grades"),
+where(
+"teacherName",
+"==",
+teacherName
+)
+)
+);
+
+snapshot.forEach(item=>{
+
+const data =
+item.data();
+
+if(
+className !==
+"اختر الفصل"
+&&
+data.className !== className
+){
+
+return;
+
+}
+
+if(
+examName !==
+"كل الاختبارات"
+&&
+data.examName !== examName
+){
+
+return;
+
+}
+
+reportsTable.innerHTML += `
+
+<tr>
+
+<td>
+${data.studentName}
+</td>
+
+<td>
+${data.className}
+</td>
+
+<td>
+${data.subject}
+</td>
+
+<td>
+${data.examName}
+</td>
+
+<td>
+${data.grade}
+</td>
+
+<td>
+${data.teacherName}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+window.logout =
+function(){
+
+localStorage.clear();
+
+window.location.href =
+"index.html";
+
+};
+
+loadTeachers();
 
 </script>
 
 </body>
+
 </html>
