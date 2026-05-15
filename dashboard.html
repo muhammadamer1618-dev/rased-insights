@@ -1,14 +1,25 @@
+```html id="g4r7sn"
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
 <title>Admin Dashboard</title>
-<link rel="stylesheet" href="style.css"/>
+
+<link
+rel="stylesheet"
+href="style.css"
+/>
+
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-<style>
-.hidden{display:none!important;}
-</style>
+
 </head>
 
 <body>
@@ -17,708 +28,1796 @@
 
 <div class="sidebar">
 
-<div class="logo-box">Rased<br>Insights</div>
+<div class="logo-box">
+Rased<br>
+Insights
+</div>
 
 <div class="user-box">
-  <div class="user-title">الأدمن الحالي</div>
-  <div class="user-name">محمد عامر أحمد</div>
+
+<div class="user-title">
+الأدمن الحالي
+</div>
+
+<div class="user-name">
+محمد عامر أحمد
+</div>
+
 </div>
 
 <div class="menu">
-  <button onclick="showSection('overviewSection')">لوحة التحكم</button>
-  <button onclick="showSection('teachersSection')">المعلمين</button>
-  <button onclick="showSection('supervisorsSection')">المشرفين</button>
-  <button onclick="showSection('classesSection')">الفصول</button>
-  <button onclick="showSection('studentsSection')">الطلاب</button>
-  <button onclick="showSection('assignmentsSection')">إسناد الفصول</button>
-  <button onclick="showSection('examsSection')">الاختبارات</button>
-  <button onclick="showSection('archiveSection')">الأرشيف</button>
-  <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+
+<button onclick="showSection('overviewSection')">
+لوحة التحكم
+</button>
+
+<button onclick="showSection('teachersSection')">
+المعلمين
+</button>
+
+<button onclick="showSection('supervisorsSection')">
+المشرفين
+</button>
+
+<button onclick="showSection('classesSection')">
+الفصول
+</button>
+
+<button onclick="showSection('studentsSection')">
+الطلاب
+</button>
+
+<button onclick="showSection('assignmentsSection')">
+الإسناد
+</button>
+
+<button onclick="showSection('examsSection')">
+الاختبارات
+</button>
+
+<button onclick="showSection('archiveSection')">
+الأرشيف
+</button>
+
+<button
+class="logout-btn"
+onclick="logout()"
+>
+تسجيل الخروج
+</button>
+
 </div>
 
 </div>
 
 <div class="main">
 
-<div class="section active-section" id="overviewSection">
-  <div class="section-header">
-    <div class="section-title">لوحة التحكم</div>
-  </div>
+<div
+class="section active-section"
+id="overviewSection"
+>
 
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-title">المعلمين</div>
-      <div class="stat-number" id="teachersCount">0</div>
-    </div>
+<div class="section-header">
 
-    <div class="stat-card">
-      <div class="stat-title">المشرفين</div>
-      <div class="stat-number" id="supervisorsCount">0</div>
-    </div>
+<div class="section-title">
+لوحة التحكم
+</div>
 
-    <div class="stat-card">
-      <div class="stat-title">الفصول</div>
-      <div class="stat-number" id="classesCount">0</div>
-    </div>
+</div>
 
-    <div class="stat-card">
-      <div class="stat-title">الطلاب</div>
-      <div class="stat-number" id="studentsCount">0</div>
-    </div>
-  </div>
+<div class="stats-grid">
+
+<div class="stat-card">
+<div class="stat-title">المعلمين</div>
+<div class="stat-number" id="teachersCount">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">المشرفين</div>
+<div class="stat-number" id="supervisorsCount">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">الفصول</div>
+<div class="stat-number" id="classesCount">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">الطلاب</div>
+<div class="stat-number" id="studentsCount">0</div>
+</div>
+
+</div>
+
 </div>
 
 <div class="section" id="teachersSection">
-  <div class="section-header">
-    <div class="section-title">إدارة المعلمين</div>
-    <button class="primary-btn" onclick="openModal('teacher')">إضافة معلم</button>
-  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>الاسم</th>
-        <th>Username</th>
-        <th>Password</th>
-        <th>الإجراءات</th>
-      </tr>
-    </thead>
-    <tbody id="teachersTable"></tbody>
-  </table>
+<div class="section-header">
+
+<div class="section-title">
+إدارة المعلمين
+</div>
+
+<button
+class="primary-btn"
+onclick="openModal('teacher')"
+>
+إضافة معلم
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>الاسم</th>
+<th>Username</th>
+<th>Password</th>
+<th>الإجراءات</th>
+</tr>
+
+</thead>
+
+<tbody id="teachersTable"></tbody>
+
+</table>
+
 </div>
 
 <div class="section" id="supervisorsSection">
-  <div class="section-header">
-    <div class="section-title">إدارة المشرفين</div>
-    <button class="primary-btn" onclick="openModal('supervisor')">إضافة مشرف</button>
-  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>الاسم</th>
-        <th>Username</th>
-        <th>Password</th>
-        <th>الإجراءات</th>
-      </tr>
-    </thead>
-    <tbody id="supervisorsTable"></tbody>
-  </table>
+<div class="section-header">
+
+<div class="section-title">
+إدارة المشرفين
+</div>
+
+<button
+class="primary-btn"
+onclick="openModal('supervisor')"
+>
+إضافة مشرف
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>الاسم</th>
+<th>Username</th>
+<th>Password</th>
+<th>الإجراءات</th>
+</tr>
+
+</thead>
+
+<tbody id="supervisorsTable"></tbody>
+
+</table>
+
 </div>
 
 <div class="section" id="classesSection">
-  <div class="section-header">
-    <div class="section-title">إدارة الفصول</div>
-    <button class="primary-btn" onclick="openModal('class')">إضافة فصل</button>
-  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>اسم الفصل</th>
-        <th>الإجراءات</th>
-      </tr>
-    </thead>
-    <tbody id="classesTable"></tbody>
-  </table>
+<div class="section-header">
+
+<div class="section-title">
+إدارة الفصول
+</div>
+
+<button
+class="primary-btn"
+onclick="openModal('class')"
+>
+إضافة فصل
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>الفصل</th>
+<th>الإجراءات</th>
+</tr>
+
+</thead>
+
+<tbody id="classesTable"></tbody>
+
+</table>
+
 </div>
 
 <div class="section" id="studentsSection">
-  <div class="section-header">
-    <div class="section-title">إدارة الطلاب</div>
 
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <button class="primary-btn" onclick="openModal('student')">إضافة طالب</button>
-      <button class="primary-btn" onclick="document.getElementById('excelFile').click()">استيراد Excel</button>
-      <input type="file" id="excelFile" accept=".xlsx,.xls" class="hidden"/>
-    </div>
-  </div>
+<div class="section-header">
 
-  <table>
-    <thead>
-      <tr>
-        <th>اسم الطالب</th>
-        <th>الفصل</th>
-        <th>الإجراءات</th>
-      </tr>
-    </thead>
-    <tbody id="studentsTable"></tbody>
-  </table>
+<div class="section-title">
+إدارة الطلاب
+</div>
+
+<div
+style="
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+"
+>
+
+<button
+class="primary-btn"
+onclick="openModal('student')"
+>
+إضافة طالب
+</button>
+
+<button
+class="primary-btn"
+onclick="document.getElementById('excelFile').click()"
+>
+استيراد Excel
+</button>
+
+<input
+type="file"
+id="excelFile"
+accept=".xlsx,.xls"
+class="hidden"
+/>
+
+</div>
+
+</div>
+
+<div style="overflow:auto;">
+
+<table>
+
+<thead>
+
+<tr>
+<th>اسم الطالب</th>
+<th>الفصل</th>
+<th>الإجراءات</th>
+</tr>
+
+</thead>
+
+<tbody id="studentsTable"></tbody>
+
+</table>
+
+</div>
+
 </div>
 
 <div class="section" id="assignmentsSection">
-  <div class="section-header">
-    <div class="section-title">إسناد الفصول للمعلمين</div>
-    <button class="primary-btn" onclick="openModal('assignment')">إسناد جديد</button>
-  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>الفصل</th>
-        <th>المعلم</th>
-        <th>الإجراءات</th>
-      </tr>
-    </thead>
-    <tbody id="assignmentsTable"></tbody>
-  </table>
+<div class="section-header">
+
+<div class="section-title">
+إسناد المعلمين
+</div>
+
+<button
+class="primary-btn"
+onclick="openModal('assignment')"
+>
+إسناد جديد
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>الفصل</th>
+<th>المعلم</th>
+<th>الإجراءات</th>
+</tr>
+
+</thead>
+
+<tbody id="assignmentsTable"></tbody>
+
+</table>
+
 </div>
 
 <div class="section" id="examsSection">
-  <div class="section-header">
-    <div class="section-title">إدارة الاختبارات</div>
-    <button class="primary-btn" onclick="openModal('exam')">إضافة اختبار</button>
-  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>الترتيب</th>
-        <th>اسم الاختبار</th>
-        <th>الدرجة النهائية</th>
-        <th>الإجراءات</th>
-      </tr>
-    </thead>
-    <tbody id="examsTable"></tbody>
-  </table>
+<div class="section-header">
+
+<div class="section-title">
+إدارة الاختبارات
+</div>
+
+<button
+class="primary-btn"
+onclick="openModal('exam')"
+>
+إضافة اختبار
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>الترتيب</th>
+<th>الاختبار</th>
+<th>الدرجة النهائية</th>
+<th>الإجراءات</th>
+</tr>
+
+</thead>
+
+<tbody id="examsTable"></tbody>
+
+</table>
+
 </div>
 
 <div class="section" id="archiveSection">
-  <div class="section-header">
-    <div class="section-title">الأرشيف</div>
-  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>العنصر</th>
-        <th>النوع</th>
-        <th>تاريخ الأرشفة</th>
-      </tr>
-    </thead>
-    <tbody id="archiveTable"></tbody>
-  </table>
+<div class="section-header">
+
+<div class="section-title">
+الأرشيف
 </div>
 
 </div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>العنصر</th>
+<th>النوع</th>
+<th>تاريخ الأرشفة</th>
+</tr>
+
+</thead>
+
+<tbody id="archiveTable"></tbody>
+
+</table>
+
 </div>
 
-<div class="modal" id="modal">
-  <div class="modal-content">
+</div>
 
-    <div class="modal-title" id="modalTitle">إضافة</div>
+</div>
 
-    <div class="input-group" id="nameGroup">
-      <input type="text" id="nameInput" placeholder="الاسم"/>
-    </div>
+<div
+class="modal"
+id="modal"
+>
 
-    <div class="input-group hidden" id="usernameGroup">
-      <input type="text" id="usernameInput" placeholder="Username"/>
-    </div>
+<div class="modal-content">
 
-    <div class="input-group hidden" id="passwordGroup">
-      <input type="text" id="passwordInput" placeholder="Password"/>
-    </div>
+<div
+class="modal-title"
+id="modalTitle"
+>
+إضافة
+</div>
 
-    <div class="input-group hidden" id="classGroup">
-      <select id="classSelect"></select>
-    </div>
+<div
+class="input-group"
+id="nameGroup"
+>
 
-    <div class="input-group hidden" id="teacherGroup">
-      <select id="teacherSelect"></select>
-    </div>
+<input
+type="text"
+id="nameInput"
+placeholder="الاسم"
+/>
 
-    <div class="input-group hidden" id="degreeGroup">
-      <input type="number" id="degreeInput" placeholder="الدرجة النهائية"/>
-    </div>
+</div>
 
-    <div class="modal-actions">
-      <button class="save-btn" onclick="saveData()">حفظ</button>
-      <button class="cancel-btn" onclick="closeModal()">إلغاء</button>
-    </div>
+<div
+class="input-group hidden"
+id="usernameGroup"
+>
 
-  </div>
+<input
+type="text"
+id="usernameInput"
+placeholder="Username"
+/>
+
+</div>
+
+<div
+class="input-group hidden"
+id="passwordGroup"
+>
+
+<input
+type="text"
+id="passwordInput"
+placeholder="Password"
+/>
+
+</div>
+
+<div
+class="input-group hidden"
+id="classGroup"
+>
+
+<select id="classSelect"></select>
+
+</div>
+
+<div
+class="input-group hidden"
+id="teacherGroup"
+>
+
+<select id="teacherSelect"></select>
+
+</div>
+
+<div
+class="input-group hidden"
+id="degreeGroup"
+>
+
+<input
+type="number"
+id="degreeInput"
+placeholder="الدرجة النهائية"
+/>
+
+</div>
+
+<div class="modal-actions">
+
+<button
+class="save-btn"
+onclick="saveData()"
+>
+حفظ
+</button>
+
+<button
+class="cancel-btn"
+onclick="closeModal()"
+>
+إلغاء
+</button>
+
+</div>
+
+</div>
+
 </div>
 
 <script type="module">
 
-import { db } from "./firebase.js";
+import { db }
+from "./firebase.js";
 
 import {
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  updateDoc,
-  doc
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-if (localStorage.getItem("rasedRole") !== "admin") {
-  window.location.href = "index.html";
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+updateDoc,
+doc
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+if(
+localStorage.getItem("rasedRole")
+!== "admin"
+){
+
+window.location.href =
+"index.html";
+
 }
 
 let currentType = "";
 let editId = null;
-const modal = document.getElementById("modal");
 
-window.showSection = function(id) {
-  document.querySelectorAll(".section").forEach(section => {
-    section.classList.remove("active-section");
-  });
+const modal =
+document.getElementById(
+"modal"
+);
 
-  document.getElementById(id).classList.add("active-section");
-};
+window.showSection =
+function(id){
 
-window.openModal = async function(type, id = null, data = {}) {
-  currentType = type;
-  editId = id;
+document
+.querySelectorAll(".section")
+.forEach(section=>{
 
-  modal.style.display = "flex";
+section.classList.remove(
+"active-section"
+);
 
-  document.getElementById("nameInput").value = data.name || data.examName || "";
-  document.getElementById("usernameInput").value = data.username || "";
-  document.getElementById("passwordInput").value = data.password || "";
-  document.getElementById("degreeInput").value = data.maxDegree || "";
-
-  document.getElementById("nameGroup").classList.remove("hidden");
-  document.getElementById("usernameGroup").classList.add("hidden");
-  document.getElementById("passwordGroup").classList.add("hidden");
-  document.getElementById("classGroup").classList.add("hidden");
-  document.getElementById("teacherGroup").classList.add("hidden");
-  document.getElementById("degreeGroup").classList.add("hidden");
-
-  if (type === "teacher") {
-    document.getElementById("modalTitle").innerText = id ? "تعديل معلم" : "إضافة معلم";
-    document.getElementById("usernameGroup").classList.remove("hidden");
-    document.getElementById("passwordGroup").classList.remove("hidden");
-  }
-
-  if (type === "supervisor") {
-    document.getElementById("modalTitle").innerText = id ? "تعديل مشرف" : "إضافة مشرف";
-    document.getElementById("usernameGroup").classList.remove("hidden");
-    document.getElementById("passwordGroup").classList.remove("hidden");
-  }
-
-  if (type === "class") {
-    document.getElementById("modalTitle").innerText = id ? "تعديل فصل" : "إضافة فصل";
-  }
-
-  if (type === "student") {
-    document.getElementById("modalTitle").innerText = id ? "تعديل طالب" : "إضافة طالب";
-    document.getElementById("classGroup").classList.remove("hidden");
-    await loadClassOptions();
-
-    if (data.className) {
-      document.getElementById("classSelect").value = data.className;
-    }
-  }
-
-  if (type === "assignment") {
-    document.getElementById("modalTitle").innerText = id ? "تعديل إسناد" : "إسناد فصل";
-    document.getElementById("nameGroup").classList.add("hidden");
-    document.getElementById("classGroup").classList.remove("hidden");
-    document.getElementById("teacherGroup").classList.remove("hidden");
-
-    await loadClassOptions();
-    await loadTeacherOptions();
-
-    if (data.className) {
-      document.getElementById("classSelect").value = data.className;
-    }
-
-    if (data.teacherName) {
-      document.getElementById("teacherSelect").value = data.teacherName;
-    }
-  }
-
-  if (type === "exam") {
-    document.getElementById("modalTitle").innerText = id ? "تعديل اختبار" : "إضافة اختبار";
-    document.getElementById("degreeGroup").classList.remove("hidden");
-  }
-};
-
-window.closeModal = function() {
-  modal.style.display = "none";
-  editId = null;
-};
-
-window.saveData = async function() {
-  const name = document.getElementById("nameInput").value.trim();
-  const username = document.getElementById("usernameInput").value.trim();
-  const password = document.getElementById("passwordInput").value.trim();
-  const className = document.getElementById("classSelect").value;
-  const teacherName = document.getElementById("teacherSelect").value;
-  const maxDegree = document.getElementById("degreeInput").value.trim();
-
-  if (currentType !== "assignment" && !name) {
-    alert("أدخل الاسم");
-    return;
-  }
-
-  if (currentType === "teacher") {
-    const payload = { name, username, password };
-
-    if (editId) {
-      await updateDoc(doc(db, "teachers", editId), payload);
-    } else {
-      await addDoc(collection(db, "teachers"), payload);
-    }
-
-    await loadTeachers();
-  }
-
-  if (currentType === "supervisor") {
-    const payload = { name, username, password };
-
-    if (editId) {
-      await updateDoc(doc(db, "supervisors", editId), payload);
-    } else {
-      await addDoc(collection(db, "supervisors"), payload);
-    }
-
-    await loadSupervisors();
-  }
-
-  if (currentType === "class") {
-    const payload = { name };
-
-    if (editId) {
-      await updateDoc(doc(db, "classes", editId), payload);
-    } else {
-      await addDoc(collection(db, "classes"), payload);
-    }
-
-    await loadClasses();
-  }
-
-  if (currentType === "student") {
-    const payload = { name, className };
-
-    if (editId) {
-      await updateDoc(doc(db, "students", editId), payload);
-    } else {
-      await addDoc(collection(db, "students"), payload);
-    }
-
-    await loadStudents();
-  }
-
-  if (currentType === "assignment") {
-    const payload = { className, teacherName };
-
-    if (editId) {
-      await updateDoc(doc(db, "assignments", editId), payload);
-    } else {
-      await addDoc(collection(db, "assignments"), payload);
-    }
-
-    await loadAssignments();
-  }
-
-  if (currentType === "exam") {
-    if (!maxDegree) {
-      alert("أدخل الدرجة النهائية");
-      return;
-    }
-
-    let order = 1;
-
-    if (!editId) {
-      const examsSnapshot = await getDocs(collection(db, "exams"));
-      order = examsSnapshot.size + 1;
-    }
-
-    const payload = {
-      examName: name,
-      maxDegree: Number(maxDegree)
-    };
-
-    if (editId) {
-      await updateDoc(doc(db, "exams", editId), payload);
-    } else {
-      await addDoc(collection(db, "exams"), {
-        ...payload,
-        order
-      });
-    }
-
-    await loadExams();
-  }
-
-  closeModal();
-};
-
-async function archiveItem(name, type) {
-  await addDoc(collection(db, "adminArchive"), {
-    name,
-    type,
-    archivedAt: new Date().toLocaleString()
-  });
-
-  await loadArchive();
-}
-
-async function loadTeachers() {
-  const table = document.getElementById("teachersTable");
-  table.innerHTML = "";
-
-  const snapshot = await getDocs(collection(db, "teachers"));
-
-  snapshot.forEach(item => {
-    const data = item.data();
-
-    table.innerHTML += `
-      <tr>
-        <td>${data.name || ""}</td>
-        <td>${data.username || ""}</td>
-        <td>${data.password || ""}</td>
-        <td>
-          <button class="action-btn edit-btn" onclick='openModal("teacher","${item.id}",${JSON.stringify(data)})'>تعديل</button>
-          <button class="action-btn delete-btn" onclick="deleteTeacher('${item.id}','${data.name || ""}')">حذف</button>
-        </td>
-      </tr>
-    `;
-  });
-
-  document.getElementById("teachersCount").innerText = snapshot.size;
-}
-
-window.deleteTeacher = async function(id, name) {
-  await archiveItem(name, "معلم");
-  await deleteDoc(doc(db, "teachers", id));
-  await loadTeachers();
-};
-
-async function loadSupervisors() {
-  const table = document.getElementById("supervisorsTable");
-  table.innerHTML = "";
-
-  const snapshot = await getDocs(collection(db, "supervisors"));
-
-  snapshot.forEach(item => {
-    const data = item.data();
-
-    table.innerHTML += `
-      <tr>
-        <td>${data.name || ""}</td>
-        <td>${data.username || ""}</td>
-        <td>${data.password || ""}</td>
-        <td>
-          <button class="action-btn edit-btn" onclick='openModal("supervisor","${item.id}",${JSON.stringify(data)})'>تعديل</button>
-          <button class="action-btn delete-btn" onclick="deleteSupervisor('${item.id}','${data.name || ""}')">حذف</button>
-        </td>
-      </tr>
-    `;
-  });
-
-  document.getElementById("supervisorsCount").innerText = snapshot.size;
-}
-
-window.deleteSupervisor = async function(id, name) {
-  await archiveItem(name, "مشرف");
-  await deleteDoc(doc(db, "supervisors", id));
-  await loadSupervisors();
-};
-
-async function loadClasses() {
-  const table = document.getElementById("classesTable");
-  table.innerHTML = "";
-
-  const snapshot = await getDocs(collection(db, "classes"));
-
-  snapshot.forEach(item => {
-    const data = item.data();
-
-    table.innerHTML += `
-      <tr>
-        <td>${data.name || ""}</td>
-        <td>
-          <button class="action-btn edit-btn" onclick='openModal("class","${item.id}",${JSON.stringify(data)})'>تعديل</button>
-          <button class="action-btn delete-btn" onclick="deleteClass('${item.id}','${data.name || ""}')">حذف</button>
-        </td>
-      </tr>
-    `;
-  });
-
-  document.getElementById("classesCount").innerText = snapshot.size;
-}
-
-window.deleteClass = async function(id, name) {
-  await archiveItem(name, "فصل");
-  await deleteDoc(doc(db, "classes", id));
-  await loadClasses();
-};
-
-async function loadStudents() {
-  const table = document.getElementById("studentsTable");
-  table.innerHTML = "";
-
-  const snapshot = await getDocs(collection(db, "students"));
-
-  snapshot.forEach(item => {
-    const data = item.data();
-
-    table.innerHTML += `
-      <tr>
-        <td>${data.name || ""}</td>
-        <td>${data.className || ""}</td>
-        <td>
-          <button class="action-btn edit-btn" onclick='openModal("student","${item.id}",${JSON.stringify(data)})'>تعديل</button>
-          <button class="action-btn delete-btn" onclick="deleteStudent('${item.id}','${data.name || ""}')">حذف</button>
-        </td>
-      </tr>
-    `;
-  });
-
-  document.getElementById("studentsCount").innerText = snapshot.size;
-}
-
-window.deleteStudent = async function(id, name) {
-  await archiveItem(name, "طالب");
-  await deleteDoc(doc(db, "students", id));
-  await loadStudents();
-};
-
-async function loadAssignments() {
-  const table = document.getElementById("assignmentsTable");
-  table.innerHTML = "";
-
-  const snapshot = await getDocs(collection(db, "assignments"));
-
-  snapshot.forEach(item => {
-    const data = item.data();
-
-    table.innerHTML += `
-      <tr>
-        <td>${data.className || ""}</td>
-        <td>${data.teacherName || ""}</td>
-        <td>
-          <button class="action-btn edit-btn" onclick='openModal("assignment","${item.id}",${JSON.stringify(data)})'>تعديل</button>
-          <button class="action-btn delete-btn" onclick="deleteAssignment('${item.id}','${data.className || ""}')">حذف</button>
-        </td>
-      </tr>
-    `;
-  });
-}
-
-window.deleteAssignment = async function(id, name) {
-  await archiveItem(name, "إسناد");
-  await deleteDoc(doc(db, "assignments", id));
-  await loadAssignments();
-};
-
-async function loadExams() {
-  const table = document.getElementById("examsTable");
-  table.innerHTML = "";
-
-  const snapshot = await getDocs(collection(db, "exams"));
-
-  let exams = [];
-
-  snapshot.forEach(item => {
-    exams.push({
-      id: item.id,
-      ...item.data()
-    });
-  });
-
-  exams.sort((a, b) => Number(a.order || 999) - Number(b.order || 999));
-
-  exams.forEach(exam => {
-    table.innerHTML += `
-      <tr>
-        <td>${exam.order || "-"}</td>
-        <td>${exam.examName || ""}</td>
-        <td>${exam.maxDegree || ""}</td>
-        <td>
-          <button class="action-btn edit-btn" onclick='openModal("exam","${exam.id}",${JSON.stringify(exam)})'>تعديل</button>
-          <button class="action-btn delete-btn" onclick="deleteExam('${exam.id}','${exam.examName || ""}')">حذف</button>
-        </td>
-      </tr>
-    `;
-  });
-}
-
-window.deleteExam = async function(id, name) {
-  await archiveItem(name, "اختبار");
-  await deleteDoc(doc(db, "exams", id));
-  await loadExams();
-};
-
-async function loadArchive() {
-  const table = document.getElementById("archiveTable");
-  table.innerHTML = "";
-
-  const snapshot = await getDocs(collection(db, "adminArchive"));
-
-  snapshot.forEach(item => {
-    const data = item.data();
-
-    table.innerHTML += `
-      <tr>
-        <td>${data.name || ""}</td>
-        <td>${data.type || ""}</td>
-        <td>${data.archivedAt || ""}</td>
-      </tr>
-    `;
-  });
-}
-
-async function loadClassOptions() {
-  const select = document.getElementById("classSelect");
-  select.innerHTML = "";
-
-  const snapshot = await getDocs(collection(db, "classes"));
-
-  snapshot.forEach(item => {
-    select.innerHTML += `<option>${item.data().name}</option>`;
-  });
-}
-
-async function loadTeacherOptions() {
-  const select = document.getElementById("teacherSelect");
-  select.innerHTML = "";
-
-  const snapshot = await getDocs(collection(db, "teachers"));
-
-  snapshot.forEach(item => {
-    select.innerHTML += `<option>${item.data().name}</option>`;
-  });
-}
-
-document.getElementById("excelFile").addEventListener("change", event => {
-  const file = event.target.files[0];
-
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = async(e) => {
-    const data = new Uint8Array(e.target.result);
-
-    const workbook = XLSX.read(data, { type: "array" });
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-
-    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-    for (let i = 1; i < rows.length; i++) {
-      if (!rows[i][0]) continue;
-
-      await addDoc(collection(db, "students"), {
-        name: rows[i][0],
-        className: rows[i][1] || ""
-      });
-    }
-
-    await loadStudents();
-  };
-
-  reader.readAsArrayBuffer(file);
 });
 
-window.logout = function() {
-  localStorage.clear();
-  window.location.href = "index.html";
+document
+.getElementById(id)
+.classList.add(
+"active-section"
+);
+
+};
+
+window.openModal =
+async function(
+type,
+id = null,
+data = {}
+){
+
+currentType = type;
+editId = id;
+
+modal.style.display =
+"flex";
+
+document
+.getElementById("nameInput")
+.value =
+data.name ||
+data.examName ||
+"";
+
+document
+.getElementById("usernameInput")
+.value =
+data.username || "";
+
+document
+.getElementById("passwordInput")
+.value =
+data.password || "";
+
+document
+.getElementById("degreeInput")
+.value =
+data.maxDegree || "";
+
+document
+.getElementById("nameGroup")
+.classList.remove("hidden");
+
+document
+.getElementById("usernameGroup")
+.classList.add("hidden");
+
+document
+.getElementById("passwordGroup")
+.classList.add("hidden");
+
+document
+.getElementById("classGroup")
+.classList.add("hidden");
+
+document
+.getElementById("teacherGroup")
+.classList.add("hidden");
+
+document
+.getElementById("degreeGroup")
+.classList.add("hidden");
+
+if(type === "teacher"){
+
+document
+.getElementById("modalTitle")
+.innerText =
+id ? "تعديل معلم" : "إضافة معلم";
+
+document
+.getElementById("usernameGroup")
+.classList.remove("hidden");
+
+document
+.getElementById("passwordGroup")
+.classList.remove("hidden");
+
+}
+
+if(type === "supervisor"){
+
+document
+.getElementById("modalTitle")
+.innerText =
+id ? "تعديل مشرف" : "إضافة مشرف";
+
+document
+.getElementById("usernameGroup")
+.classList.remove("hidden");
+
+document
+.getElementById("passwordGroup")
+.classList.remove("hidden");
+
+}
+
+if(type === "class"){
+
+document
+.getElementById("modalTitle")
+.innerText =
+id ? "تعديل فصل" : "إضافة فصل";
+
+}
+
+if(type === "student"){
+
+document
+.getElementById("modalTitle")
+.innerText =
+id ? "تعديل طالب" : "إضافة طالب";
+
+document
+.getElementById("classGroup")
+.classList.remove("hidden");
+
+await loadClassOptions();
+
+if(data.className){
+
+document
+.getElementById("classSelect")
+.value =
+data.className;
+
+}
+
+}
+
+if(type === "assignment"){
+
+document
+.getElementById("modalTitle")
+.innerText =
+id ? "تعديل إسناد" : "إسناد فصل";
+
+document
+.getElementById("nameGroup")
+.classList.add("hidden");
+
+document
+.getElementById("classGroup")
+.classList.remove("hidden");
+
+document
+.getElementById("teacherGroup")
+.classList.remove("hidden");
+
+await loadClassOptions();
+await loadTeacherOptions();
+
+if(data.className){
+
+document
+.getElementById("classSelect")
+.value =
+data.className;
+
+}
+
+if(data.teacherName){
+
+document
+.getElementById("teacherSelect")
+.value =
+data.teacherName;
+
+}
+
+}
+
+if(type === "exam"){
+
+document
+.getElementById("modalTitle")
+.innerText =
+id ? "تعديل اختبار" : "إضافة اختبار";
+
+document
+.getElementById("degreeGroup")
+.classList.remove("hidden");
+
+}
+
+};
+
+window.closeModal =
+function(){
+
+modal.style.display =
+"none";
+
+editId = null;
+
+};
+
+window.saveData =
+async function(){
+
+const name =
+document
+.getElementById("nameInput")
+.value
+.trim();
+
+const username =
+document
+.getElementById("usernameInput")
+.value
+.trim();
+
+const password =
+document
+.getElementById("passwordInput")
+.value
+.trim();
+
+const className =
+document
+.getElementById("classSelect")
+.value;
+
+const teacherName =
+document
+.getElementById("teacherSelect")
+.value;
+
+const maxDegree =
+document
+.getElementById("degreeInput")
+.value
+.trim();
+
+if(
+currentType !== "assignment"
+&&
+!name
+){
+
+alert("أدخل الاسم");
+return;
+
+}
+
+if(currentType === "teacher"){
+
+const payload = {
+name,
+username,
+password
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"teachers",editId),
+payload
+);
+
+}else{
+
+await addDoc(
+collection(db,"teachers"),
+payload
+);
+
+}
+
+loadTeachers();
+
+}
+
+if(currentType === "supervisor"){
+
+const payload = {
+name,
+username,
+password
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"supervisors",editId),
+payload
+);
+
+}else{
+
+await addDoc(
+collection(db,"supervisors"),
+payload
+);
+
+}
+
+loadSupervisors();
+
+}
+
+if(currentType === "class"){
+
+const payload = {
+name
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"classes",editId),
+payload
+);
+
+}else{
+
+await addDoc(
+collection(db,"classes"),
+payload
+);
+
+}
+
+loadClasses();
+
+}
+
+if(currentType === "student"){
+
+const payload = {
+name,
+className
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"students",editId),
+payload
+);
+
+}else{
+
+await addDoc(
+collection(db,"students"),
+payload
+);
+
+}
+
+loadStudents();
+
+}
+
+if(currentType === "assignment"){
+
+const payload = {
+className,
+teacherName
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"assignments",editId),
+payload
+);
+
+}else{
+
+await addDoc(
+collection(db,"assignments"),
+payload
+);
+
+}
+
+loadAssignments();
+
+}
+
+if(currentType === "exam"){
+
+if(!maxDegree){
+
+alert("أدخل الدرجة النهائية");
+return;
+
+}
+
+let order = 1;
+
+if(!editId){
+
+const examsSnapshot =
+await getDocs(
+collection(db,"exams")
+);
+
+order =
+examsSnapshot.size + 1;
+
+}
+
+const payload = {
+examName:name,
+maxDegree:Number(maxDegree)
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"exams",editId),
+payload
+);
+
+}else{
+
+await addDoc(
+collection(db,"exams"),
+{
+...payload,
+order
+}
+);
+
+}
+
+loadExams();
+
+}
+
+closeModal();
+
+};
+
+async function archiveItem(
+name,
+type
+){
+
+await addDoc(
+collection(db,"adminArchive"),
+{
+name,
+type,
+archivedAt:
+new Date().toLocaleString()
+}
+);
+
+loadArchive();
+
+}
+
+async function loadTeachers(){
+
+const table =
+document.getElementById(
+"teachersTable"
+);
+
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"teachers")
+);
+
+const teachers = [];
+
+snapshot.forEach(item=>{
+
+teachers.push({
+id:item.id,
+...item.data()
+});
+
+});
+
+teachers.sort((a,b)=>
+a.name.localeCompare(
+b.name,
+'ar'
+)
+);
+
+teachers.forEach(data=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td class="teacher-name">
+${data.name}
+</td>
+
+<td>
+${data.username}
+</td>
+
+<td>
+${data.password}
+</td>
+
+<td>
+
+<button
+class="action-btn edit-btn"
+onclick='openModal("teacher","${data.id}",${JSON.stringify(data)})'
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete-btn"
+onclick="deleteTeacher('${data.id}','${data.name}')"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById(
+"teachersCount"
+).innerText =
+teachers.length;
+
+}
+
+window.deleteTeacher =
+async function(id,name){
+
+await archiveItem(
+name,
+"معلم"
+);
+
+await deleteDoc(
+doc(db,"teachers",id)
+);
+
+loadTeachers();
+
+};
+
+async function loadSupervisors(){
+
+const table =
+document.getElementById(
+"supervisorsTable"
+);
+
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"supervisors")
+);
+
+const supervisors = [];
+
+snapshot.forEach(item=>{
+
+supervisors.push({
+id:item.id,
+...item.data()
+});
+
+});
+
+supervisors.sort((a,b)=>
+a.name.localeCompare(
+b.name,
+'ar'
+)
+);
+
+supervisors.forEach(data=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+${data.name}
+</td>
+
+<td>
+${data.username}
+</td>
+
+<td>
+${data.password}
+</td>
+
+<td>
+
+<button
+class="action-btn edit-btn"
+onclick='openModal("supervisor","${data.id}",${JSON.stringify(data)})'
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete-btn"
+onclick="deleteSupervisor('${data.id}','${data.name}')"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById(
+"supervisorsCount"
+).innerText =
+supervisors.length;
+
+}
+
+window.deleteSupervisor =
+async function(id,name){
+
+await archiveItem(
+name,
+"مشرف"
+);
+
+await deleteDoc(
+doc(db,"supervisors",id)
+);
+
+loadSupervisors();
+
+};
+
+async function loadClasses(){
+
+const table =
+document.getElementById(
+"classesTable"
+);
+
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"classes")
+);
+
+const classes = [];
+
+snapshot.forEach(item=>{
+
+classes.push({
+id:item.id,
+...item.data()
+});
+
+});
+
+classes.sort((a,b)=>
+a.name.localeCompare(
+b.name,
+'ar'
+)
+);
+
+classes.forEach(data=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td class="class-name">
+${data.name}
+</td>
+
+<td>
+
+<button
+class="action-btn edit-btn"
+onclick='openModal("class","${data.id}",${JSON.stringify(data)})'
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete-btn"
+onclick="deleteClass('${data.id}','${data.name}')"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById(
+"classesCount"
+).innerText =
+classes.length;
+
+}
+
+window.deleteClass =
+async function(id,name){
+
+await archiveItem(
+name,
+"فصل"
+);
+
+await deleteDoc(
+doc(db,"classes",id)
+);
+
+loadClasses();
+
+};
+
+async function loadStudents(){
+
+const table =
+document.getElementById(
+"studentsTable"
+);
+
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"students")
+);
+
+const students = [];
+
+snapshot.forEach(item=>{
+
+students.push({
+id:item.id,
+...item.data()
+});
+
+});
+
+students.sort((a,b)=>{
+
+if(a.className < b.className)
+return -1;
+
+if(a.className > b.className)
+return 1;
+
+return a.name.localeCompare(
+b.name,
+'ar'
+);
+
+});
+
+let currentClass = "";
+
+students.forEach(student=>{
+
+if(student.className !== currentClass){
+
+currentClass =
+student.className;
+
+table.innerHTML += `
+
+<tr class="class-divider">
+
+<td colspan="3">
+${currentClass}
+</td>
+
+</tr>
+
+`;
+
+}
+
+table.innerHTML += `
+
+<tr>
+
+<td
+class="student-name"
+style="
+padding:10px 14px;
+font-size:14px;
+"
+>
+
+${student.name}
+
+</td>
+
+<td
+style="
+padding:10px;
+font-size:13px;
+"
+>
+
+${student.className}
+
+</td>
+
+<td
+style="
+padding:8px;
+"
+>
+
+<button
+class="action-btn edit-btn"
+style="
+padding:6px 10px;
+font-size:12px;
+"
+onclick='openModal("student","${student.id}",${JSON.stringify(student)})'
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete-btn"
+style="
+padding:6px 10px;
+font-size:12px;
+"
+onclick="deleteStudent('${student.id}','${student.name}')"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById(
+"studentsCount"
+).innerText =
+students.length;
+
+}
+
+window.deleteStudent =
+async function(id,name){
+
+await archiveItem(
+name,
+"طالب"
+);
+
+await deleteDoc(
+doc(db,"students",id)
+);
+
+loadStudents();
+
+};
+
+async function loadAssignments(){
+
+const table =
+document.getElementById(
+"assignmentsTable"
+);
+
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"assignments")
+);
+
+snapshot.forEach(item=>{
+
+const data =
+item.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+${data.className}
+</td>
+
+<td>
+${data.teacherName}
+</td>
+
+<td>
+
+<button
+class="action-btn edit-btn"
+onclick='openModal("assignment","${item.id}",${JSON.stringify(data)})'
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete-btn"
+onclick="deleteAssignment('${item.id}','${data.className}')"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+window.deleteAssignment =
+async function(id,name){
+
+await archiveItem(
+name,
+"إسناد"
+);
+
+await deleteDoc(
+doc(db,"assignments",id)
+);
+
+loadAssignments();
+
+};
+
+async function loadExams(){
+
+const table =
+document.getElementById(
+"examsTable"
+);
+
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"exams")
+);
+
+let exams = [];
+
+snapshot.forEach(item=>{
+
+exams.push({
+id:item.id,
+...item.data()
+});
+
+});
+
+exams.sort((a,b)=>
+Number(a.order || 999)
+-
+Number(b.order || 999)
+);
+
+exams.forEach(exam=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+${exam.order || "-"}
+</td>
+
+<td>
+${exam.examName}
+</td>
+
+<td>
+${exam.maxDegree}
+</td>
+
+<td>
+
+<button
+class="action-btn edit-btn"
+onclick='openModal("exam","${exam.id}",${JSON.stringify(exam)})'
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete-btn"
+onclick="deleteExam('${exam.id}','${exam.examName}')"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+window.deleteExam =
+async function(id,name){
+
+await archiveItem(
+name,
+"اختبار"
+);
+
+await deleteDoc(
+doc(db,"exams",id)
+);
+
+loadExams();
+
+};
+
+async function loadArchive(){
+
+const table =
+document.getElementById(
+"archiveTable"
+);
+
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"adminArchive")
+);
+
+snapshot.forEach(item=>{
+
+const data =
+item.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+${data.name}
+</td>
+
+<td>
+${data.type}
+</td>
+
+<td>
+${data.archivedAt}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+async function loadClassOptions(){
+
+const select =
+document.getElementById(
+"classSelect"
+);
+
+select.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"classes")
+);
+
+const classes = [];
+
+snapshot.forEach(item=>{
+
+classes.push(item.data());
+
+});
+
+classes.sort((a,b)=>
+a.name.localeCompare(
+b.name,
+'ar'
+)
+);
+
+classes.forEach(item=>{
+
+select.innerHTML += `
+<option>
+${item.name}
+</option>
+`;
+
+});
+
+}
+
+async function loadTeacherOptions(){
+
+const select =
+document.getElementById(
+"teacherSelect"
+);
+
+select.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"teachers")
+);
+
+const teachers = [];
+
+snapshot.forEach(item=>{
+
+teachers.push(item.data());
+
+});
+
+teachers.sort((a,b)=>
+a.name.localeCompare(
+b.name,
+'ar'
+)
+);
+
+teachers.forEach(item=>{
+
+select.innerHTML += `
+<option>
+${item.name}
+</option>
+`;
+
+});
+
+}
+
+document
+.getElementById("excelFile")
+.addEventListener(
+"change",
+event=>{
+
+const file =
+event.target.files[0];
+
+if(!file)
+return;
+
+const reader =
+new FileReader();
+
+reader.onload =
+async(e)=>{
+
+const data =
+new Uint8Array(
+e.target.result
+);
+
+const workbook =
+XLSX.read(
+data,
+{
+type:"array"
+}
+);
+
+const sheet =
+workbook.Sheets[
+workbook.SheetNames[0]
+];
+
+const rows =
+XLSX.utils.sheet_to_json(
+sheet,
+{
+header:1
+}
+);
+
+for(
+let i = 1;
+i < rows.length;
+i++
+){
+
+if(!rows[i][0])
+continue;
+
+await addDoc(
+collection(db,"students"),
+{
+name:rows[i][0],
+className:rows[i][1] || ""
+}
+);
+
+}
+
+loadStudents();
+
+};
+
+reader.readAsArrayBuffer(file);
+
+}
+);
+
+window.logout =
+function(){
+
+localStorage.clear();
+
+window.location.href =
+"index.html";
+
 };
 
 await loadTeachers();
@@ -732,4 +1831,6 @@ await loadArchive();
 </script>
 
 </body>
+
 </html>
+```
