@@ -1,23 +1,10 @@
-```html id="u9k4zm"
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-/>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Teacher Panel</title>
-
-<link
-rel="stylesheet"
-href="style.css"
-/>
-
+<link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
@@ -25,123 +12,49 @@ href="style.css"
 <div class="dashboard-layout">
 
 <div class="sidebar">
+  <div class="logo-box">Rased<br>Insights</div>
 
-<div class="logo-box">
-Rased<br>
-Insights
-</div>
+  <div class="user-box">
+    <div class="user-title">المعلم الحالي</div>
+    <div class="user-name" id="teacherName">Teacher</div>
+  </div>
 
-<div class="user-box">
-
-<div class="user-title">
-المعلم الحالي
-</div>
-
-<div
-class="user-name"
-id="teacherName"
->
-Teacher
-</div>
-
-</div>
-
-<div class="menu">
-
-<button onclick="showSection('gradesSection')">
-إدخال الدرجات
-</button>
-
-<button
-class="logout-btn"
-onclick="logout()"
->
-تسجيل الخروج
-</button>
-
-</div>
-
+  <div class="menu">
+    <button onclick="showSection('gradesSection')">إدخال الدرجات</button>
+    <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+  </div>
 </div>
 
 <div class="main">
 
-<div
-class="section active-section"
-id="gradesSection"
->
+<div class="section active-section" id="gradesSection">
 
-<div class="section-header">
+  <div class="section-header">
+    <div class="section-title">إدخال درجات الطلاب</div>
+  </div>
 
-<div class="section-title">
-درجات الطلاب
-</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-bottom:25px;">
+    <div class="input-group">
+      <select id="classSelect">
+        <option>اختر الفصل</option>
+      </select>
+    </div>
 
-</div>
+    <div class="input-group">
+      <input type="text" value="لغة إنجليزية" readonly/>
+    </div>
+  </div>
 
-<div
-style="
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
-gap:15px;
-margin-bottom:25px;
-"
->
+  <div style="overflow:auto;">
+    <table>
+      <thead id="tableHead"></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
 
-<div class="input-group">
-
-<select id="classSelect">
-<option>
-اختر الفصل
-</option>
-</select>
-
-</div>
-
-<div class="input-group">
-
-<input
-type="text"
-value="لغة إنجليزية"
-readonly
-/>
-
-</div>
-
-</div>
-
-<div
-style="
-overflow:auto;
-"
->
-
-<table id="gradesTable">
-
-<thead id="tableHead"></thead>
-
-<tbody id="tableBody"></tbody>
-
-</table>
-
-</div>
-
-<div
-style="
-margin-top:20px;
-display:flex;
-justify-content:center;
-"
->
-
-<button
-class="primary-btn"
-onclick="saveAllGrades()"
->
-حفظ جميع الدرجات
-</button>
-
-</div>
+  <div style="margin-top:20px;display:flex;justify-content:center;">
+    <button class="primary-btn" onclick="saveAllGrades()">حفظ جميع الدرجات</button>
+  </div>
 
 </div>
 
@@ -151,417 +64,245 @@ onclick="saveAllGrades()"
 
 <script type="module">
 
-import { db }
-from "./firebase.js";
+import { db } from "./firebase.js";
 
 import {
+  collection,
+  getDocs,
+  query,
+  where,
+  addDoc,
+  updateDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-collection,
-getDocs,
-query,
-where,
-addDoc,
-updateDoc,
-doc
-
+if (localStorage.getItem("rasedRole") !== "teacher") {
+  window.location.href = "index.html";
 }
 
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+const teacherName = localStorage.getItem("teacherName");
 
-if(
-localStorage.getItem("rasedRole")
-!== "teacher"
-){
+document.getElementById("teacherName").innerText = teacherName || "Teacher";
 
-window.location.href =
-"index.html";
-
-}
-
-const teacherName =
-localStorage.getItem(
-"teacherName"
-);
-
-document
-.getElementById("teacherName")
-.innerText =
-teacherName;
-
-const classSelect =
-document.getElementById(
-"classSelect"
-);
-
-const tableHead =
-document.getElementById(
-"tableHead"
-);
-
-const tableBody =
-document.getElementById(
-"tableBody"
-);
+const classSelect = document.getElementById("classSelect");
+const tableHead = document.getElementById("tableHead");
+const tableBody = document.getElementById("tableBody");
 
 let exams = [];
 
-window.showSection =
-function(id){
+window.showSection = function(id) {
+  document.querySelectorAll(".section").forEach(section => {
+    section.classList.remove("active-section");
+  });
 
-document
-.querySelectorAll(".section")
-.forEach(section=>{
-
-section.classList.remove(
-"active-section"
-);
-
-});
-
-document
-.getElementById(id)
-.classList.add(
-"active-section"
-);
-
+  document.getElementById(id).classList.add("active-section");
 };
 
-async function loadTeacherClasses(){
+async function loadTeacherClasses() {
+  classSelect.innerHTML = "<option>اختر الفصل</option>";
 
-const snapshot =
-await getDocs(
-query(
-collection(db,"assignments"),
-where(
-"teacherName",
-"==",
-teacherName
-)
-)
-);
+  const snapshot = await getDocs(
+    query(
+      collection(db, "assignments"),
+      where("teacherName", "==", teacherName)
+    )
+  );
 
-classSelect.innerHTML =
-`
-<option>
-اختر الفصل
-</option>
-`;
+  snapshot.forEach(item => {
+    const data = item.data();
 
-snapshot.forEach(item=>{
-
-classSelect.innerHTML += `
-<option>
-${item.data().className}
-</option>
-`;
-
-});
-
+    classSelect.innerHTML += `
+      <option>${data.className}</option>
+    `;
+  });
 }
 
-async function loadExams(){
+async function loadExams() {
+  exams = [];
 
-const snapshot =
-await getDocs(
-collection(db,"exams")
-);
+  const snapshot = await getDocs(collection(db, "exams"));
 
-exams = [];
+  snapshot.forEach(item => {
+    const data = item.data();
 
-snapshot.forEach(item=>{
-
-exams.push(item.data());
-
-});
-
+    exams.push({
+      examName: data.examName,
+      maxDegree: Number(data.maxDegree || 0)
+    });
+  });
 }
 
-classSelect.addEventListener(
-"change",
-loadStudentsTable
-);
+classSelect.addEventListener("change", loadStudentsTable);
 
-async function loadStudentsTable(){
+async function loadStudentsTable() {
+  tableHead.innerHTML = "";
+  tableBody.innerHTML = "";
 
-tableHead.innerHTML = "";
-tableBody.innerHTML = "";
+  const className = classSelect.value;
 
-const className =
-classSelect.value;
+  if (className === "اختر الفصل") {
+    return;
+  }
 
-if(
-className === "اختر الفصل"
-){
+  if (exams.length === 0) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="10">لا توجد اختبارات مضافة من الأدمن</td>
+      </tr>
+    `;
+    return;
+  }
 
-return;
+  let head = `
+    <tr>
+      <th>اسم الطالب</th>
+  `;
 
+  exams.forEach(exam => {
+    head += `
+      <th>
+        ${exam.examName}
+        <br>
+        من ${exam.maxDegree}
+      </th>
+    `;
+  });
+
+  head += `</tr>`;
+
+  tableHead.innerHTML = head;
+
+  const studentsSnapshot = await getDocs(
+    query(
+      collection(db, "students"),
+      where("className", "==", className)
+    )
+  );
+
+  for (const studentDoc of studentsSnapshot.docs) {
+    const student = studentDoc.data();
+
+    let row = `
+      <tr>
+        <td>${student.name}</td>
+    `;
+
+    for (const exam of exams) {
+      let currentGrade = "";
+
+      const gradeSnapshot = await getDocs(
+        query(
+          collection(db, "grades"),
+          where("studentName", "==", student.name),
+          where("className", "==", className),
+          where("examName", "==", exam.examName),
+          where("teacherName", "==", teacherName)
+        )
+      );
+
+      gradeSnapshot.forEach(g => {
+        currentGrade = g.data().grade;
+      });
+
+      row += `
+        <td>
+          <input
+            type="number"
+            value="${currentGrade}"
+            min="0"
+            max="${exam.maxDegree}"
+            data-student="${student.name}"
+            data-exam="${exam.examName}"
+            data-max="${exam.maxDegree}"
+            class="grade-input"
+            style="
+              width:85px;
+              padding:10px;
+              border:none;
+              border-radius:10px;
+              background:#020617;
+              color:white;
+              text-align:center;
+            "
+          />
+        </td>
+      `;
+    }
+
+    row += `</tr>`;
+
+    tableBody.innerHTML += row;
+  }
 }
 
-let headHtml = `
-<tr>
-<th>الطالب</th>
-`;
+window.saveAllGrades = async function() {
+  const className = classSelect.value;
 
-exams.forEach(exam=>{
+  if (className === "اختر الفصل") {
+    alert("اختر الفصل أولًا");
+    return;
+  }
 
-headHtml += `
-<th>
-${exam.examName}
-<br>
-من ${exam.maxDegree}
-</th>
-`;
+  const inputs = document.querySelectorAll(".grade-input");
 
-});
+  for (const input of inputs) {
+    const studentName = input.dataset.student;
+    const examName = input.dataset.exam;
+    const maxDegree = Number(input.dataset.max);
+    const value = input.value.trim();
 
-headHtml += `
-</tr>
-`;
+    if (value === "") {
+      continue;
+    }
 
-tableHead.innerHTML =
-headHtml;
+    const grade = Number(value);
 
-const studentsSnapshot =
-await getDocs(
-query(
-collection(db,"students"),
-where(
-"className",
-"==",
-className
-)
-)
-);
+    if (grade > maxDegree) {
+      alert(`${studentName} درجته أكبر من الدرجة النهائية في ${examName}`);
+      return;
+    }
 
-for(
-const studentDoc
-of studentsSnapshot.docs
-){
+    const existing = await getDocs(
+      query(
+        collection(db, "grades"),
+        where("studentName", "==", studentName),
+        where("className", "==", className),
+        where("examName", "==", examName),
+        where("teacherName", "==", teacherName)
+      )
+    );
 
-const student =
-studentDoc.data();
+    if (existing.empty) {
+      await addDoc(collection(db, "grades"), {
+        teacherName,
+        studentName,
+        className,
+        subject: "لغة إنجليزية",
+        examName,
+        grade,
+        maxDegree
+      });
+    } else {
+      await updateDoc(doc(db, "grades", existing.docs[0].id), {
+        grade,
+        maxDegree
+      });
+    }
+  }
 
-let row = `
-<tr>
-<td>
-${student.name}
-</td>
-`;
-
-for(
-const exam
-of exams
-){
-
-let currentGrade = "";
-
-const gradesSnapshot =
-await getDocs(
-query(
-collection(db,"grades"),
-where(
-"studentName",
-"==",
-student.name
-),
-where(
-"className",
-"==",
-className
-),
-where(
-"examName",
-"==",
-exam.examName
-)
-)
-);
-
-gradesSnapshot.forEach(g=>{
-
-currentGrade =
-g.data().grade;
-
-});
-
-row += `
-
-<td>
-
-<input
-type="number"
-value="${currentGrade}"
-max="${exam.maxDegree}"
-data-student="${student.name}"
-data-exam="${exam.examName}"
-data-max="${exam.maxDegree}"
-class="grade-input"
-style="
-width:80px;
-padding:10px;
-border:none;
-border-radius:10px;
-background:#020617;
-color:white;
-text-align:center;
-"
-/>
-
-</td>
-
-`;
-
-}
-
-row += `
-</tr>
-`;
-
-tableBody.innerHTML +=
-row;
-
-}
-
-}
-
-window.saveAllGrades =
-async function(){
-
-const className =
-classSelect.value;
-
-const inputs =
-document.querySelectorAll(
-".grade-input"
-);
-
-for(
-const input
-of inputs
-){
-
-const studentName =
-input.dataset.student;
-
-const examName =
-input.dataset.exam;
-
-const maxDegree =
-Number(
-input.dataset.max
-);
-
-const grade =
-Number(
-input.value
-);
-
-if(
-!input.value
-){
-
-continue;
-
-}
-
-if(
-grade > maxDegree
-){
-
-alert(
-`${studentName} تجاوز الدرجة النهائية`
-);
-
-return;
-
-}
-
-const existing =
-await getDocs(
-query(
-collection(db,"grades"),
-where(
-"studentName",
-"==",
-studentName
-),
-where(
-"className",
-"==",
-className
-),
-where(
-"examName",
-"==",
-examName
-)
-)
-);
-
-if(existing.empty){
-
-await addDoc(
-collection(db,"grades"),
-{
-
-teacherName,
-
-studentName,
-
-className,
-
-subject:
-"لغة إنجليزية",
-
-examName,
-
-grade
-
-}
-);
-
-}
-
-else{
-
-await updateDoc(
-doc(
-db,
-"grades",
-existing.docs[0].id
-),
-{
-grade
-}
-);
-
-}
-
-}
-
-alert(
-"تم حفظ جميع الدرجات"
-);
-
+  alert("تم حفظ جميع الدرجات");
+  loadStudentsTable();
 };
 
-window.logout =
-function(){
-
-localStorage.clear();
-
-window.location.href =
-"index.html";
-
+window.logout = function() {
+  localStorage.clear();
+  window.location.href = "index.html";
 };
 
 await loadExams();
-
 await loadTeacherClasses();
 
 </script>
 
 </body>
-
 </html>
-```
