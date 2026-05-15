@@ -342,8 +342,17 @@ async function loadReport() {
   let improvedCount = 0;
   let declinedCount = 0;
 
-  for (const studentDoc of studentsSnapshot.docs) {
-    const student = studentDoc.data();
+const students = [];
+
+studentsSnapshot.forEach(studentDoc => {
+  students.push(studentDoc.data());
+});
+
+students.sort((a, b) =>
+  a.name.localeCompare(b.name, 'ar')
+);
+
+for (const student of students) {
 
     studentsCount++;
 
