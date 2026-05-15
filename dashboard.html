@@ -2,11 +2,22 @@
 <html lang="ar" dir="rtl">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rased Admin Pro</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
+<title>
+Dashboard
+</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet"
+/>
 
 <style>
 
@@ -18,376 +29,914 @@ font-family:'Cairo',sans-serif;
 }
 
 body{
+background:#020617;
+color:white;
 display:flex;
 min-height:100vh;
-background:#0b1220;
-color:white;
+overflow-x:hidden;
 }
 
-/* SIDEBAR */
 .sidebar{
-width:270px;
+width:280px;
 background:#0f172a;
-padding:20px;
+padding:25px;
 display:flex;
 flex-direction:column;
-gap:10px;
+gap:14px;
+}
+
+.logo{
+font-size:32px;
+font-weight:800;
+color:#facc15;
+line-height:1.4;
+margin-bottom:20px;
 }
 
 .sidebar button{
-padding:12px;
 border:none;
-border-radius:10px;
-cursor:pointer;
 background:#1e293b;
 color:white;
+padding:15px;
+border-radius:16px;
+cursor:pointer;
 font-weight:700;
-transition:.2s;
+transition:.3s;
 }
 
 .sidebar button:hover{
 background:#2563eb;
 }
 
-/* MAIN */
+.logout{
+background:#dc2626 !important;
+}
+
 .main{
 flex:1;
-padding:20px;
+padding:30px;
 }
 
-.card{
+.section{
 background:#111827;
-padding:15px;
-border-radius:14px;
-margin-bottom:15px;
+border-radius:24px;
+padding:25px;
+margin-bottom:25px;
+overflow:auto;
 }
 
-h3{margin-bottom:10px;}
+.section-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+gap:15px;
+flex-wrap:wrap;
+}
 
-/* TABLE */
+.add-btn{
+border:none;
+background:#2563eb;
+color:white;
+padding:12px 18px;
+border-radius:12px;
+cursor:pointer;
+font-weight:700;
+}
+
 table{
 width:100%;
 border-collapse:collapse;
+min-width:700px;
 }
 
-th,td{
-padding:12px;
+th{
+background:rgba(255,255,255,.06);
+padding:15px;
+}
+
+td{
+padding:15px;
 text-align:center;
-border-bottom:1px solid #1f2937;
+border-bottom:1px solid rgba(255,255,255,.05);
 }
 
-/* BUTTONS */
-.btn{
-padding:6px 10px;
+.action-btn{
 border:none;
-border-radius:8px;
+padding:8px 14px;
+border-radius:10px;
 cursor:pointer;
 font-weight:700;
 margin:2px;
 }
 
-.edit{background:#f59e0b;color:black;}
-.delete{background:#ef4444;color:white;}
+.edit{
+background:#2563eb;
+color:white;
+}
 
-/* MODAL */
+.delete{
+background:#dc2626;
+color:white;
+}
+
 .modal{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.75);
+background:rgba(0,0,0,.7);
 display:none;
 justify-content:center;
 align-items:center;
-}
-
-.box{
-background:#0f172a;
 padding:20px;
-border-radius:16px;
-width:380px;
-display:flex;
-flex-direction:column;
-gap:10px;
+z-index:1000;
 }
 
-input,select{
-padding:10px;
+.modal-content{
+background:#0f172a;
+padding:30px;
+border-radius:24px;
+width:100%;
+max-width:450px;
+}
+
+.modal-content h2{
+margin-bottom:20px;
+text-align:center;
+}
+
+.input-group{
+margin-bottom:15px;
+}
+
+.input-group input,
+.input-group select{
+width:100%;
+padding:15px;
 border:none;
-border-radius:8px;
+border-radius:14px;
 background:#1e293b;
 color:white;
 outline:none;
 }
 
-.hidden{display:none !important;}
+.modal-actions{
+display:flex;
+gap:10px;
+margin-top:20px;
+}
 
-.save{
-background:#22c55e;
+.modal-actions button{
+flex:1;
+padding:14px;
 border:none;
-padding:10px;
-border-radius:8px;
-font-weight:700;
+border-radius:14px;
 cursor:pointer;
+font-weight:700;
+}
+
+.save-btn{
+background:#2563eb;
+color:white;
+}
+
+.cancel-btn{
+background:#334155;
+color:white;
+}
+
+@media(max-width:900px){
+
+body{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
+.main{
+padding:20px;
+}
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
 
-<button onclick="openModal('teacher')">إضافة معلم</button>
-<button onclick="openModal('supervisor')">إضافة مشرف</button>
-<button onclick="openModal('class')">إضافة فصل</button>
-<button onclick="openModal('student')">إضافة طالب</button>
-<button onclick="openModal('exam')">إضافة اختبار</button>
+<div class="logo">
+Rased<br>
+Insights
+</div>
+
+<button onclick="openModal('teacher')">
+إضافة معلم
+</button>
+
+<button onclick="openModal('supervisor')">
+إضافة مشرف
+</button>
+
+<button onclick="openModal('class')">
+إضافة فصل
+</button>
+
+<button onclick="openModal('student')">
+إضافة طالب
+</button>
+
+<button onclick="openModal('exam')">
+إضافة اختبار
+</button>
+
+<button class="logout"
+onclick="window.location.href='./index.html'"
+>
+تسجيل الخروج
+</button>
 
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-<div class="card">
-<h3>المعلمين</h3>
-<table>
-<tbody id="teachers"></tbody>
+<div class="section">
+
+<div class="section-header">
+
+<h2>
+المعلمين
+</h2>
+
+<button
+class="add-btn"
+onclick="openModal('teacher')"
+>
+إضافة
+</button>
+
+</div>
+
+<table id="teachersTable">
+
+<thead>
+
+<tr>
+
+<th>
+الاسم
+</th>
+
+<th>
+Username
+</th>
+
+<th>
+Password
+</th>
+
+<th>
+الإجراءات
+</th>
+
+</tr>
+
+</thead>
+
+<tbody></tbody>
+
 </table>
+
 </div>
 
-<div class="card">
-<h3>المشرفين</h3>
-<table>
-<tbody id="supervisors"></tbody>
+<div class="section">
+
+<div class="section-header">
+
+<h2>
+المشرفين
+</h2>
+
+<button
+class="add-btn"
+onclick="openModal('supervisor')"
+>
+إضافة
+</button>
+
+</div>
+
+<table id="supervisorsTable">
+
+<thead>
+
+<tr>
+
+<th>
+الاسم
+</th>
+
+<th>
+Username
+</th>
+
+<th>
+Password
+</th>
+
+<th>
+الإجراءات
+</th>
+
+</tr>
+
+</thead>
+
+<tbody></tbody>
+
 </table>
+
 </div>
 
-<div class="card">
-<h3>الفصول</h3>
-<table>
-<tbody id="classes"></tbody>
+<div class="section">
+
+<div class="section-header">
+
+<h2>
+الفصول
+</h2>
+
+<button
+class="add-btn"
+onclick="openModal('class')"
+>
+إضافة
+</button>
+
+</div>
+
+<table id="classesTable">
+
+<thead>
+
+<tr>
+
+<th>
+اسم الفصل
+</th>
+
+<th>
+الإجراءات
+</th>
+
+</tr>
+
+</thead>
+
+<tbody></tbody>
+
 </table>
+
 </div>
 
-<div class="card">
-<h3>الطلاب</h3>
-<table>
-<tbody id="students"></tbody>
+<div class="section">
+
+<div class="section-header">
+
+<h2>
+الطلاب
+</h2>
+
+<button
+class="add-btn"
+onclick="openModal('student')"
+>
+إضافة
+</button>
+
+</div>
+
+<table id="studentsTable">
+
+<thead>
+
+<tr>
+
+<th>
+اسم الطالب
+</th>
+
+<th>
+الفصل
+</th>
+
+<th>
+الإجراءات
+</th>
+
+</tr>
+
+</thead>
+
+<tbody></tbody>
+
 </table>
+
 </div>
 
-<div class="card">
-<h3>الاختبارات</h3>
-<table>
-<tbody id="exams"></tbody>
+<div class="section">
+
+<div class="section-header">
+
+<h2>
+الاختبارات
+</h2>
+
+<button
+class="add-btn"
+onclick="openModal('exam')"
+>
+إضافة
+</button>
+
+</div>
+
+<table id="examsTable">
+
+<thead>
+
+<tr>
+
+<th>
+اسم الاختبار
+</th>
+
+<th>
+الإجراءات
+</th>
+
+</tr>
+
+</thead>
+
+<tbody></tbody>
+
 </table>
-</div>
 
 </div>
 
-<!-- MODAL -->
+</div>
+
 <div class="modal" id="modal">
-<div class="box">
 
-<input id="name" placeholder="الاسم">
+<div class="modal-content">
 
-<div id="usernameGroup" class="hidden">
-<input id="username" placeholder="Username">
+<h2 id="modalTitle">
+إضافة
+</h2>
+
+<div class="input-group">
+<input type="text" id="nameInput" placeholder="الاسم">
 </div>
 
-<div id="passwordGroup" class="hidden">
-<input id="password" placeholder="Password">
+<div class="input-group" id="usernameGroup">
+<input type="text" id="usernameInput" placeholder="Username">
 </div>
 
-<div id="classGroup" class="hidden">
-<select id="classSelect"></select>
+<div class="input-group" id="passwordGroup">
+<input type="text" id="passwordInput" placeholder="Password">
 </div>
 
-<div id="multiClassGroup" class="hidden">
-<select id="multiClassSelect" multiple></select>
+<div class="input-group" id="classGroup">
+<input type="text" id="classInput" placeholder="اسم الفصل">
 </div>
 
-<button class="save" onclick="save()">حفظ</button>
+<div class="input-group" id="examGroup">
+
+<select id="examSelect">
+
+<option>
+الاختبار الدوري الأول
+</option>
+
+<option>
+الاختبار الدوري الثاني
+</option>
+
+<option>
+الاختبار الدوري الثالث
+</option>
+
+<option>
+الاختبار الدوري الرابع
+</option>
+
+<option>
+الاختبار الدوري الخامس
+</option>
+
+<option>
+الاختبار الدوري السادس
+</option>
+
+<option>
+الاختبار الدوري السابع
+</option>
+
+<option>
+الاختبار الدوري الثامن
+</option>
+
+<option>
+اختبار الفترة الأولى
+</option>
+
+<option>
+اختبار الفترة الثانية
+</option>
+
+</select>
 
 </div>
+
+<div class="modal-actions">
+
+<button
+class="save-btn"
+onclick="saveData()"
+>
+حفظ
+</button>
+
+<button
+class="cancel-btn"
+onclick="closeModal()"
+>
+إلغاء
+</button>
+
+</div>
+
+</div>
+
 </div>
 
 <script>
 
-let type="";
+const modal =
+document.getElementById("modal");
 
-/* ================= OPEN MODAL ================= */
+const modalTitle =
+document.getElementById("modalTitle");
 
-function openModal(t){
-type=t;
-document.getElementById("modal").style.display="flex";
+const usernameGroup =
+document.getElementById("usernameGroup");
 
-/* reset */
-document.getElementById("name").value="";
-document.getElementById("username").value="";
-document.getElementById("password").value="";
+const passwordGroup =
+document.getElementById("passwordGroup");
 
-hideAll();
+const classGroup =
+document.getElementById("classGroup");
 
-/* teacher */
-if(t==="teacher"){
-show("usernameGroup");
-show("passwordGroup");
-show("multiClassGroup");
-loadClassesMulti();
-}
+const examGroup =
+document.getElementById("examGroup");
 
-/* supervisor */
-if(t==="supervisor"){
-show("usernameGroup");
-show("passwordGroup");
-}
+let currentType = "";
 
-/* student */
-if(t==="student"){
-show("classGroup");
-loadClassesSingle();
-}
-}
+function openModal(type){
 
-/* ================= SHOW/HIDE ================= */
+currentType = type;
 
-function hideAll(){
-document.querySelectorAll(".hidden").forEach(e=>{
-e.classList.add("hidden");
-});
-}
+modal.style.display = "flex";
 
-function show(id){
-document.getElementById(id).classList.remove("hidden");
-}
+document.getElementById("nameInput").value = "";
+document.getElementById("usernameInput").value = "";
+document.getElementById("passwordInput").value = "";
+document.getElementById("classInput").value = "";
 
-/* ================= LOAD CLASSES ================= */
+usernameGroup.style.display = "none";
+passwordGroup.style.display = "none";
+classGroup.style.display = "none";
+examGroup.style.display = "none";
 
-function loadClassesMulti(){
-let c=JSON.parse(localStorage.getItem("classes"))||[];
-let s=document.getElementById("multiClassSelect");
-s.innerHTML="";
-c.forEach(x=>{
-s.innerHTML+=`<option value="${x.name}">${x.name}</option>`;
-});
-}
+if(type === "teacher"){
 
-function loadClassesSingle(){
-let c=JSON.parse(localStorage.getItem("classes"))||[];
-let s=document.getElementById("classSelect");
-s.innerHTML="";
-c.forEach(x=>{
-s.innerHTML+=`<option value="${x.name}">${x.name}</option>`;
-});
-}
+modalTitle.innerText = "إضافة معلم";
 
-/* ================= SAVE ================= */
-
-function save(){
-
-let name=document.getElementById("name").value;
-let username=document.getElementById("username").value;
-let password=document.getElementById("password").value;
-
-/* teacher */
-if(type==="teacher"){
-
-let selected=[...document.getElementById("multiClassSelect").selectedOptions]
-.map(o=>o.value);
-
-let data=JSON.parse(localStorage.getItem("teachers"))||[];
-data.push({name,username,password,classes:selected});
-localStorage.setItem("teachers",JSON.stringify(data));
-}
-
-/* supervisor */
-if(type==="supervisor"){
-let data=JSON.parse(localStorage.getItem("supervisors"))||[];
-data.push({name,username,password});
-localStorage.setItem("supervisors",JSON.stringify(data));
-}
-
-/* student */
-if(type==="student"){
-let className=document.getElementById("classSelect").value;
-let data=JSON.parse(localStorage.getItem("students"))||[];
-data.push({name,className});
-localStorage.setItem("students",JSON.stringify(data));
-}
-
-/* class */
-if(type==="class"){
-let data=JSON.parse(localStorage.getItem("classes"))||[];
-data.push({name});
-localStorage.setItem("classes",JSON.stringify(data));
-}
-
-/* exam */
-if(type==="exam"){
-let data=JSON.parse(localStorage.getItem("exams"))||[];
-data.push({name});
-localStorage.setItem("exams",JSON.stringify(data));
-}
-
-close();
-renderAll();
-}
-
-/* ================= CLOSE ================= */
-
-function close(){
-document.getElementById("modal").style.display="none";
-}
-
-/* ================= RENDER ================= */
-
-function renderAll(){
-
-renderTable("teachers",["name","username","password","classes"]);
-renderTable("supervisors",["name","username","password"]);
-renderTable("classes",["name"]);
-renderTable("students",["name","className"]);
-renderTable("exams",["name"]);
+usernameGroup.style.display = "block";
+passwordGroup.style.display = "block";
 
 }
 
-function renderTable(key,fields){
+else if(type === "supervisor"){
 
-let data=JSON.parse(localStorage.getItem(key))||[];
+modalTitle.innerText = "إضافة مشرف";
 
-document.getElementById(key).innerHTML=
-data.map((x,i)=>{
-
-let row="<tr>";
-
-fields.forEach(f=>{
-row+=`<td>${Array.isArray(x[f]) ? x[f].join(", ") : (x[f]||"")}</td>`;
-});
-
-row+=`<td>
-<button class="btn delete" onclick="del('${key}',${i})">حذف</button>
-</td></tr>`;
-
-return row;
-
-}).join("");
+usernameGroup.style.display = "block";
+passwordGroup.style.display = "block";
 
 }
 
-/* ================= DELETE ================= */
+else if(type === "student"){
 
-function del(key,i){
-let d=JSON.parse(localStorage.getItem(key))||[];
-d.splice(i,1);
-localStorage.setItem(key,JSON.stringify(d));
-renderAll();
+modalTitle.innerText = "إضافة طالب";
+
+classGroup.style.display = "block";
+
 }
 
-/* INIT */
-renderAll();
+else if(type === "exam"){
+
+modalTitle.innerText = "إضافة اختبار";
+
+examGroup.style.display = "block";
+
+}
+
+else{
+
+modalTitle.innerText = "إضافة فصل";
+
+}
+
+}
+
+function closeModal(){
+
+modal.style.display = "none";
+
+}
+
+function saveData(){
+
+const name =
+document.getElementById("nameInput").value;
+
+const username =
+document.getElementById("usernameInput").value;
+
+const password =
+document.getElementById("passwordInput").value;
+
+const className =
+document.getElementById("classInput").value;
+
+if(currentType === "teacher"){
+
+addTeacher(name,username,password);
+
+}
+
+else if(currentType === "supervisor"){
+
+addSupervisor(name,username,password);
+
+}
+
+else if(currentType === "class"){
+
+addClass(name);
+
+}
+
+else if(currentType === "student"){
+
+addStudent(name,className);
+
+}
+
+else if(currentType === "exam"){
+
+const exam =
+document.getElementById("examSelect").value;
+
+addExam(exam);
+
+}
+
+closeModal();
+
+}
+
+function addTeacher(name,username,password){
+
+const tbody =
+document.querySelector("#teachersTable tbody");
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${name}</td>
+
+<td>${username}</td>
+
+<td>${password}</td>
+
+<td>
+
+<button
+class="action-btn edit"
+onclick="editRow(this)"
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete"
+onclick="deleteRow(this)"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+function addSupervisor(name,username,password){
+
+const tbody =
+document.querySelector("#supervisorsTable tbody");
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${name}</td>
+
+<td>${username}</td>
+
+<td>${password}</td>
+
+<td>
+
+<button
+class="action-btn edit"
+onclick="editRow(this)"
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete"
+onclick="deleteRow(this)"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+function addClass(name){
+
+const tbody =
+document.querySelector("#classesTable tbody");
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${name}</td>
+
+<td>
+
+<button
+class="action-btn edit"
+onclick="editRow(this)"
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete"
+onclick="deleteRow(this)"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+function addStudent(name,className){
+
+const tbody =
+document.querySelector("#studentsTable tbody");
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${name}</td>
+
+<td>${className}</td>
+
+<td>
+
+<button
+class="action-btn edit"
+onclick="editRow(this)"
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete"
+onclick="deleteRow(this)"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+function addExam(name){
+
+const tbody =
+document.querySelector("#examsTable tbody");
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${name}</td>
+
+<td>
+
+<button
+class="action-btn edit"
+onclick="editRow(this)"
+>
+تعديل
+</button>
+
+<button
+class="action-btn delete"
+onclick="deleteRow(this)"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+function deleteRow(button){
+
+button.closest("tr").remove();
+
+}
+
+function editRow(button){
+
+const row =
+button.closest("tr");
+
+const firstCell =
+row.querySelector("td");
+
+const newValue =
+prompt(
+"تعديل",
+firstCell.innerText
+);
+
+if(newValue){
+
+firstCell.innerText =
+newValue;
+
+}
+
+}
 
 </script>
 
 </body>
+
 </html>
