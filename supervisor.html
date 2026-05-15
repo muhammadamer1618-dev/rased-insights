@@ -1,3 +1,4 @@
+```html id="m4vpkx"
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
@@ -49,6 +50,18 @@ Supervisor
 
 <button onclick="showSection('reportsSection')">
 التقارير
+</button>
+
+<button onclick="goToReports()">
+تحليلات التقارير
+</button>
+
+<button onclick="archiveResults()">
+أرشفة النتائج
+</button>
+
+<button onclick="window.location.href='archive.html'">
+عرض الأرشيف
 </button>
 
 <button
@@ -215,7 +228,8 @@ import {
 collection,
 getDocs,
 query,
-where
+where,
+addDoc
 
 }
 
@@ -286,17 +300,21 @@ await getDocs(
 collection(db,"teachers")
 );
 
+teacherSelect.innerHTML = `
+<option>
+اختر المعلم
+</option>
+`;
+
 snapshot.forEach(item=>{
 
 const data =
 item.data();
 
 teacherSelect.innerHTML += `
-
 <option>
 ${data.name}
 </option>
-
 `;
 
 });
@@ -337,11 +355,9 @@ const data =
 item.data();
 
 classSelect.innerHTML += `
-
 <option>
 ${data.className}
 </option>
-
 `;
 
 });
@@ -457,6 +473,66 @@ ${data.teacherName}
 
 }
 
+window.goToReports =
+function(){
+
+window.location.href =
+"reports.html";
+
+};
+
+window.archiveResults =
+async function(){
+
+const snapshot =
+await getDocs(
+collection(db,"grades")
+);
+
+for(
+const item
+of snapshot.docs
+){
+
+const data =
+item.data();
+
+await addDoc(
+collection(db,"archive"),
+{
+
+studentName:
+data.studentName,
+
+className:
+data.className,
+
+subject:
+data.subject,
+
+examName:
+data.examName,
+
+grade:
+data.grade,
+
+teacherName:
+data.teacherName,
+
+archivedAt:
+new Date().toLocaleString()
+
+}
+);
+
+}
+
+alert(
+"تمت أرشفة النتائج"
+);
+
+};
+
 window.logout =
 function(){
 
@@ -474,3 +550,4 @@ loadTeachers();
 </body>
 
 </html>
+```
