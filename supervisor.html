@@ -117,7 +117,12 @@ async function loadExams() {
   const snapshot = await getDocs(collection(db, "exams"));
 
   snapshot.forEach(item => {
-    exams.push(item.data());
+    const data = item.data();
+
+    exams.push({
+      examName: data.examName,
+      maxDegree: Number(data.maxDegree || 0)
+    });
   });
 }
 
@@ -165,9 +170,18 @@ async function loadReportTable() {
     return;
   }
 
+  if (exams.length === 0) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="10">لا توجد اختبارات مضافة من الأدمن</td>
+      </tr>
+    `;
+    return;
+  }
+
   let head = `
     <tr>
-      <th>الطالب</th>
+      <th>اسم الطالب</th>
   `;
 
   exams.forEach(exam => {
@@ -202,8 +216,7 @@ async function loadReportTable() {
         <td>${student.name}</td>
     `;
 
-    let firstPercent = null;
-    let lastPercent = null;
+    let percentages = [];
 
     for (const exam of exams) {
       let grade = "";
@@ -223,13 +236,11 @@ async function loadReportTable() {
       });
 
       if (grade !== "") {
-        const percent = Math.round((Number(grade) / Number(exam.maxDegree)) * 100);
+        const percent = Math.round(
+          (Number(grade) / Number(exam.maxDegree)) * 100
+        );
 
-        if (firstPercent === null) {
-          firstPercent = percent;
-        }
-
-        lastPercent = percent;
+        percentages.push(percent);
 
         let color = "#facc15";
 
@@ -247,20 +258,21 @@ async function loadReportTable() {
           </td>
         `;
       } else {
-        row += `
-          <td>-</td>
-        `;
+        row += `<td>-</td>`;
       }
     }
 
     let status = "-";
     let statusColor = "#94a3b8";
 
-    if (firstPercent !== null && lastPercent !== null) {
-      if (lastPercent > firstPercent) {
+    if (percentages.length >= 2) {
+      const first = percentages[0];
+      const last = percentages[percentages.length - 1];
+
+      if (last > first) {
         status = "تحسن";
         statusColor = "#22c55e";
-      } else if (lastPercent < firstPercent) {
+      } else if (last < first) {
         status = "نزول";
         statusColor = "#ef4444";
       } else {
@@ -292,6 +304,7 @@ window.archiveResults = async function() {
       subject: data.subject,
       examName: data.examName,
       grade: data.grade,
+      maxDegree: data.maxDegree || "",
       teacherName: data.teacherName,
       archivedAt: new Date().toLocaleString()
     });
