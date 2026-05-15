@@ -1,12 +1,17 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 <title>Reports</title>
+
 <link rel="stylesheet" href="style.css"/>
 
 <style>
+
 .report-title{
 text-align:center;
 font-size:26px;
@@ -29,9 +34,10 @@ size:A4 landscape;
 margin:8mm;
 }
 
+html,
 body{
-background:white !important;
-color:black !important;
+background:#ffffff !important;
+color:#000000 !important;
 -webkit-print-color-adjust:exact;
 print-color-adjust:exact;
 }
@@ -44,57 +50,66 @@ display:none !important;
 
 .dashboard-layout{
 display:block !important;
+background:#ffffff !important;
 }
 
 .main{
 padding:0 !important;
 overflow:visible !important;
+background:#ffffff !important;
 }
 
 .section{
 display:block !important;
-background:white !important;
-color:black !important;
+background:#ffffff !important;
+color:#000000 !important;
 padding:0 !important;
 margin:0 !important;
 border-radius:0 !important;
+box-shadow:none !important;
 overflow:visible !important;
 }
 
 .report-title{
-color:black !important;
+color:#000000 !important;
 font-size:18px !important;
-margin-bottom:4px !important;
+font-weight:900 !important;
+margin-bottom:5px !important;
+text-align:center !important;
 }
 
 .report-subtitle{
-color:black !important;
+color:#000000 !important;
 font-size:11px !important;
-margin-bottom:8px !important;
+margin-bottom:10px !important;
+text-align:center !important;
 }
 
 .stats-grid{
+display:grid !important;
 grid-template-columns:repeat(4,1fr) !important;
 gap:6px !important;
-margin-bottom:8px !important;
+margin-bottom:10px !important;
 }
 
 .stat-card{
-background:white !important;
-border:1px solid #999 !important;
+background:#ffffff !important;
+border:1px solid #000000 !important;
 padding:6px !important;
 border-radius:0 !important;
+color:#000000 !important;
 }
 
 .stat-title{
-color:black !important;
+color:#000000 !important;
 font-size:10px !important;
 margin-bottom:2px !important;
 }
 
 .stat-number{
-color:black !important;
+color:#000000 !important;
 font-size:16px !important;
+font-weight:900 !important;
 }
 
 table{
@@ -103,24 +118,66 @@ min-width:0 !important;
 font-size:8px !important;
 border-collapse:collapse !important;
 table-layout:auto !important;
+background:#ffffff !important;
 }
 
-th,
-td{
-color:black !important;
-border:1px solid #777 !important;
-padding:3px !important;
+thead{
+display:table-header-group !important;
+}
+
+tbody{
+display:table-row-group !important;
+}
+
+tr{
+page-break-inside:avoid !important;
+}
+
+th{
+background:#ffffff !important;
+color:#000000 !important;
+border:1px solid #000000 !important;
+padding:4px !important;
+font-size:8px !important;
+font-weight:900 !important;
 white-space:nowrap !important;
+}
+
+td{
+background:#ffffff !important;
+color:#000000 !important;
+border:1px solid #000000 !important;
+padding:3px !important;
+font-size:8px !important;
+font-weight:700 !important;
+white-space:nowrap !important;
+vertical-align:middle !important;
+}
+
+th *,
+td *,
+div,
+span{
+background:transparent !important;
+color:#000000 !important;
+box-shadow:none !important;
 }
 
 th:first-child,
 td:first-child{
-min-width:70px !important;
-max-width:100px !important;
+min-width:95px !important;
+max-width:130px !important;
+}
+
+.student-name{
+color:#000000 !important;
+font-weight:900 !important;
 }
 
 }
+
 </style>
+
 </head>
 
 <body>
@@ -158,7 +215,13 @@ Rased<br>Insights
 اختر المعلم والفصل لعرض التقرير
 </div>
 
-<div class="filters-area" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-bottom:25px;">
+<div class="filters-area"
+style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
+margin-bottom:25px;
+">
 
 <div class="input-group">
 <select id="teacherSelect">
@@ -199,10 +262,15 @@ Rased<br>Insights
 </div>
 
 <div style="overflow:auto;">
+
 <table>
+
 <thead id="tableHead"></thead>
+
 <tbody id="tableBody"></tbody>
+
 </table>
+
 </div>
 
 </div>
@@ -220,7 +288,8 @@ collection,
 getDocs,
 query,
 where
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 if(localStorage.getItem("rasedRole") !== "supervisor"){
 window.location.href = "index.html";
@@ -298,8 +367,10 @@ classSelect.addEventListener("change",loadReport);
 async function loadTeacherClasses(){
 
 classSelect.innerHTML = "<option>اختر الفصل</option>";
+
 tableHead.innerHTML = "";
 tableBody.innerHTML = "";
+
 resetStats();
 
 const teacherName = teacherSelect.value;
@@ -330,11 +401,15 @@ classSelect.innerHTML += `<option>${className}</option>`;
 }
 
 function resetStats(){
+
 document.getElementById("studentsCount").innerText = "0";
 document.getElementById("classAverage").innerText = "0%";
 document.getElementById("improvedCount").innerText = "0";
 document.getElementById("declinedCount").innerText = "0";
-reportSubtitle.innerText = "اختر المعلم والفصل لعرض التقرير";
+
+reportSubtitle.innerText =
+"اختر المعلم والفصل لعرض التقرير";
+
 }
 
 function getChangeLabel(currentPercent,previousPercent){
@@ -403,7 +478,15 @@ key:"stable"
 async function loadReport(){
 
 tableHead.innerHTML = "";
-tableBody.innerHTML = "";
+
+tableBody.innerHTML = `
+<tr>
+<td colspan="50">
+جاري تحميل التقرير...
+</td>
+</tr>
+`;
+
 resetStats();
 
 const teacherName = teacherSelect.value;
@@ -413,6 +496,7 @@ if(
 teacherName === "اختر المعلم" ||
 className === "اختر الفصل"
 ){
+tableBody.innerHTML = "";
 return;
 }
 
@@ -425,7 +509,9 @@ if(exams.length === 0){
 
 tableBody.innerHTML = `
 <tr>
-<td colspan="50">لا توجد اختبارات مضافة من الأدمن</td>
+<td colspan="50">
+لا توجد اختبارات مضافة
+</td>
 </tr>
 `;
 
@@ -439,6 +525,7 @@ let head = `
 `;
 
 exams.forEach(exam=>{
+
 head += `
 <th>
 ${exam.examName}
@@ -446,6 +533,7 @@ ${exam.examName}
 من ${exam.maxDegree}
 </th>
 `;
+
 });
 
 head += `
@@ -469,7 +557,9 @@ studentsSnapshot.forEach(studentDoc=>{
 students.push(studentDoc.data());
 });
 
-students.sort((a,b)=>a.name.localeCompare(b.name,"ar"));
+students.sort((a,b)=>
+a.name.localeCompare(b.name,"ar")
+);
 
 let studentsCount = 0;
 let classTotalPercent = 0;
@@ -484,7 +574,9 @@ studentsCount++;
 
 let row = `
 <tr>
-<td class="student-name">${student.name}</td>
+<td class="student-name">
+${student.name}
+</td>
 `;
 
 let previousPercent = null;
@@ -495,19 +587,42 @@ let studentGradeCount = 0;
 for(const exam of exams){
 
 const gradeData = allGrades.find(item=>
-item.studentName === student.name &&
-item.className === className &&
-item.examName === exam.examName &&
+
+item.studentName === student.name
+
+&&
+
+item.className === className
+
+&&
+
+item.examName === exam.examName
+
+&&
+
 item.teacherName === teacherName
+
 );
 
 if(gradeData){
 
 const percent = exam.maxDegree
-? Math.round((Number(gradeData.grade) / Number(exam.maxDegree)) * 100)
-: 0;
+?
+Math.round(
+(
+Number(gradeData.grade)
+/
+Number(exam.maxDegree)
+)
+* 100
+)
+:0;
 
-const change = getChangeLabel(percent,previousPercent);
+const change =
+getChangeLabel(
+percent,
+previousPercent
+);
 
 if(change.key !== "none"){
 changes.push(change.key);
@@ -522,21 +637,26 @@ let gradeColor = "#facc15";
 
 if(percent >= 85){
 gradeColor = "#22c55e";
-}else if(percent < 60){
+}
+else if(percent < 60){
 gradeColor = "#ef4444";
 }
 
 row += `
 <td>
-<div style="color:${gradeColor};font-weight:800;">
+
+<div style="font-weight:800;">
 ${gradeData.grade} / ${exam.maxDegree}
 </div>
-<div style="color:${gradeColor};font-weight:700;">
+
+<div style="font-weight:700;">
 ${percent}%
 </div>
-<div style="color:${change.color};font-weight:900;">
+
+<div style="font-weight:900;">
 ${change.text}
 </div>
+
 </td>
 `;
 
@@ -549,8 +669,9 @@ row += `<td>-</td>`;
 }
 
 const average = studentGradeCount
-? Math.round(studentTotalPercent / studentGradeCount)
-: 0;
+?
+Math.round(studentTotalPercent / studentGradeCount)
+:0;
 
 classTotalPercent += average;
 
@@ -565,8 +686,14 @@ declinedCount++;
 }
 
 row += `
-<td style="font-weight:900;">${average}%</td>
-<td style="color:${overall.color};font-weight:900;">${overall.text}</td>
+<td style="font-weight:900;">
+${average}%
+</td>
+
+<td style="font-weight:900;">
+${overall.text}
+</td>
+
 </tr>
 `;
 
@@ -576,21 +703,30 @@ html += row;
 
 tableBody.innerHTML = html;
 
-document.getElementById("studentsCount").innerText = studentsCount;
+document.getElementById("studentsCount").innerText =
+studentsCount;
 
 document.getElementById("classAverage").innerText =
 studentsCount
-? Math.round(classTotalPercent / studentsCount) + "%"
-: "0%";
+?
+Math.round(classTotalPercent / studentsCount) + "%"
+:
+"0%";
 
-document.getElementById("improvedCount").innerText = improvedCount;
-document.getElementById("declinedCount").innerText = declinedCount;
+document.getElementById("improvedCount").innerText =
+improvedCount;
+
+document.getElementById("declinedCount").innerText =
+declinedCount;
 
 }
 
 window.logout = function(){
+
 localStorage.clear();
+
 window.location.href = "index.html";
+
 };
 
 await loadExams();
@@ -600,3 +736,4 @@ await loadTeachers();
 
 </body>
 </html>
+```
