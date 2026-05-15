@@ -121,9 +121,12 @@ async function loadExams() {
 
     exams.push({
       examName: data.examName,
-      maxDegree: Number(data.maxDegree || 0)
+      maxDegree: Number(data.maxDegree || 0),
+      order: Number(data.order || 999)
     });
   });
+
+  exams.sort((a, b) => a.order - b.order);
 }
 
 teacherSelect.addEventListener("change", loadTeacherClasses);
@@ -154,6 +157,58 @@ async function loadTeacherClasses() {
       <option>${data.className}</option>
     `;
   });
+}
+
+function getChangeLabel(currentPercent, previousPercent) {
+  if (previousPercent === null) {
+    return {
+      text: "-",
+      color: "#94a3b8"
+    };
+  }
+
+  if (currentPercent > previousPercent) {
+    return {
+      text: "↑ تحسن",
+      color: "#22c55e"
+    };
+  }
+
+  if (currentPercent < previousPercent) {
+    return {
+      text: "↓ نزول",
+      color: "#ef4444"
+    };
+  }
+
+  return {
+    text: "→ ثابت",
+    color: "#facc15"
+  };
+}
+
+function getOverallStatus(changes) {
+  const up = changes.filter(item => item === "up").length;
+  const down = changes.filter(item => item === "down").length;
+
+  if (up > down) {
+    return {
+      text: "تحسن عام",
+      color: "#22c55e"
+    };
+  }
+
+  if (down > up) {
+    return {
+      text: "نزول عام",
+      color: "#ef4444"
+    };
+  }
+
+  return {
+    text: "ثابت",
+    color: "#facc15"
+  };
 }
 
 async function loadReportTable() {
@@ -195,7 +250,7 @@ async function loadReportTable() {
   });
 
   head += `
-      <th>الحالة</th>
+      <th>الاتجاه العام</th>
     </tr>
   `;
 
@@ -216,7 +271,8 @@ async function loadReportTable() {
         <td>${student.name}</td>
     `;
 
-    let percentages = [];
+    let previousPercent = null;
+    let changes = [];
 
     for (const exam of exams) {
       let grade = "";
@@ -236,11 +292,23 @@ async function loadReportTable() {
       });
 
       if (grade !== "") {
-        const percent = Math.round(
-          (Number(grade) / Number(exam.maxDegree)) * 100
-        );
+        const percent = exam.maxDegree
+          ? Math.round((Number(grade) / Number(exam.maxDegree)) * 100)
+          : 0;
 
-        percentages.push(percent);
+        const change = getChangeLabel(percent, previousPercent);
+
+        if (previousPercent !== null) {
+          if (percent > previousPercent) {
+            changes.push("up");
+          } else if (percent < previousPercent) {
+            changes.push("down");
+          } else {
+            changes.push("stable");
+          }
+        }
+
+        previousPercent = percent;
 
         let color = "#facc15";
 
@@ -251,10 +319,16 @@ async function loadReportTable() {
         }
 
         row += `
-          <td style="color:${color};font-weight:800;">
-            ${grade} / ${exam.maxDegree}
-            <br>
-            ${percent}%
+          <td>
+            <div style="color:${color};font-weight:800;">
+              ${grade} / ${exam.maxDegree}
+            </div>
+            <div style="color:${color};font-weight:700;">
+              ${percent}%
+            </div>
+            <div style="color:${change.color};font-weight:900;margin-top:6px;">
+              ${change.text}
+            </div>
           </td>
         `;
       } else {
@@ -262,28 +336,11 @@ async function loadReportTable() {
       }
     }
 
-    let status = "-";
-    let statusColor = "#94a3b8";
-
-    if (percentages.length >= 2) {
-      const first = percentages[0];
-      const last = percentages[percentages.length - 1];
-
-      if (last > first) {
-        status = "تحسن";
-        statusColor = "#22c55e";
-      } else if (last < first) {
-        status = "نزول";
-        statusColor = "#ef4444";
-      } else {
-        status = "ثابت";
-        statusColor = "#facc15";
-      }
-    }
+    const overall = getOverallStatus(changes);
 
     row += `
-        <td style="color:${statusColor};font-weight:900;">
-          ${status}
+        <td style="color:${overall.color};font-weight:900;">
+          ${overall.text}
         </td>
       </tr>
     `;
