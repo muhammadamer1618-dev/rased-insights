@@ -1,0 +1,251 @@
+```html id="z5vpkr"
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
+<title>Archive</title>
+
+<link
+rel="stylesheet"
+href="style.css"
+/>
+
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+<div class="sidebar">
+
+<div class="logo-box">
+Rased<br>
+Insights
+</div>
+
+<div class="user-box">
+
+<div class="user-title">
+أرشيف النتائج
+</div>
+
+<div class="user-name">
+قسم اللغة الإنجليزية
+</div>
+
+</div>
+
+<div class="menu">
+
+<button onclick="showSection('archiveSection')">
+الأرشيف
+</button>
+
+<button onclick="window.location.href='supervisor.html'">
+الرجوع للمشرف
+</button>
+
+<button
+class="logout-btn"
+onclick="logout()"
+>
+تسجيل الخروج
+</button>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div
+class="section active-section"
+id="archiveSection"
+>
+
+<div class="section-header">
+
+<div class="section-title">
+النتائج المؤرشفة
+</div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+اسم الطالب
+</th>
+
+<th>
+الفصل
+</th>
+
+<th>
+المادة
+</th>
+
+<th>
+الاختبار
+</th>
+
+<th>
+الدرجة
+</th>
+
+<th>
+المعلم
+</th>
+
+<th>
+تاريخ الأرشفة
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="archiveTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { db }
+from "./firebase.js";
+
+import {
+
+collection,
+getDocs
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+if(
+localStorage.getItem("rasedRole")
+!== "supervisor"
+){
+
+window.location.href =
+"index.html";
+
+}
+
+window.showSection =
+function(id){
+
+document
+.querySelectorAll(".section")
+.forEach(section=>{
+
+section.classList.remove(
+"active-section"
+);
+
+});
+
+document
+.getElementById(id)
+.classList.add(
+"active-section"
+);
+
+};
+
+async function loadArchive(){
+
+const table =
+document.getElementById(
+"archiveTable"
+);
+
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(
+collection(db,"archive")
+);
+
+snapshot.forEach(item=>{
+
+const data =
+item.data();
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+${data.studentName}
+</td>
+
+<td>
+${data.className}
+</td>
+
+<td>
+${data.subject}
+</td>
+
+<td>
+${data.examName}
+</td>
+
+<td>
+${data.grade}
+</td>
+
+<td>
+${data.teacherName}
+</td>
+
+<td>
+${data.archivedAt}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+window.logout =
+function(){
+
+localStorage.clear();
+
+window.location.href =
+"index.html";
+
+};
+
+loadArchive();
+
+</script>
+
+</body>
+
+</html>
+```
