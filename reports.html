@@ -1,3 +1,4 @@
+```html id="h7qvxm"
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
@@ -10,12 +11,14 @@ name="viewport"
 content="width=device-width, initial-scale=1.0"
 />
 
-<title>Reports</title>
+<title>Reports Analytics</title>
 
 <link
 rel="stylesheet"
 href="style.css"
 />
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -33,7 +36,7 @@ Insights
 <div class="user-box">
 
 <div class="user-title">
-التقارير العامة
+تحليلات الأداء
 </div>
 
 <div class="user-name">
@@ -44,23 +47,24 @@ Insights
 
 <div class="menu">
 
-<button onclick="showSection('summarySection')">
-ملخص النتائج
+<button onclick="showSection('analyticsSection')">
+تحليل الطلاب
 </button>
 
-<button onclick="showSection('topStudentsSection')">
-الطلاب الأعلى
+<button onclick="showSection('topSection')">
+الترتيب
 </button>
 
-<button onclick="showSection('statisticsSection')">
-الإحصائيات
+<button onclick="showSection('riskSection')">
+الطلاب الضعفاء
 </button>
 
-<button
-class="logout-btn"
-onclick="logout()"
->
-خروج
+<button onclick="window.print()">
+طباعة التقرير
+</button>
+
+<button onclick="window.location.href='supervisor.html'">
+رجوع
 </button>
 
 </div>
@@ -71,30 +75,128 @@ onclick="logout()"
 
 <div
 class="section active-section"
-id="summarySection"
+id="analyticsSection"
 >
 
 <div class="section-header">
 
 <div class="section-title">
-ملخص نتائج الطلاب
+تحليل أداء الطلاب
 </div>
 
 </div>
 
-<table>
+<div
+style="
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+"
+>
+
+<div class="input-group">
+
+<select id="teacherSelect">
+<option>
+اختر المعلم
+</option>
+</select>
+
+</div>
+
+<div class="input-group">
+
+<select id="classSelect">
+<option>
+اختر الفصل
+</option>
+</select>
+
+</div>
+
+<div class="input-group">
+
+<select id="studentSelect">
+<option>
+اختر الطالب
+</option>
+</select>
+
+</div>
+
+</div>
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<div class="stat-title">
+متوسط الطالب
+</div>
+
+<div
+class="stat-number"
+id="studentAverage"
+>
+0%
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-title">
+أعلى درجة
+</div>
+
+<div
+class="stat-number"
+id="highestGrade"
+>
+0
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-title">
+الحالة
+</div>
+
+<div
+class="stat-number"
+id="studentStatus"
+>
+-
+</div>
+
+</div>
+
+</div>
+
+<div
+style="
+margin-top:25px;
+background:#0f172a;
+padding:20px;
+border-radius:20px;
+"
+>
+
+<canvas id="studentChart"></canvas>
+
+</div>
+
+<table
+style="margin-top:25px;"
+>
 
 <thead>
 
 <tr>
-
-<th>
-الطالب
-</th>
-
-<th>
-الفصل
-</th>
 
 <th>
 الاختبار
@@ -105,14 +207,14 @@ id="summarySection"
 </th>
 
 <th>
-المعلم
+التقييم
 </th>
 
 </tr>
 
 </thead>
 
-<tbody id="summaryTable"></tbody>
+<tbody id="studentTable"></tbody>
 
 </table>
 
@@ -120,13 +222,13 @@ id="summarySection"
 
 <div
 class="section"
-id="topStudentsSection"
+id="topSection"
 >
 
 <div class="section-header">
 
 <div class="section-title">
-الطلاب الأعلى درجات
+ترتيب الطلاب
 </div>
 
 </div>
@@ -146,11 +248,7 @@ id="topStudentsSection"
 </th>
 
 <th>
-الفصل
-</th>
-
-<th>
-الدرجة
+المتوسط
 </th>
 
 </tr>
@@ -165,65 +263,42 @@ id="topStudentsSection"
 
 <div
 class="section"
-id="statisticsSection"
+id="riskSection"
 >
 
 <div class="section-header">
 
 <div class="section-title">
-الإحصائيات العامة
+الطلاب الضعفاء
 </div>
 
 </div>
 
-<div class="stats-grid">
+<table>
 
-<div class="stat-card">
+<thead>
 
-<div class="stat-title">
-عدد الطلاب
-</div>
+<tr>
 
-<div
-class="stat-number"
-id="studentsCount"
->
-0
-</div>
+<th>
+الطالب
+</th>
 
-</div>
+<th>
+المتوسط
+</th>
 
-<div class="stat-card">
+<th>
+الحالة
+</th>
 
-<div class="stat-title">
-عدد الاختبارات
-</div>
+</tr>
 
-<div
-class="stat-number"
-id="examsCount"
->
-0
-</div>
+</thead>
 
-</div>
+<tbody id="riskTable"></tbody>
 
-<div class="stat-card">
-
-<div class="stat-title">
-متوسط الدرجات
-</div>
-
-<div
-class="stat-number"
-id="averageGrade"
->
-0
-</div>
-
-</div>
-
-</div>
+</table>
 
 </div>
 
@@ -239,7 +314,9 @@ from "./firebase.js";
 import {
 
 collection,
-getDocs
+getDocs,
+query,
+where
 
 }
 
@@ -266,95 +343,219 @@ document
 
 };
 
-async function loadReports(){
+const teacherSelect =
+document.getElementById(
+"teacherSelect"
+);
+
+const classSelect =
+document.getElementById(
+"classSelect"
+);
+
+const studentSelect =
+document.getElementById(
+"studentSelect"
+);
+
+const studentTable =
+document.getElementById(
+"studentTable"
+);
+
+let chart = null;
+
+async function loadTeachers(){
 
 const snapshot =
 await getDocs(
-collection(db,"grades")
+collection(db,"teachers")
 );
 
-const summaryTable =
-document.getElementById(
-"summaryTable"
+snapshot.forEach(item=>{
+
+teacherSelect.innerHTML += `
+<option>
+${item.data().name}
+</option>
+`;
+
+});
+
+}
+
+teacherSelect.addEventListener(
+"change",
+loadClasses
 );
 
-const topStudentsTable =
-document.getElementById(
-"topStudentsTable"
+async function loadClasses(){
+
+classSelect.innerHTML = `
+<option>
+اختر الفصل
+</option>
+`;
+
+const snapshot =
+await getDocs(
+query(
+collection(db,"assignments"),
+where(
+"teacherName",
+"==",
+teacherSelect.value
+)
+)
 );
 
-summaryTable.innerHTML = "";
+snapshot.forEach(item=>{
 
+classSelect.innerHTML += `
+<option>
+${item.data().className}
+</option>
+`;
+
+});
+
+}
+
+classSelect.addEventListener(
+"change",
+loadStudents
+);
+
+async function loadStudents(){
+
+studentSelect.innerHTML = `
+<option>
+اختر الطالب
+</option>
+`;
+
+const snapshot =
+await getDocs(
+query(
+collection(db,"students"),
+where(
+"className",
+"==",
+classSelect.value
+)
+)
+);
+
+snapshot.forEach(item=>{
+
+studentSelect.innerHTML += `
+<option>
+${item.data().name}
+</option>
+`;
+
+});
+
+}
+
+studentSelect.addEventListener(
+"change",
+loadStudentAnalytics
+);
+
+async function loadStudentAnalytics(){
+
+studentTable.innerHTML = "";
+
+const snapshot =
+await getDocs(
+query(
+collection(db,"grades"),
+where(
+"studentName",
+"==",
+studentSelect.value
+)
+)
+);
+
+let labels = [];
 let grades = [];
+
+let total = 0;
+
+let highest = 0;
 
 snapshot.forEach(item=>{
 
 const data =
 item.data();
 
-grades.push(data);
+const grade =
+Number(data.grade);
 
-summaryTable.innerHTML += `
+labels.push(
+data.examName
+);
+
+grades.push(
+grade
+);
+
+total += grade;
+
+if(
+grade > highest
+){
+
+highest = grade;
+
+}
+
+let status = "";
+
+let statusColor = "";
+
+if(grade >= 85){
+
+status = "ممتاز";
+statusColor = "#22c55e";
+
+}
+
+else if(grade >= 60){
+
+status = "متوسط";
+statusColor = "#facc15";
+
+}
+
+else{
+
+status = "ضعيف";
+statusColor = "#ef4444";
+
+}
+
+studentTable.innerHTML += `
 
 <tr>
-
-<td>
-${data.studentName}
-</td>
-
-<td>
-${data.className}
-</td>
 
 <td>
 ${data.examName}
 </td>
 
 <td>
-${data.grade}
+${grade}
 </td>
 
-<td>
-${data.teacherName}
-</td>
-
-</tr>
-
-`;
-
-});
-
-grades.sort(
-(a,b)=>
-Number(b.grade)
--
-Number(a.grade)
-);
-
-topStudentsTable.innerHTML = "";
-
-grades
-.slice(0,10)
-.forEach((student,index)=>{
-
-topStudentsTable.innerHTML += `
-
-<tr>
-
-<td>
-${index + 1}
-</td>
-
-<td>
-${student.studentName}
-</td>
-
-<td>
-${student.className}
-</td>
-
-<td>
-${student.grade}
+<td
+style="
+color:${statusColor};
+font-weight:bold;
+"
+>
+${status}
 </td>
 
 </tr>
@@ -363,33 +564,7 @@ ${student.grade}
 
 });
 
-document
-.getElementById("studentsCount")
-.innerText =
-grades.length;
-
-document
-.getElementById("examsCount")
-.innerText =
-new Set(
-grades.map(
-g=>g.examName
-)
-).size;
-
-let total = 0;
-
-grades.forEach(g=>{
-
-total +=
-Number(g.grade);
-
-});
-
-document
-.getElementById("averageGrade")
-.innerText =
-
+const average =
 grades.length
 ?
 
@@ -401,22 +576,231 @@ total / grades.length
 
 0;
 
+document
+.getElementById("studentAverage")
+.innerText =
+average + "%";
+
+document
+.getElementById("highestGrade")
+.innerText =
+highest;
+
+let finalStatus = "";
+
+if(average >= 85){
+
+finalStatus = "ممتاز";
+
 }
 
-window.logout =
-function(){
+else if(average >= 60){
 
-localStorage.clear();
+finalStatus = "متوسط";
 
-window.location.href =
-"index.html";
+}
 
-};
+else{
 
-loadReports();
+finalStatus = "ضعيف";
+
+}
+
+document
+.getElementById("studentStatus")
+.innerText =
+finalStatus;
+
+if(chart){
+
+chart.destroy();
+
+}
+
+chart =
+new Chart(
+
+document.getElementById(
+"studentChart"
+),
+
+{
+
+type:"line",
+
+data:{
+
+labels,
+
+datasets:[{
+
+label:"تطور الطالب",
+
+data:grades,
+
+borderWidth:3,
+
+tension:0.3
+
+}]
+
+}
+
+}
+
+);
+
+}
+
+async function loadTopStudents(){
+
+const snapshot =
+await getDocs(
+collection(db,"grades")
+);
+
+let students = {};
+
+snapshot.forEach(item=>{
+
+const data =
+item.data();
+
+if(
+!students[data.studentName]
+){
+
+students[data.studentName] = [];
+
+}
+
+students[data.studentName]
+.push(
+Number(data.grade)
+);
+
+});
+
+let results = [];
+
+for(
+const student
+in students
+){
+
+const arr =
+students[student];
+
+const avg =
+arr.reduce(
+(a,b)=>a+b,
+0
+)
+/
+arr.length;
+
+results.push({
+
+name:student,
+average:
+Math.round(avg)
+
+});
+
+}
+
+results.sort(
+(a,b)=>
+b.average - a.average
+);
+
+const table =
+document.getElementById(
+"topStudentsTable"
+);
+
+table.innerHTML = "";
+
+results.forEach(
+(item,index)=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+${index + 1}
+</td>
+
+<td>
+${item.name}
+</td>
+
+<td>
+${item.average}%
+</td>
+
+</tr>
+
+`;
+
+});
+
+loadRiskStudents(results);
+
+}
+
+function loadRiskStudents(results){
+
+const table =
+document.getElementById(
+"riskTable"
+);
+
+table.innerHTML = "";
+
+results.forEach(item=>{
+
+if(item.average < 60){
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+${item.name}
+</td>
+
+<td>
+${item.average}%
+</td>
+
+<td
+style="
+color:#ef4444;
+font-weight:bold;
+"
+>
+ضعيف
+</td>
+
+</tr>
+
+`;
+
+}
+
+});
+
+}
+
+loadTeachers();
+
+loadTopStudents();
 
 </script>
 
 </body>
 
 </html>
+```
