@@ -5,19 +5,11 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>
-Rased Insights Dashboard
-</title>
+<title>Rased Insights Dashboard</title>
 
-<link
-href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet"
-/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
@@ -105,7 +97,6 @@ color:#020617;
 
 .logout{
 background:#dc2626 !important;
-color:white !important;
 margin-top:auto;
 }
 
@@ -121,6 +112,11 @@ padding:25px;
 border-radius:24px;
 margin-bottom:25px;
 overflow:auto;
+display:none;
+}
+
+#overviewSection{
+display:block;
 }
 
 .section-header{
@@ -128,8 +124,8 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:20px;
-flex-wrap:wrap;
 gap:15px;
+flex-wrap:wrap;
 }
 
 .section-title{
@@ -207,7 +203,7 @@ background:#dc2626;
 color:white;
 }
 
-.archive{
+.restore{
 background:#ca8a04;
 color:#020617;
 }
@@ -355,10 +351,7 @@ Insights
 الأرشيف
 </button>
 
-<button
-class="logout"
-onclick="window.location.href='./index.html'"
->
+<button class="logout" onclick="window.location.href='index.html'">
 تسجيل الخروج
 </button>
 
@@ -371,11 +364,9 @@ onclick="window.location.href='./index.html'"
 <div class="section" id="overviewSection">
 
 <div class="section-header">
-
 <div class="section-title">
 لوحة التحكم
 </div>
-
 </div>
 
 <div class="stats-grid">
@@ -404,18 +395,15 @@ onclick="window.location.href='./index.html'"
 
 </div>
 
-<div class="section" id="teachersSection" style="display:none;">
+<div class="section" id="teachersSection">
 
 <div class="section-header">
 
 <div class="section-title">
-المعلمين
+إدارة المعلمين
 </div>
 
-<button
-class="action-btn-main"
-onclick="openModal('teacher')"
->
+<button class="action-btn-main" onclick="openModal('teacher')">
 إضافة معلم
 </button>
 
@@ -424,16 +412,12 @@ onclick="openModal('teacher')"
 <table>
 
 <thead>
-
 <tr>
-
 <th>الاسم</th>
 <th>Username</th>
 <th>Password</th>
 <th>الإجراءات</th>
-
 </tr>
-
 </thead>
 
 <tbody id="teachersTable"></tbody>
@@ -442,18 +426,15 @@ onclick="openModal('teacher')"
 
 </div>
 
-<div class="section" id="supervisorsSection" style="display:none;">
+<div class="section" id="supervisorsSection">
 
 <div class="section-header">
 
 <div class="section-title">
-المشرفين
+إدارة المشرفين
 </div>
 
-<button
-class="action-btn-main"
-onclick="openModal('supervisor')"
->
+<button class="action-btn-main" onclick="openModal('supervisor')">
 إضافة مشرف
 </button>
 
@@ -462,16 +443,12 @@ onclick="openModal('supervisor')"
 <table>
 
 <thead>
-
 <tr>
-
 <th>الاسم</th>
 <th>Username</th>
 <th>Password</th>
 <th>الإجراءات</th>
-
 </tr>
-
 </thead>
 
 <tbody id="supervisorsTable"></tbody>
@@ -480,18 +457,15 @@ onclick="openModal('supervisor')"
 
 </div>
 
-<div class="section" id="classesSection" style="display:none;">
+<div class="section" id="classesSection">
 
 <div class="section-header">
 
 <div class="section-title">
-الفصول
+إدارة الفصول
 </div>
 
-<button
-class="action-btn-main"
-onclick="openModal('class')"
->
+<button class="action-btn-main" onclick="openModal('class')">
 إضافة فصل
 </button>
 
@@ -500,14 +474,10 @@ onclick="openModal('class')"
 <table>
 
 <thead>
-
 <tr>
-
-<th>الفصل</th>
+<th>اسم الفصل</th>
 <th>الإجراءات</th>
-
 </tr>
-
 </thead>
 
 <tbody id="classesTable"></tbody>
@@ -516,36 +486,25 @@ onclick="openModal('class')"
 
 </div>
 
-<div class="section" id="studentsSection" style="display:none;">
+<div class="section" id="studentsSection">
 
 <div class="section-header">
 
 <div class="section-title">
-الطلاب
+إدارة الطلاب
 </div>
 
-<div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
 
-<button
-class="action-btn-main"
-onclick="openModal('student')"
->
+<button class="action-btn-main" onclick="openModal('student')">
 إضافة طالب
 </button>
 
-<button
-class="action-btn-main"
-onclick="document.getElementById('excelFile').click()"
->
+<button class="action-btn-main" onclick="document.getElementById('excelInput').click()">
 استيراد Excel
 </button>
 
-<input
-type="file"
-id="excelFile"
-accept=".xlsx,.xls"
-style="display:none"
-/>
+<input type="file" id="excelInput" accept=".xlsx,.xls" style="display:none;">
 
 </div>
 
@@ -554,15 +513,11 @@ style="display:none"
 <table>
 
 <thead>
-
 <tr>
-
 <th>اسم الطالب</th>
 <th>الفصل</th>
 <th>الإجراءات</th>
-
 </tr>
-
 </thead>
 
 <tbody id="studentsTable"></tbody>
@@ -571,19 +526,16 @@ style="display:none"
 
 </div>
 
-<div class="section" id="assignmentsSection" style="display:none;">
+<div class="section" id="assignmentsSection">
 
 <div class="section-header">
 
 <div class="section-title">
-إسناد الفصول
+إسناد الفصول للمعلمين
 </div>
 
-<button
-class="action-btn-main"
-onclick="openModal('assignment')"
->
-إسناد
+<button class="action-btn-main" onclick="openModal('assignment')">
+إسناد جديد
 </button>
 
 </div>
@@ -591,15 +543,11 @@ onclick="openModal('assignment')"
 <table>
 
 <thead>
-
 <tr>
-
 <th>الفصل</th>
 <th>المعلم</th>
 <th>الإجراءات</th>
-
 </tr>
-
 </thead>
 
 <tbody id="assignmentsTable"></tbody>
@@ -608,36 +556,42 @@ onclick="openModal('assignment')"
 
 </div>
 
-<div class="section" id="examsSection" style="display:none;">
+<div class="section" id="examsSection">
 
 <div class="section-header">
-
 <div class="section-title">
 الاختبارات
 </div>
-
 </div>
 
 <table>
 
 <thead>
-
 <tr>
-
 <th>الاختبار</th>
-<th>الإجراءات</th>
-
 </tr>
-
 </thead>
 
-<tbody id="examsTable"></tbody>
+<tbody>
+
+<tr><td>الاختبار الدوري الأول</td></tr>
+<tr><td>الاختبار الدوري الثاني</td></tr>
+<tr><td>الاختبار الدوري الثالث</td></tr>
+<tr><td>الاختبار الدوري الرابع</td></tr>
+<tr><td>الاختبار الدوري الخامس</td></tr>
+<tr><td>الاختبار الدوري السادس</td></tr>
+<tr><td>الاختبار الدوري السابع</td></tr>
+<tr><td>الاختبار الدوري الثامن</td></tr>
+<tr><td>اختبار الفترة الأولى</td></tr>
+<tr><td>اختبار الفترة الثانية</td></tr>
+
+</tbody>
 
 </table>
 
 </div>
 
-<div class="section" id="archiveSection" style="display:none;">
+<div class="section" id="archiveSection">
 
 <div class="section-header">
 
@@ -650,15 +604,10 @@ onclick="openModal('assignment')"
 <table>
 
 <thead>
-
 <tr>
-
 <th>العنصر</th>
 <th>النوع</th>
-<th>استرجاع</th>
-
 </tr>
-
 </thead>
 
 <tbody id="archiveTable"></tbody>
@@ -699,17 +648,11 @@ onclick="openModal('assignment')"
 
 <div class="modal-actions">
 
-<button
-class="save-btn"
-onclick="saveData()"
->
+<button class="save-btn" onclick="saveData()">
 حفظ
 </button>
 
-<button
-class="cancel-btn"
-onclick="closeModal()"
->
+<button class="cancel-btn" onclick="closeModal()">
 إلغاء
 </button>
 
@@ -719,27 +662,26 @@ onclick="closeModal()"
 
 </div>
 
-<script>
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 let currentType = "";
 
 const modal =
 document.getElementById("modal");
-
-const exams = [
-
-"الاختبار الدوري الأول",
-"الاختبار الدوري الثاني",
-"الاختبار الدوري الثالث",
-"الاختبار الدوري الرابع",
-"الاختبار الدوري الخامس",
-"الاختبار الدوري السادس",
-"الاختبار الدوري السابع",
-"الاختبار الدوري الثامن",
-"اختبار الفترة الأولى",
-"اختبار الفترة الثانية"
-
-];
 
 function showSection(id){
 
@@ -763,17 +705,12 @@ currentType = type;
 modal.style.display = "flex";
 
 document.getElementById("nameInput").value = "";
-
 document.getElementById("usernameInput").value = "";
-
 document.getElementById("passwordInput").value = "";
 
 document.getElementById("usernameGroup").style.display = "none";
-
 document.getElementById("passwordGroup").style.display = "none";
-
 document.getElementById("classGroup").style.display = "none";
-
 document.getElementById("teacherGroup").style.display = "none";
 
 if(type === "teacher"){
@@ -833,11 +770,14 @@ document.getElementById("teacherGroup").style.display =
 "block";
 
 loadClassOptions();
+
 loadTeacherOptions();
 
 }
 
 }
+
+window.openModal = openModal;
 
 function closeModal(){
 
@@ -845,7 +785,9 @@ modal.style.display = "none";
 
 }
 
-function saveData(){
+window.closeModal = closeModal;
+
+async function saveData(){
 
 const name =
 document.getElementById("nameInput").value;
@@ -864,65 +806,108 @@ document.getElementById("teacherSelect").value;
 
 if(currentType === "teacher"){
 
-addTeacher(name,username,password);
+await addDoc(
+collection(db,"teachers"),
+{
+name,
+username,
+password
+}
+);
+
+loadTeachers();
 
 }
 
 if(currentType === "supervisor"){
 
-addSupervisor(name,username,password);
+await addDoc(
+collection(db,"supervisors"),
+{
+name,
+username,
+password
+}
+);
+
+loadSupervisors();
 
 }
 
 if(currentType === "class"){
 
-addClass(name);
+await addDoc(
+collection(db,"classes"),
+{
+name
+}
+);
+
+loadClasses();
 
 }
 
 if(currentType === "student"){
 
-addStudent(name,className);
+await addDoc(
+collection(db,"students"),
+{
+name,
+className
+}
+);
+
+loadStudents();
 
 }
 
 if(currentType === "assignment"){
 
-addAssignment(className,teacherName);
+await addDoc(
+collection(db,"assignments"),
+{
+className,
+teacherName
+}
+);
+
+loadAssignments();
 
 }
 
 closeModal();
 
-updateCounts();
-
 }
 
-function addTeacher(name,username,password){
+window.saveData = saveData;
+
+async function loadTeachers(){
 
 const table =
 document.getElementById("teachersTable");
 
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(collection(db,"teachers"));
+
+snapshot.forEach(item=>{
+
+const data = item.data();
+
 table.innerHTML += `
 
 <tr>
 
-<td>${name}</td>
-<td>${username}</td>
-<td>${password}</td>
+<td>${data.name}</td>
+<td>${data.username}</td>
+<td>${data.password}</td>
 
 <td>
 
 <button
-class="action-btn edit"
-onclick="editRow(this)"
->
-تعديل
-</button>
-
-<button
 class="action-btn delete"
-onclick="archiveRow(this,'معلم')"
+onclick="deleteTeacher('${item.id}')"
 >
 حذف
 </button>
@@ -933,33 +918,49 @@ onclick="archiveRow(this,'معلم')"
 
 `;
 
+});
+
+updateCounts();
+
 }
 
-function addSupervisor(name,username,password){
+window.deleteTeacher = async(id)=>{
+
+await deleteDoc(
+doc(db,"teachers",id)
+);
+
+loadTeachers();
+
+};
+
+async function loadSupervisors(){
 
 const table =
 document.getElementById("supervisorsTable");
 
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(collection(db,"supervisors"));
+
+snapshot.forEach(item=>{
+
+const data = item.data();
+
 table.innerHTML += `
 
 <tr>
 
-<td>${name}</td>
-<td>${username}</td>
-<td>${password}</td>
+<td>${data.name}</td>
+<td>${data.username}</td>
+<td>${data.password}</td>
 
 <td>
 
 <button
-class="action-btn edit"
-onclick="editRow(this)"
->
-تعديل
-</button>
-
-<button
 class="action-btn delete"
-onclick="archiveRow(this,'مشرف')"
+onclick="deleteSupervisor('${item.id}')"
 >
 حذف
 </button>
@@ -970,31 +971,47 @@ onclick="archiveRow(this,'مشرف')"
 
 `;
 
+});
+
+updateCounts();
+
 }
 
-function addClass(name){
+window.deleteSupervisor = async(id)=>{
+
+await deleteDoc(
+doc(db,"supervisors",id)
+);
+
+loadSupervisors();
+
+};
+
+async function loadClasses(){
 
 const table =
 document.getElementById("classesTable");
 
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(collection(db,"classes"));
+
+snapshot.forEach(item=>{
+
+const data = item.data();
+
 table.innerHTML += `
 
 <tr>
 
-<td>${name}</td>
+<td>${data.name}</td>
 
 <td>
 
 <button
-class="action-btn edit"
-onclick="editRow(this)"
->
-تعديل
-</button>
-
-<button
 class="action-btn delete"
-onclick="archiveRow(this,'فصل')"
+onclick="deleteClass('${item.id}')"
 >
 حذف
 </button>
@@ -1005,32 +1022,48 @@ onclick="archiveRow(this,'فصل')"
 
 `;
 
+});
+
+updateCounts();
+
 }
 
-function addStudent(name,className){
+window.deleteClass = async(id)=>{
+
+await deleteDoc(
+doc(db,"classes",id)
+);
+
+loadClasses();
+
+};
+
+async function loadStudents(){
 
 const table =
 document.getElementById("studentsTable");
 
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(collection(db,"students"));
+
+snapshot.forEach(item=>{
+
+const data = item.data();
+
 table.innerHTML += `
 
 <tr>
 
-<td>${name}</td>
-<td>${className}</td>
+<td>${data.name}</td>
+<td>${data.className}</td>
 
 <td>
 
 <button
-class="action-btn edit"
-onclick="editRow(this)"
->
-تعديل
-</button>
-
-<button
 class="action-btn delete"
-onclick="archiveRow(this,'طالب')"
+onclick="deleteStudent('${item.id}')"
 >
 حذف
 </button>
@@ -1041,25 +1074,48 @@ onclick="archiveRow(this,'طالب')"
 
 `;
 
+});
+
+updateCounts();
+
 }
 
-function addAssignment(className,teacherName){
+window.deleteStudent = async(id)=>{
+
+await deleteDoc(
+doc(db,"students",id)
+);
+
+loadStudents();
+
+};
+
+async function loadAssignments(){
 
 const table =
 document.getElementById("assignmentsTable");
 
+table.innerHTML = "";
+
+const snapshot =
+await getDocs(collection(db,"assignments"));
+
+snapshot.forEach(item=>{
+
+const data = item.data();
+
 table.innerHTML += `
 
 <tr>
 
-<td>${className}</td>
-<td>${teacherName}</td>
+<td>${data.className}</td>
+<td>${data.teacherName}</td>
 
 <td>
 
 <button
 class="action-btn delete"
-onclick="archiveRow(this,'إسناد')"
+onclick="deleteAssignment('${item.id}')"
 >
 حذف
 </button>
@@ -1070,98 +1126,19 @@ onclick="archiveRow(this,'إسناد')"
 
 `;
 
+});
+
 }
 
-function editRow(button){
+window.deleteAssignment = async(id)=>{
 
-const row =
-button.closest("tr");
-
-const firstCell =
-row.querySelector("td");
-
-const newValue =
-prompt(
-"تعديل",
-firstCell.innerText
+await deleteDoc(
+doc(db,"assignments",id)
 );
 
-if(newValue){
+loadAssignments();
 
-firstCell.innerText =
-newValue;
-
-}
-
-}
-
-function archiveRow(button,type){
-
-const row =
-button.closest("tr");
-
-const text =
-row.querySelector("td").innerText;
-
-document.getElementById("archiveTable").innerHTML += `
-
-<tr>
-
-<td>${text}</td>
-<td>${type}</td>
-
-<td>
-
-<button
-class="action-btn archive"
-onclick="restoreRow(this,'${text}','${type}')"
->
-استرجاع
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-row.remove();
-
-updateCounts();
-
-}
-
-function restoreRow(button,text,type){
-
-if(type === "فصل"){
-
-addClass(text);
-
-}
-
-if(type === "طالب"){
-
-addStudent(text,"");
-
-}
-
-if(type === "معلم"){
-
-addTeacher(text,"","");
-
-}
-
-if(type === "مشرف"){
-
-addSupervisor(text,"","");
-
-}
-
-button.closest("tr").remove();
-
-updateCounts();
-
-}
+};
 
 function updateCounts(){
 
@@ -1179,44 +1156,44 @@ document.querySelectorAll("#studentsTable tr").length;
 
 }
 
-function loadClassOptions(){
+async function loadClassOptions(){
 
 const select =
 document.getElementById("classSelect");
 
 select.innerHTML = "";
 
-document
-.querySelectorAll("#classesTable tr")
-.forEach(row=>{
+const snapshot =
+await getDocs(collection(db,"classes"));
 
-const name =
-row.children[0].innerText;
+snapshot.forEach(item=>{
+
+const data = item.data();
 
 select.innerHTML += `
-<option>${name}</option>
+<option>${data.name}</option>
 `;
 
 });
 
 }
 
-function loadTeacherOptions(){
+async function loadTeacherOptions(){
 
 const select =
 document.getElementById("teacherSelect");
 
 select.innerHTML = "";
 
-document
-.querySelectorAll("#teachersTable tr")
-.forEach(row=>{
+const snapshot =
+await getDocs(collection(db,"teachers"));
 
-const name =
-row.children[0].innerText;
+snapshot.forEach(item=>{
+
+const data = item.data();
 
 select.innerHTML += `
-<option>${name}</option>
+<option>${data.name}</option>
 `;
 
 });
@@ -1224,7 +1201,7 @@ select.innerHTML += `
 }
 
 document
-.getElementById("excelFile")
+.getElementById("excelInput")
 .addEventListener("change",event=>{
 
 const file =
@@ -1233,7 +1210,7 @@ event.target.files[0];
 const reader =
 new FileReader();
 
-reader.onload = e=>{
+reader.onload = async(e)=>{
 
 const data =
 new Uint8Array(e.target.result);
@@ -1253,28 +1230,29 @@ XLSX.utils.sheet_to_json(sheet,{
 header:1
 });
 
-rows.forEach((row,index)=>{
-
-if(index === 0) return;
+for(let i = 1; i < rows.length; i++){
 
 const studentName =
-row[0];
+rows[i][0];
 
 const className =
-row[1];
+rows[i][1];
 
 if(studentName){
 
-addStudent(
-studentName,
-className || ""
+await addDoc(
+collection(db,"students"),
+{
+name:studentName,
+className:className || ""
+}
 );
 
 }
 
-});
+}
 
-updateCounts();
+loadStudents();
 
 };
 
@@ -1282,37 +1260,11 @@ reader.readAsArrayBuffer(file);
 
 });
 
-exams.forEach(exam=>{
-
-document.getElementById("examsTable").innerHTML += `
-
-<tr>
-
-<td>${exam}</td>
-
-<td>
-
-<button
-class="action-btn edit"
-onclick="editRow(this)"
->
-تعديل
-</button>
-
-<button
-class="action-btn delete"
-onclick="archiveRow(this,'اختبار')"
->
-حذف
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
+loadTeachers();
+loadSupervisors();
+loadClasses();
+loadStudents();
+loadAssignments();
 
 </script>
 
