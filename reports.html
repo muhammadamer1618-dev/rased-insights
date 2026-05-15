@@ -1,43 +1,46 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
 <title>Reports</title>
-
 <link rel="stylesheet" href="style.css"/>
 
 <style>
-
 .report-title{
 text-align:center;
 font-size:26px;
 font-weight:900;
 color:#facc15;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .report-subtitle{
 text-align:center;
 color:#cbd5e1;
 font-size:15px;
-margin-bottom:25px;
+margin-bottom:22px;
+}
+
+.report-footer{
+display:none;
+}
+
+.legend{
+display:none;
 }
 
 @media print{
 
 @page{
 size:A4 landscape;
-margin:8mm;
+margin:7mm;
 }
 
 html,
 body{
-background:#ffffff !important;
-color:#000000 !important;
+background:white !important;
+color:black !important;
 -webkit-print-color-adjust:exact;
 print-color-adjust:exact;
 }
@@ -50,19 +53,19 @@ display:none !important;
 
 .dashboard-layout{
 display:block !important;
-background:#ffffff !important;
+background:white !important;
 }
 
 .main{
 padding:0 !important;
 overflow:visible !important;
-background:#ffffff !important;
+background:white !important;
 }
 
 .section{
 display:block !important;
-background:#ffffff !important;
-color:#000000 !important;
+background:white !important;
+color:black !important;
 padding:0 !important;
 margin:0 !important;
 border-radius:0 !important;
@@ -71,62 +74,58 @@ overflow:visible !important;
 }
 
 .report-title{
-color:#000000 !important;
-font-size:18px !important;
+color:black !important;
+font-size:20px !important;
 font-weight:900 !important;
-margin-bottom:5px !important;
 text-align:center !important;
+margin-bottom:6px !important;
 }
 
 .report-subtitle{
-color:#000000 !important;
+color:black !important;
 font-size:11px !important;
-margin-bottom:10px !important;
 text-align:center !important;
+margin-bottom:8px !important;
 }
 
 .stats-grid{
 display:grid !important;
 grid-template-columns:repeat(4,1fr) !important;
 gap:6px !important;
-margin-bottom:10px !important;
+margin-bottom:8px !important;
 }
 
 .stat-card{
-background:#ffffff !important;
-border:1px solid #000000 !important;
-padding:6px !important;
-border-radius:0 !important;
-color:#000000 !important;
+background:white !important;
+border:1px solid #000 !important;
+padding:5px !important;
+border-radius:6px !important;
+color:black !important;
 }
 
 .stat-title{
-color:#000000 !important;
-font-size:10px !important;
-margin-bottom:2px !important;
+color:black !important;
+font-size:9px !important;
+margin-bottom:1px !important;
 }
 
 .stat-number{
-color:#000000 !important;
-font-size:16px !important;
+color:black !important;
+font-size:14px !important;
 font-weight:900 !important;
 }
 
 table{
 width:100% !important;
 min-width:0 !important;
-font-size:8px !important;
+font-size:7.5px !important;
 border-collapse:collapse !important;
 table-layout:auto !important;
-background:#ffffff !important;
+background:white !important;
 }
 
 thead{
 display:table-header-group !important;
-}
-
-tbody{
-display:table-row-group !important;
 }
 
 tr{
@@ -134,21 +133,21 @@ page-break-inside:avoid !important;
 }
 
 th{
-background:#ffffff !important;
-color:#000000 !important;
-border:1px solid #000000 !important;
-padding:4px !important;
-font-size:8px !important;
+background:white !important;
+color:black !important;
+border:1px solid #000 !important;
+padding:3px !important;
+font-size:7.5px !important;
 font-weight:900 !important;
 white-space:nowrap !important;
 }
 
 td{
-background:#ffffff !important;
-color:#000000 !important;
-border:1px solid #000000 !important;
-padding:3px !important;
-font-size:8px !important;
+background:white !important;
+color:black !important;
+border:1px solid #000 !important;
+padding:2px 3px !important;
+font-size:7.5px !important;
 font-weight:700 !important;
 white-space:nowrap !important;
 vertical-align:middle !important;
@@ -156,28 +155,59 @@ vertical-align:middle !important;
 
 th *,
 td *,
-div,
+td div,
+th div,
 span{
 background:transparent !important;
-color:#000000 !important;
+color:black !important;
 box-shadow:none !important;
 }
 
-th:first-child,
-td:first-child{
-min-width:95px !important;
-max-width:130px !important;
-}
-
-.student-name{
-color:#000000 !important;
+td:first-child,
+th:first-child{
+min-width:80px !important;
+max-width:110px !important;
 font-weight:900 !important;
 }
 
+.student-name{
+color:black !important;
+font-weight:900 !important;
 }
 
-</style>
+.legend{
+display:block !important;
+text-align:center !important;
+font-size:10px !important;
+margin:6px 0 8px !important;
+color:black !important;
+}
 
+.report-footer{
+display:grid !important;
+grid-template-columns:1fr 1fr 1fr !important;
+gap:20px !important;
+margin-top:12px !important;
+padding-top:8px !important;
+border-top:1px solid #000 !important;
+font-size:10px !important;
+color:black !important;
+align-items:end !important;
+}
+
+.report-footer div{
+color:black !important;
+}
+
+.signature-line{
+display:block !important;
+border-bottom:1px dotted #000 !important;
+height:18px !important;
+margin-top:6px !important;
+}
+
+}
+</style>
 </head>
 
 <body>
@@ -185,10 +215,7 @@ font-weight:900 !important;
 <div class="dashboard-layout">
 
 <div class="sidebar">
-
-<div class="logo-box">
-Rased<br>Insights
-</div>
+<div class="logo-box">Rased<br>Insights</div>
 
 <div class="user-box">
 <div class="user-title">التقارير</div>
@@ -200,7 +227,6 @@ Rased<br>Insights
 <button onclick="window.location.href='supervisor.html'">رجوع للمشرف</button>
 <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
 </div>
-
 </div>
 
 <div class="main">
@@ -215,13 +241,7 @@ Rased<br>Insights
 اختر المعلم والفصل لعرض التقرير
 </div>
 
-<div class="filters-area"
-style="
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:15px;
-margin-bottom:25px;
-">
+<div class="filters-area" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-bottom:25px;">
 
 <div class="input-group">
 <select id="teacherSelect">
@@ -262,14 +282,33 @@ margin-bottom:25px;
 </div>
 
 <div style="overflow:auto;">
-
 <table>
-
 <thead id="tableHead"></thead>
-
 <tbody id="tableBody"></tbody>
-
 </table>
+</div>
+
+<div class="legend">
+↑ تحسن &nbsp;&nbsp;&nbsp; ↓ نزول &nbsp;&nbsp;&nbsp; → ثابت
+</div>
+
+<div class="report-footer">
+
+<div style="text-align:right;">
+<div>مشرف اللغة الإنجليزية</div>
+<div style="font-weight:900;margin-top:4px;">محمد عامر أحمد</div>
+</div>
+
+<div style="text-align:center;">
+<div>التوقيع</div>
+<span class="signature-line"></span>
+</div>
+
+<div style="text-align:left;">
+<div>تصميم</div>
+<div style="font-weight:900;margin-top:4px;">محمد عامر أحمد</div>
+<div id="printDate" style="margin-top:4px;"></div>
+</div>
 
 </div>
 
@@ -288,8 +327,7 @@ collection,
 getDocs,
 query,
 where
-}
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 if(localStorage.getItem("rasedRole") !== "supervisor"){
 window.location.href = "index.html";
@@ -300,6 +338,10 @@ const classSelect = document.getElementById("classSelect");
 const tableHead = document.getElementById("tableHead");
 const tableBody = document.getElementById("tableBody");
 const reportSubtitle = document.getElementById("reportSubtitle");
+const printDate = document.getElementById("printDate");
+
+printDate.innerText =
+"التاريخ: " + new Date().toLocaleDateString("ar-SA");
 
 let exams = [];
 let allGrades = [];
@@ -417,7 +459,6 @@ function getChangeLabel(currentPercent,previousPercent){
 if(previousPercent === null){
 return {
 text:"-",
-color:"#94a3b8",
 key:"none"
 };
 }
@@ -425,7 +466,6 @@ key:"none"
 if(currentPercent > previousPercent){
 return {
 text:"↑",
-color:"#22c55e",
 key:"up"
 };
 }
@@ -433,14 +473,12 @@ key:"up"
 if(currentPercent < previousPercent){
 return {
 text:"↓",
-color:"#ef4444",
 key:"down"
 };
 }
 
 return {
 text:"→",
-color:"#facc15",
 key:"stable"
 };
 
@@ -454,22 +492,19 @@ const down = changes.filter(item=>item==="down").length;
 if(up > down){
 return {
 text:"تحسن",
-color:"#22c55e",
 key:"up"
 };
 }
 
 if(down > up){
 return {
-text:"نزول",
-color:"#ef4444",
+text:"تدني",
 key:"down"
 };
 }
 
 return {
 text:"ثابت",
-color:"#facc15",
 key:"stable"
 };
 
@@ -633,30 +668,17 @@ previousPercent = percent;
 studentTotalPercent += percent;
 studentGradeCount++;
 
-let gradeColor = "#facc15";
-
-if(percent >= 85){
-gradeColor = "#22c55e";
-}
-else if(percent < 60){
-gradeColor = "#ef4444";
-}
-
 row += `
 <td>
-
 <div style="font-weight:800;">
 ${gradeData.grade} / ${exam.maxDegree}
 </div>
-
 <div style="font-weight:700;">
 ${percent}%
 </div>
-
 <div style="font-weight:900;">
 ${change.text}
 </div>
-
 </td>
 `;
 
@@ -736,4 +758,3 @@ await loadTeachers();
 
 </body>
 </html>
-```
