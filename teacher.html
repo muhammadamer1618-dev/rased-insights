@@ -82,13 +82,15 @@ if (localStorage.getItem("rasedRole") !== "teacher") {
 
 const teacherName = localStorage.getItem("teacherName");
 
-document.getElementById("teacherName").innerText = teacherName || "Teacher";
+document.getElementById("teacherName").innerText =
+  teacherName || "Teacher";
 
 const classSelect = document.getElementById("classSelect");
 const tableHead = document.getElementById("tableHead");
 const tableBody = document.getElementById("tableBody");
 
 let exams = [];
+let allGrades = [];
 
 window.showSection = function(id) {
   document.querySelectorAll(".section").forEach(section => {
@@ -108,12 +110,16 @@ async function loadTeacherClasses() {
     )
   );
 
-  snapshot.forEach(item => {
-    const data = item.data();
+  const classes = [];
 
-    classSelect.innerHTML += `
-      <option>${data.className}</option>
-    `;
+  snapshot.forEach(item => {
+    classes.push(item.data().className);
+  });
+
+  classes.sort((a, b) => a.localeCompare(b, "ar"));
+
+  classes.forEach(className => {
+    classSelect.innerHTML += `<option>${className}</option>`;
   });
 }
 
@@ -127,7 +133,28 @@ async function loadExams() {
 
     exams.push({
       examName: data.examName,
-      maxDegree: Number(data.maxDegree || 0)
+      maxDegree: Number(data.maxDegree || 0),
+      order: Number(data.order || 999)
+    });
+  });
+
+  exams.sort((a, b) => a.order - b.order);
+}
+
+async function loadAllGrades() {
+  allGrades = [];
+
+  const snapshot = await getDocs(
+    query(
+      collection(db, "grades"),
+      where("teacherName", "==", teacherName)
+    )
+  );
+
+  snapshot.forEach(item => {
+    allGrades.push({
+      id: item.id,
+      ...item.data()
     });
   });
 }
@@ -144,10 +171,19 @@ async function loadStudentsTable() {
     return;
   }
 
+  tableBody.innerHTML = `
+    <tr class="loading-row">
+      <td colspan="50">جاري تحميل الطلاب...</td>
+    </tr>
+  `;
+
+  await loadAllGrades();
+
   if (exams.length === 0) {
+    tableHead.innerHTML = "";
     tableBody.innerHTML = `
       <tr>
-        <td colspan="10">لا توجد اختبارات مضافة من الأدمن</td>
+        <td colspan="50">لا توجد اختبارات مضافة من الأدمن</td>
       </tr>
     `;
     return;
@@ -169,51 +205,45 @@ async function loadStudentsTable() {
   });
 
   head += `</tr>`;
-
   tableHead.innerHTML = head;
 
-const studentsSnapshot = await getDocs(
-  query(
-    collection(db, "students"),
-    where("className", "==", className)
-  )
-);
+  const studentsSnapshot = await getDocs(
+    query(
+      collection(db, "students"),
+      where("className", "==", className)
+    )
+  );
 
-const students = [];
+  const students = [];
 
-studentsSnapshot.forEach(studentDoc => {
-  students.push(studentDoc.data());
-});
+  studentsSnapshot.forEach(studentDoc => {
+    students.push(studentDoc.data());
+  });
 
-students.sort((a, b) =>
-  a.name.localeCompare(b.name, 'ar')
-);
+  students.sort((a, b) =>
+    a.name.localeCompare(b.name, "ar")
+  );
 
-for (const student of students) {
+  let html = "";
 
-    let row = `
+  for (const student of students) {
+    html += `
       <tr>
-        <td>${student.name}</td>
+        <td class="student-name">
+          ${student.name}
+        </td>
     `;
 
     for (const exam of exams) {
-      let currentGrade = "";
-
-      const gradeSnapshot = await getDocs(
-        query(
-          collection(db, "grades"),
-          where("studentName", "==", student.name),
-          where("className", "==", className),
-          where("examName", "==", exam.examName),
-          where("teacherName", "==", teacherName)
-        )
+      const existingGrade = allGrades.find(item =>
+        item.studentName === student.name &&
+        item.className === className &&
+        item.examName === exam.examName
       );
 
-      gradeSnapshot.forEach(g => {
-        currentGrade = g.data().grade;
-      });
+      const currentGrade = existingGrade ? existingGrade.grade : "";
 
-      row += `
+      html += `
         <td>
           <input
             type="number"
@@ -226,7 +256,7 @@ for (const student of students) {
             class="grade-input"
             style="
               width:85px;
-              padding:10px;
+              padding:8px;
               border:none;
               border-radius:10px;
               background:#020617;
@@ -238,10 +268,10 @@ for (const student of students) {
       `;
     }
 
-    row += `</tr>`;
-
-    tableBody.innerHTML += row;
+    html += `</tr>`;
   }
+
+  tableBody.innerHTML = html;
 }
 
 window.saveAllGrades = async function() {
@@ -271,36 +301,38 @@ window.saveAllGrades = async function() {
       return;
     }
 
-    const existing = await getDocs(
-      query(
-        collection(db, "grades"),
-        where("studentName", "==", studentName),
-        where("className", "==", className),
-        where("examName", "==", examName),
-        where("teacherName", "==", teacherName)
-      )
+    const existing = allGrades.find(item =>
+      item.studentName === studentName &&
+      item.className === className &&
+      item.examName === examName
     );
 
-    if (existing.empty) {
-      await addDoc(collection(db, "grades"), {
-        teacherName,
-        studentName,
-        className,
-        subject: "لغة إنجليزية",
-        examName,
-        grade,
-        maxDegree
-      });
+    if (existing) {
+      await updateDoc(
+        doc(db, "grades", existing.id),
+        {
+          grade,
+          maxDegree
+        }
+      );
     } else {
-      await updateDoc(doc(db, "grades", existing.docs[0].id), {
-        grade,
-        maxDegree
-      });
+      await addDoc(
+        collection(db, "grades"),
+        {
+          teacherName,
+          studentName,
+          className,
+          subject: "لغة إنجليزية",
+          examName,
+          grade,
+          maxDegree
+        }
+      );
     }
   }
 
   alert("تم حفظ جميع الدرجات");
-  loadStudentsTable();
+  await loadStudentsTable();
 };
 
 window.logout = function() {
