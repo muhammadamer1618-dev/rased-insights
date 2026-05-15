@@ -3,12 +3,21 @@
 
 <head>
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
 
-<title>Rased Insights</title>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<title>
+Rased Insights
+</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet"
+/>
 
 <style>
 
@@ -20,119 +29,99 @@ font-family:'Cairo',sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#0f172a,#1e293b);
+background:linear-gradient(135deg,#020617,#0f172a);
 min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
 padding:20px;
+overflow:auto;
 }
 
-.login-card{
+.card{
 width:100%;
 max-width:420px;
-background:rgba(255,255,255,0.06);
-backdrop-filter:blur(12px);
-border-radius:25px;
-padding:30px;
-border:1px solid rgba(255,255,255,0.1);
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+border-radius:28px;
+padding:35px 25px;
 }
 
 .logo{
-width:80px;
-height:80px;
-background:#facc15;
-color:#0f172a;
-font-weight:800;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:18px;
+width:90px;
+height:90px;
+background:linear-gradient(135deg,#facc15,#f59e0b);
 margin:auto;
-font-size:30px;
+border-radius:24px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:34px;
+font-weight:800;
+color:#0f172a;
 }
 
 h1{
 text-align:center;
 color:white;
-margin-top:15px;
+margin-top:18px;
+font-size:32px;
 }
 
 .school{
 text-align:center;
 color:#e2e8f0;
-margin-top:5px;
-font-size:14px;
+margin-top:10px;
+font-size:17px;
 }
 
 .department{
 text-align:center;
 color:#facc15;
-margin-top:5px;
-font-size:13px;
+margin-top:8px;
+font-size:14px;
 }
 
-.roles{
-margin-top:25px;
+.buttons{
 display:flex;
 flex-direction:column;
-gap:12px;
+gap:14px;
+margin-top:30px;
 }
 
 button{
-padding:14px;
 border:none;
-border-radius:14px;
+padding:15px;
+border-radius:16px;
+font-size:15px;
 font-weight:700;
-cursor:pointer;
 color:white;
-transition:0.3s;
+cursor:pointer;
+transition:.3s;
 }
-
-.admin{background:#2563eb;}
-.supervisor{background:#0f766e;}
-.teacher{background:#ca8a04;}
 
 button:hover{
 transform:translateY(-2px);
 }
 
-.login-form{
-margin-top:20px;
-display:none;
-flex-direction:column;
-gap:12px;
+.admin{
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
 }
 
-input{
-padding:14px;
-border:none;
-border-radius:12px;
-outline:none;
-background:rgba(255,255,255,0.1);
-color:white;
+.supervisor{
+background:linear-gradient(135deg,#0f766e,#115e59);
 }
 
-input::placeholder{
-color:#cbd5e1;
-}
-
-.login-btn{
-background:#2563eb;
-}
-
-.status{
-text-align:center;
-color:white;
-font-size:14px;
-margin-top:10px;
+.teacher{
+background:linear-gradient(135deg,#ca8a04,#a16207);
 }
 
 .footer{
 text-align:center;
 color:#94a3b8;
-font-size:12px;
-margin-top:20px;
+font-size:13px;
+margin-top:28px;
 }
 
 </style>
@@ -141,31 +130,46 @@ margin-top:20px;
 
 <body>
 
-<div class="login-card">
+<div class="card">
 
-<div class="logo">E</div>
-
-<h1>Rased Insights</h1>
-
-<div class="school">مدارس الفلاح الأهلية</div>
-<div class="department">قسم اللغة الإنجليزية</div>
-
-<div class="roles">
-
-<button class="admin" id="adminBtn">دخول الأدمن</button>
-<button class="supervisor" id="supervisorBtn">دخول المشرف</button>
-<button class="teacher" id="teacherBtn">دخول المعلم</button>
-
+<div class="logo">
+E
 </div>
 
-<div class="login-form" id="loginForm">
+<h1>
+Rased Insights
+</h1>
 
-<input type="text" id="username" placeholder="اسم المستخدم">
-<input type="password" id="password" placeholder="كلمة المرور">
+<div class="school">
+مدارس الفلاح الأهلية
+</div>
 
-<button class="login-btn" id="loginBtn">تسجيل الدخول</button>
+<div class="department">
+قسم اللغة الإنجليزية
+</div>
 
-<div class="status" id="status"></div>
+<div class="buttons">
+
+<button
+class="admin"
+onclick="window.location.href='./dashboard.html'"
+>
+دخول الأدمن
+</button>
+
+<button
+class="supervisor"
+onclick="window.location.href='./supervisor.html'"
+>
+دخول المشرف
+</button>
+
+<button
+class="teacher"
+onclick="window.location.href='./teacher.html'"
+>
+دخول المعلم
+</button>
 
 </div>
 
@@ -175,92 +179,6 @@ margin-top:20px;
 
 </div>
 
-<script>
-
-let currentRole = "";
-
-const loginForm = document.getElementById("loginForm");
-const status = document.getElementById("status");
-
-document.getElementById("adminBtn").onclick = () => {
-currentRole = "admin";
-loginForm.style.display = "flex";
-status.innerText = "";
-};
-
-document.getElementById("supervisorBtn").onclick = () => {
-currentRole = "supervisor";
-loginForm.style.display = "flex";
-status.innerText = "";
-};
-
-document.getElementById("teacherBtn").onclick = () => {
-currentRole = "teacher";
-loginForm.style.display = "flex";
-status.innerText = "";
-};
-
-document.getElementById("loginBtn").onclick = () => {
-
-const username = document.getElementById("username").value.trim();
-const password = document.getElementById("password").value.trim();
-
-if (!username || !password) {
-status.innerText = "أدخل البيانات";
-return;
-}
-
-let data = [];
-
-if (currentRole === "admin") {
-
-localStorage.setItem("currentUser", JSON.stringify({
-username,
-role: "admin"
-}));
-
-window.location.href = "./dashboard.html";
-return;
-
-}
-
-if (currentRole === "teacher") {
-data = JSON.parse(localStorage.getItem("teachers")) || [];
-}
-
-if (currentRole === "supervisor") {
-data = JSON.parse(localStorage.getItem("supervisors")) || [];
-}
-
-const found = data.find(u =>
-u.username === username && u.password === password
-);
-
-if (!found) {
-status.innerText = "بيانات الدخول غير صحيحة";
-return;
-}
-
-localStorage.setItem("currentUser", JSON.stringify({
-username,
-role: currentRole
-}));
-
-status.innerText = "تم تسجيل الدخول";
-
-setTimeout(() => {
-
-if (currentRole === "teacher") {
-window.location.href = "./teacher.html";
-} else {
-window.location.href = "./supervisor.html";
-}
-
-}, 300);
-
-};
-
-</script>
-
 </body>
+
 </html>
