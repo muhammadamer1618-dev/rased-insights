@@ -5,298 +5,25 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
 
-<title>Rased Insights Dashboard</title>
+<title>Admin Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link
+rel="stylesheet"
+href="style.css"
+/>
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-body{
-background:#020617;
-color:white;
-min-height:100vh;
-display:flex;
-overflow:hidden;
-}
-
-.sidebar{
-width:290px;
-background:#0f172a;
-padding:25px 18px;
-display:flex;
-flex-direction:column;
-gap:12px;
-overflow-y:auto;
-border-left:1px solid rgba(255,255,255,.05);
-}
-
-.logo-box{
-padding:18px;
-border-radius:24px;
-background:linear-gradient(135deg,#facc15,#ca8a04);
-color:#020617;
-font-size:28px;
-font-weight:800;
-text-align:center;
-margin-bottom:10px;
-}
-
-.admin-box{
-background:#111827;
-padding:15px;
-border-radius:20px;
-margin-bottom:12px;
-}
-
-.admin-title{
-font-size:13px;
-color:#94a3b8;
-margin-bottom:5px;
-}
-
-.admin-name{
-font-size:18px;
-font-weight:700;
-color:#facc15;
-}
-
-.menu{
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.menu button{
-border:none;
-background:#111827;
-color:white;
-padding:15px;
-border-radius:16px;
-cursor:pointer;
-font-size:15px;
-font-weight:700;
-transition:.3s;
-text-align:right;
-}
-
-.menu button:hover{
-background:#facc15;
-color:#020617;
-}
-
-.logout{
-background:#dc2626 !important;
-margin-top:auto;
-}
-
-.main{
-flex:1;
-padding:30px;
-overflow-y:auto;
-}
-
-.section{
-background:#111827;
-padding:25px;
-border-radius:24px;
-margin-bottom:25px;
-overflow:auto;
-display:none;
-}
-
-#overviewSection{
-display:block;
-}
-
-.section-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-gap:15px;
-flex-wrap:wrap;
-}
-
-.section-title{
-font-size:24px;
-font-weight:700;
-}
-
-.action-btn-main{
-border:none;
-background:linear-gradient(135deg,#facc15,#ca8a04);
-color:#020617;
-padding:12px 18px;
-border-radius:14px;
-cursor:pointer;
-font-weight:800;
-}
-
-.stats-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-}
-
-.stat-card{
-background:#020617;
-padding:25px;
-border-radius:20px;
-}
-
-.stat-title{
-color:#94a3b8;
-margin-bottom:10px;
-}
-
-.stat-number{
-font-size:38px;
-font-weight:800;
-color:#facc15;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-min-width:700px;
-}
-
-th{
-background:#020617;
-padding:15px;
-color:#facc15;
-}
-
-td{
-padding:15px;
-text-align:center;
-border-bottom:1px solid rgba(255,255,255,.05);
-}
-
-.action-btn{
-border:none;
-padding:8px 14px;
-border-radius:10px;
-cursor:pointer;
-font-weight:700;
-margin:2px;
-}
-
-.edit{
-background:#2563eb;
-color:white;
-}
-
-.delete{
-background:#dc2626;
-color:white;
-}
-
-.restore{
-background:#ca8a04;
-color:#020617;
-}
-
-.modal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.7);
-display:none;
-justify-content:center;
-align-items:center;
-padding:20px;
-z-index:999;
-}
-
-.modal-content{
-background:#0f172a;
-padding:30px;
-border-radius:24px;
-width:100%;
-max-width:500px;
-}
-
-.modal-title{
-font-size:26px;
-font-weight:800;
-color:#facc15;
-margin-bottom:20px;
-text-align:center;
-}
-
-.input-group{
-margin-bottom:15px;
-}
-
-.input-group input,
-.input-group select{
-width:100%;
-padding:15px;
-border:none;
-border-radius:14px;
-background:#111827;
-color:white;
-outline:none;
-}
-
-.modal-actions{
-display:flex;
-gap:10px;
-margin-top:20px;
-}
-
-.modal-actions button{
-flex:1;
-padding:14px;
-border:none;
-border-radius:14px;
-cursor:pointer;
-font-weight:800;
-}
-
-.save-btn{
-background:#facc15;
-color:#020617;
-}
-
-.cancel-btn{
-background:#334155;
-color:white;
-}
-
-@media(max-width:900px){
-
-body{
-flex-direction:column;
-overflow:auto;
-}
-
-.sidebar{
-width:100%;
-}
-
-.main{
-padding:20px;
-}
-
-}
-
-</style>
 
 </head>
 
 <body>
+
+<div class="dashboard-layout">
 
 <div class="sidebar">
 
@@ -305,13 +32,13 @@ Rased<br>
 Insights
 </div>
 
-<div class="admin-box">
+<div class="user-box">
 
-<div class="admin-title">
+<div class="user-title">
 الأدمن الحالي
 </div>
 
-<div class="admin-name">
+<div class="user-name">
 محمد عامر أحمد
 </div>
 
@@ -351,7 +78,10 @@ Insights
 الأرشيف
 </button>
 
-<button class="logout" onclick="window.location.href='index.html'">
+<button
+class="logout-btn"
+onclick="logout()"
+>
 تسجيل الخروج
 </button>
 
@@ -361,33 +91,38 @@ Insights
 
 <div class="main">
 
-<div class="section" id="overviewSection">
+<div
+class="section active-section"
+id="overviewSection"
+>
 
 <div class="section-header">
+
 <div class="section-title">
 لوحة التحكم
 </div>
+
 </div>
 
 <div class="stats-grid">
 
 <div class="stat-card">
-<div class="stat-title">عدد المعلمين</div>
+<div class="stat-title">المعلمين</div>
 <div class="stat-number" id="teachersCount">0</div>
 </div>
 
 <div class="stat-card">
-<div class="stat-title">عدد المشرفين</div>
+<div class="stat-title">المشرفين</div>
 <div class="stat-number" id="supervisorsCount">0</div>
 </div>
 
 <div class="stat-card">
-<div class="stat-title">عدد الفصول</div>
+<div class="stat-title">الفصول</div>
 <div class="stat-number" id="classesCount">0</div>
 </div>
 
 <div class="stat-card">
-<div class="stat-title">عدد الطلاب</div>
+<div class="stat-title">الطلاب</div>
 <div class="stat-number" id="studentsCount">0</div>
 </div>
 
@@ -395,7 +130,10 @@ Insights
 
 </div>
 
-<div class="section" id="teachersSection">
+<div
+class="section"
+id="teachersSection"
+>
 
 <div class="section-header">
 
@@ -403,7 +141,10 @@ Insights
 إدارة المعلمين
 </div>
 
-<button class="action-btn-main" onclick="openModal('teacher')">
+<button
+class="primary-btn"
+onclick="openModal('teacher')"
+>
 إضافة معلم
 </button>
 
@@ -412,12 +153,14 @@ Insights
 <table>
 
 <thead>
+
 <tr>
 <th>الاسم</th>
 <th>Username</th>
 <th>Password</th>
 <th>الإجراءات</th>
 </tr>
+
 </thead>
 
 <tbody id="teachersTable"></tbody>
@@ -426,7 +169,10 @@ Insights
 
 </div>
 
-<div class="section" id="supervisorsSection">
+<div
+class="section"
+id="supervisorsSection"
+>
 
 <div class="section-header">
 
@@ -434,7 +180,10 @@ Insights
 إدارة المشرفين
 </div>
 
-<button class="action-btn-main" onclick="openModal('supervisor')">
+<button
+class="primary-btn"
+onclick="openModal('supervisor')"
+>
 إضافة مشرف
 </button>
 
@@ -443,12 +192,14 @@ Insights
 <table>
 
 <thead>
+
 <tr>
 <th>الاسم</th>
 <th>Username</th>
 <th>Password</th>
 <th>الإجراءات</th>
 </tr>
+
 </thead>
 
 <tbody id="supervisorsTable"></tbody>
@@ -457,7 +208,10 @@ Insights
 
 </div>
 
-<div class="section" id="classesSection">
+<div
+class="section"
+id="classesSection"
+>
 
 <div class="section-header">
 
@@ -465,7 +219,10 @@ Insights
 إدارة الفصول
 </div>
 
-<button class="action-btn-main" onclick="openModal('class')">
+<button
+class="primary-btn"
+onclick="openModal('class')"
+>
 إضافة فصل
 </button>
 
@@ -474,10 +231,12 @@ Insights
 <table>
 
 <thead>
+
 <tr>
 <th>اسم الفصل</th>
 <th>الإجراءات</th>
 </tr>
+
 </thead>
 
 <tbody id="classesTable"></tbody>
@@ -486,7 +245,10 @@ Insights
 
 </div>
 
-<div class="section" id="studentsSection">
+<div
+class="section"
+id="studentsSection"
+>
 
 <div class="section-header">
 
@@ -494,17 +256,34 @@ Insights
 إدارة الطلاب
 </div>
 
-<div style="display:flex;gap:10px;flex-wrap:wrap;">
+<div
+style="
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+"
+>
 
-<button class="action-btn-main" onclick="openModal('student')">
+<button
+class="primary-btn"
+onclick="openModal('student')"
+>
 إضافة طالب
 </button>
 
-<button class="action-btn-main" onclick="document.getElementById('excelInput').click()">
+<button
+class="primary-btn"
+onclick="document.getElementById('excelFile').click()"
+>
 استيراد Excel
 </button>
 
-<input type="file" id="excelInput" accept=".xlsx,.xls" style="display:none;">
+<input
+type="file"
+id="excelFile"
+accept=".xlsx,.xls"
+class="hidden"
+/>
 
 </div>
 
@@ -513,11 +292,13 @@ Insights
 <table>
 
 <thead>
+
 <tr>
 <th>اسم الطالب</th>
 <th>الفصل</th>
 <th>الإجراءات</th>
 </tr>
+
 </thead>
 
 <tbody id="studentsTable"></tbody>
@@ -526,7 +307,10 @@ Insights
 
 </div>
 
-<div class="section" id="assignmentsSection">
+<div
+class="section"
+id="assignmentsSection"
+>
 
 <div class="section-header">
 
@@ -534,7 +318,10 @@ Insights
 إسناد الفصول للمعلمين
 </div>
 
-<button class="action-btn-main" onclick="openModal('assignment')">
+<button
+class="primary-btn"
+onclick="openModal('assignment')"
+>
 إسناد جديد
 </button>
 
@@ -543,11 +330,13 @@ Insights
 <table>
 
 <thead>
+
 <tr>
 <th>الفصل</th>
 <th>المعلم</th>
 <th>الإجراءات</th>
 </tr>
+
 </thead>
 
 <tbody id="assignmentsTable"></tbody>
@@ -556,21 +345,20 @@ Insights
 
 </div>
 
-<div class="section" id="examsSection">
+<div
+class="section"
+id="examsSection"
+>
 
 <div class="section-header">
+
 <div class="section-title">
 الاختبارات
 </div>
+
 </div>
 
 <table>
-
-<thead>
-<tr>
-<th>الاختبار</th>
-</tr>
-</thead>
 
 <tbody>
 
@@ -591,7 +379,10 @@ Insights
 
 </div>
 
-<div class="section" id="archiveSection">
+<div
+class="section"
+id="archiveSection"
+>
 
 <div class="section-header">
 
@@ -604,10 +395,12 @@ Insights
 <table>
 
 <thead>
+
 <tr>
 <th>العنصر</th>
 <th>النوع</th>
 </tr>
+
 </thead>
 
 <tbody id="archiveTable"></tbody>
@@ -618,41 +411,89 @@ Insights
 
 </div>
 
-<div class="modal" id="modal">
+</div>
+
+<div
+class="modal"
+id="modal"
+>
 
 <div class="modal-content">
 
-<div class="modal-title" id="modalTitle">
+<div
+class="modal-title"
+id="modalTitle"
+>
 إضافة
 </div>
 
 <div class="input-group">
-<input type="text" id="nameInput" placeholder="الاسم">
+
+<input
+type="text"
+id="nameInput"
+placeholder="الاسم"
+/>
+
 </div>
 
-<div class="input-group" id="usernameGroup">
-<input type="text" id="usernameInput" placeholder="Username">
+<div
+class="input-group hidden"
+id="usernameGroup"
+>
+
+<input
+type="text"
+id="usernameInput"
+placeholder="Username"
+/>
+
 </div>
 
-<div class="input-group" id="passwordGroup">
-<input type="text" id="passwordInput" placeholder="Password">
+<div
+class="input-group hidden"
+id="passwordGroup"
+>
+
+<input
+type="text"
+id="passwordInput"
+placeholder="Password"
+/>
+
 </div>
 
-<div class="input-group" id="classGroup">
+<div
+class="input-group hidden"
+id="classGroup"
+>
+
 <select id="classSelect"></select>
+
 </div>
 
-<div class="input-group" id="teacherGroup">
+<div
+class="input-group hidden"
+id="teacherGroup"
+>
+
 <select id="teacherSelect"></select>
+
 </div>
 
 <div class="modal-actions">
 
-<button class="save-btn" onclick="saveData()">
+<button
+class="save-btn"
+onclick="saveData()"
+>
 حفظ
 </button>
 
-<button class="cancel-btn" onclick="closeModal()">
+<button
+class="cancel-btn"
+onclick="closeModal()"
+>
 إلغاء
 </button>
 
@@ -664,7 +505,8 @@ Insights
 
 <script type="module">
 
-import { db } from "./firebase.js";
+import { db }
+from "./firebase.js";
 
 import {
 
@@ -678,133 +520,202 @@ doc
 
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+if(
+localStorage.getItem("rasedRole")
+!== "admin"
+){
+
+window.location.href =
+"index.html";
+
+}
+
 let currentType = "";
 
 const modal =
 document.getElementById("modal");
 
-function showSection(id){
+window.showSection = function(id){
 
 document
 .querySelectorAll(".section")
 .forEach(section=>{
 
-section.style.display = "none";
+section.classList.remove(
+"active-section"
+);
 
 });
 
-document.getElementById(id)
-.style.display = "block";
+document
+.getElementById(id)
+.classList.add(
+"active-section"
+);
 
-}
+};
 
-function openModal(type){
+window.openModal = async(type)=>{
 
 currentType = type;
 
 modal.style.display = "flex";
 
-document.getElementById("nameInput").value = "";
-document.getElementById("usernameInput").value = "";
-document.getElementById("passwordInput").value = "";
+document
+.getElementById("nameInput")
+.value = "";
 
-document.getElementById("usernameGroup").style.display = "none";
-document.getElementById("passwordGroup").style.display = "none";
-document.getElementById("classGroup").style.display = "none";
-document.getElementById("teacherGroup").style.display = "none";
+document
+.getElementById("usernameInput")
+.value = "";
 
-if(type === "teacher"){
+document
+.getElementById("passwordInput")
+.value = "";
 
-document.getElementById("modalTitle").innerText =
+document
+.getElementById("usernameGroup")
+.classList.add("hidden");
+
+document
+.getElementById("passwordGroup")
+.classList.add("hidden");
+
+document
+.getElementById("classGroup")
+.classList.add("hidden");
+
+document
+.getElementById("teacherGroup")
+.classList.add("hidden");
+
+if(
+type === "teacher"
+){
+
+document
+.getElementById("modalTitle")
+.innerText =
 "إضافة معلم";
 
-document.getElementById("usernameGroup").style.display =
-"block";
+document
+.getElementById("usernameGroup")
+.classList.remove("hidden");
 
-document.getElementById("passwordGroup").style.display =
-"block";
+document
+.getElementById("passwordGroup")
+.classList.remove("hidden");
 
 }
 
-if(type === "supervisor"){
+if(
+type === "supervisor"
+){
 
-document.getElementById("modalTitle").innerText =
+document
+.getElementById("modalTitle")
+.innerText =
 "إضافة مشرف";
 
-document.getElementById("usernameGroup").style.display =
-"block";
+document
+.getElementById("usernameGroup")
+.classList.remove("hidden");
 
-document.getElementById("passwordGroup").style.display =
-"block";
+document
+.getElementById("passwordGroup")
+.classList.remove("hidden");
 
 }
 
-if(type === "class"){
+if(
+type === "class"
+){
 
-document.getElementById("modalTitle").innerText =
+document
+.getElementById("modalTitle")
+.innerText =
 "إضافة فصل";
 
 }
 
-if(type === "student"){
+if(
+type === "student"
+){
 
-document.getElementById("modalTitle").innerText =
+document
+.getElementById("modalTitle")
+.innerText =
 "إضافة طالب";
 
-document.getElementById("classGroup").style.display =
-"block";
+document
+.getElementById("classGroup")
+.classList.remove("hidden");
 
-loadClassOptions();
+await loadClassOptions();
 
 }
 
-if(type === "assignment"){
+if(
+type === "assignment"
+){
 
-document.getElementById("modalTitle").innerText =
+document
+.getElementById("modalTitle")
+.innerText =
 "إسناد فصل";
 
-document.getElementById("classGroup").style.display =
-"block";
+document
+.getElementById("classGroup")
+.classList.remove("hidden");
 
-document.getElementById("teacherGroup").style.display =
-"block";
+document
+.getElementById("teacherGroup")
+.classList.remove("hidden");
 
-loadClassOptions();
+await loadClassOptions();
 
-loadTeacherOptions();
+await loadTeacherOptions();
 
 }
 
-}
+};
 
-window.openModal = openModal;
-
-function closeModal(){
+window.closeModal = function(){
 
 modal.style.display = "none";
 
-}
+};
 
-window.closeModal = closeModal;
-
-async function saveData(){
+window.saveData = async function(){
 
 const name =
-document.getElementById("nameInput").value;
+document
+.getElementById("nameInput")
+.value;
 
 const username =
-document.getElementById("usernameInput").value;
+document
+.getElementById("usernameInput")
+.value;
 
 const password =
-document.getElementById("passwordInput").value;
+document
+.getElementById("passwordInput")
+.value;
 
 const className =
-document.getElementById("classSelect").value;
+document
+.getElementById("classSelect")
+.value;
 
 const teacherName =
-document.getElementById("teacherSelect").value;
+document
+.getElementById("teacherSelect")
+.value;
 
-if(currentType === "teacher"){
+if(
+currentType === "teacher"
+){
 
 await addDoc(
 collection(db,"teachers"),
@@ -819,7 +730,9 @@ loadTeachers();
 
 }
 
-if(currentType === "supervisor"){
+if(
+currentType === "supervisor"
+){
 
 await addDoc(
 collection(db,"supervisors"),
@@ -834,7 +747,9 @@ loadSupervisors();
 
 }
 
-if(currentType === "class"){
+if(
+currentType === "class"
+){
 
 await addDoc(
 collection(db,"classes"),
@@ -847,7 +762,9 @@ loadClasses();
 
 }
 
-if(currentType === "student"){
+if(
+currentType === "student"
+){
 
 await addDoc(
 collection(db,"students"),
@@ -861,7 +778,9 @@ loadStudents();
 
 }
 
-if(currentType === "assignment"){
+if(
+currentType === "assignment"
+){
 
 await addDoc(
 collection(db,"assignments"),
@@ -877,23 +796,26 @@ loadAssignments();
 
 closeModal();
 
-}
-
-window.saveData = saveData;
+};
 
 async function loadTeachers(){
 
 const table =
-document.getElementById("teachersTable");
+document.getElementById(
+"teachersTable"
+);
 
 table.innerHTML = "";
 
 const snapshot =
-await getDocs(collection(db,"teachers"));
+await getDocs(
+collection(db,"teachers")
+);
 
 snapshot.forEach(item=>{
 
-const data = item.data();
+const data =
+item.data();
 
 table.innerHTML += `
 
@@ -906,7 +828,7 @@ table.innerHTML += `
 <td>
 
 <button
-class="action-btn delete"
+class="action-btn delete-btn"
 onclick="deleteTeacher('${item.id}')"
 >
 حذف
@@ -924,7 +846,8 @@ updateCounts();
 
 }
 
-window.deleteTeacher = async(id)=>{
+window.deleteTeacher =
+async(id)=>{
 
 await deleteDoc(
 doc(db,"teachers",id)
@@ -937,16 +860,21 @@ loadTeachers();
 async function loadSupervisors(){
 
 const table =
-document.getElementById("supervisorsTable");
+document.getElementById(
+"supervisorsTable"
+);
 
 table.innerHTML = "";
 
 const snapshot =
-await getDocs(collection(db,"supervisors"));
+await getDocs(
+collection(db,"supervisors")
+);
 
 snapshot.forEach(item=>{
 
-const data = item.data();
+const data =
+item.data();
 
 table.innerHTML += `
 
@@ -959,7 +887,7 @@ table.innerHTML += `
 <td>
 
 <button
-class="action-btn delete"
+class="action-btn delete-btn"
 onclick="deleteSupervisor('${item.id}')"
 >
 حذف
@@ -977,7 +905,8 @@ updateCounts();
 
 }
 
-window.deleteSupervisor = async(id)=>{
+window.deleteSupervisor =
+async(id)=>{
 
 await deleteDoc(
 doc(db,"supervisors",id)
@@ -990,16 +919,21 @@ loadSupervisors();
 async function loadClasses(){
 
 const table =
-document.getElementById("classesTable");
+document.getElementById(
+"classesTable"
+);
 
 table.innerHTML = "";
 
 const snapshot =
-await getDocs(collection(db,"classes"));
+await getDocs(
+collection(db,"classes")
+);
 
 snapshot.forEach(item=>{
 
-const data = item.data();
+const data =
+item.data();
 
 table.innerHTML += `
 
@@ -1010,7 +944,7 @@ table.innerHTML += `
 <td>
 
 <button
-class="action-btn delete"
+class="action-btn delete-btn"
 onclick="deleteClass('${item.id}')"
 >
 حذف
@@ -1028,7 +962,8 @@ updateCounts();
 
 }
 
-window.deleteClass = async(id)=>{
+window.deleteClass =
+async(id)=>{
 
 await deleteDoc(
 doc(db,"classes",id)
@@ -1041,16 +976,21 @@ loadClasses();
 async function loadStudents(){
 
 const table =
-document.getElementById("studentsTable");
+document.getElementById(
+"studentsTable"
+);
 
 table.innerHTML = "";
 
 const snapshot =
-await getDocs(collection(db,"students"));
+await getDocs(
+collection(db,"students")
+);
 
 snapshot.forEach(item=>{
 
-const data = item.data();
+const data =
+item.data();
 
 table.innerHTML += `
 
@@ -1062,7 +1002,7 @@ table.innerHTML += `
 <td>
 
 <button
-class="action-btn delete"
+class="action-btn delete-btn"
 onclick="deleteStudent('${item.id}')"
 >
 حذف
@@ -1080,7 +1020,8 @@ updateCounts();
 
 }
 
-window.deleteStudent = async(id)=>{
+window.deleteStudent =
+async(id)=>{
 
 await deleteDoc(
 doc(db,"students",id)
@@ -1093,16 +1034,21 @@ loadStudents();
 async function loadAssignments(){
 
 const table =
-document.getElementById("assignmentsTable");
+document.getElementById(
+"assignmentsTable"
+);
 
 table.innerHTML = "";
 
 const snapshot =
-await getDocs(collection(db,"assignments"));
+await getDocs(
+collection(db,"assignments")
+);
 
 snapshot.forEach(item=>{
 
-const data = item.data();
+const data =
+item.data();
 
 table.innerHTML += `
 
@@ -1114,7 +1060,7 @@ table.innerHTML += `
 <td>
 
 <button
-class="action-btn delete"
+class="action-btn delete-btn"
 onclick="deleteAssignment('${item.id}')"
 >
 حذف
@@ -1130,7 +1076,8 @@ onclick="deleteAssignment('${item.id}')"
 
 }
 
-window.deleteAssignment = async(id)=>{
+window.deleteAssignment =
+async(id)=>{
 
 await deleteDoc(
 doc(db,"assignments",id)
@@ -1140,35 +1087,24 @@ loadAssignments();
 
 };
 
-function updateCounts(){
-
-document.getElementById("teachersCount").innerText =
-document.querySelectorAll("#teachersTable tr").length;
-
-document.getElementById("supervisorsCount").innerText =
-document.querySelectorAll("#supervisorsTable tr").length;
-
-document.getElementById("classesCount").innerText =
-document.querySelectorAll("#classesTable tr").length;
-
-document.getElementById("studentsCount").innerText =
-document.querySelectorAll("#studentsTable tr").length;
-
-}
-
 async function loadClassOptions(){
 
 const select =
-document.getElementById("classSelect");
+document.getElementById(
+"classSelect"
+);
 
 select.innerHTML = "";
 
 const snapshot =
-await getDocs(collection(db,"classes"));
+await getDocs(
+collection(db,"classes")
+);
 
 snapshot.forEach(item=>{
 
-const data = item.data();
+const data =
+item.data();
 
 select.innerHTML += `
 <option>${data.name}</option>
@@ -1181,16 +1117,21 @@ select.innerHTML += `
 async function loadTeacherOptions(){
 
 const select =
-document.getElementById("teacherSelect");
+document.getElementById(
+"teacherSelect"
+);
 
 select.innerHTML = "";
 
 const snapshot =
-await getDocs(collection(db,"teachers"));
+await getDocs(
+collection(db,"teachers")
+);
 
 snapshot.forEach(item=>{
 
-const data = item.data();
+const data =
+item.data();
 
 select.innerHTML += `
 <option>${data.name}</option>
@@ -1200,9 +1141,43 @@ select.innerHTML += `
 
 }
 
+function updateCounts(){
+
+document.getElementById(
+"teachersCount"
+).innerText =
+document.querySelectorAll(
+"#teachersTable tr"
+).length;
+
+document.getElementById(
+"supervisorsCount"
+).innerText =
+document.querySelectorAll(
+"#supervisorsTable tr"
+).length;
+
+document.getElementById(
+"classesCount"
+).innerText =
+document.querySelectorAll(
+"#classesTable tr"
+).length;
+
+document.getElementById(
+"studentsCount"
+).innerText =
+document.querySelectorAll(
+"#studentsTable tr"
+).length;
+
+}
+
 document
-.getElementById("excelInput")
-.addEventListener("change",event=>{
+.getElementById("excelFile")
+.addEventListener(
+"change",
+event=>{
 
 const file =
 event.target.files[0];
@@ -1210,15 +1185,21 @@ event.target.files[0];
 const reader =
 new FileReader();
 
-reader.onload = async(e)=>{
+reader.onload =
+async(e)=>{
 
 const data =
-new Uint8Array(e.target.result);
+new Uint8Array(
+e.target.result
+);
 
 const workbook =
-XLSX.read(data,{
+XLSX.read(
+data,
+{
 type:"array"
-});
+}
+);
 
 const sheet =
 workbook.Sheets[
@@ -1226,11 +1207,18 @@ workbook.SheetNames[0]
 ];
 
 const rows =
-XLSX.utils.sheet_to_json(sheet,{
+XLSX.utils.sheet_to_json(
+sheet,
+{
 header:1
-});
+}
+);
 
-for(let i = 1; i < rows.length; i++){
+for(
+let i = 1;
+i < rows.length;
+i++
+){
 
 const studentName =
 rows[i][0];
@@ -1258,7 +1246,19 @@ loadStudents();
 
 reader.readAsArrayBuffer(file);
 
-});
+}
+);
+
+window.logout = function(){
+
+localStorage.removeItem(
+"rasedRole"
+);
+
+window.location.href =
+"index.html";
+
+};
 
 loadTeachers();
 loadSupervisors();
