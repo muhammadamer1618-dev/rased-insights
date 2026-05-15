@@ -36,6 +36,12 @@
   table {
     color: black;
   }
+
+  th,
+  td {
+    color: black;
+    border: 1px solid #ddd;
+  }
 }
 </style>
 </head>
@@ -45,7 +51,10 @@
 <div class="dashboard-layout">
 
 <div class="sidebar">
-  <div class="logo-box">Rased<br>Insights</div>
+
+  <div class="logo-box">
+    Rased<br>Insights
+  </div>
 
   <div class="user-box">
     <div class="user-title">التقارير</div>
@@ -57,6 +66,7 @@
     <button onclick="window.location.href='supervisor.html'">رجوع للمشرف</button>
     <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
   </div>
+
 </div>
 
 <div class="main">
@@ -68,6 +78,7 @@
   </div>
 
   <div class="filters-area" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-bottom:25px;">
+
     <div class="input-group">
       <select id="teacherSelect">
         <option>اختر المعلم</option>
@@ -79,9 +90,11 @@
         <option>اختر الفصل</option>
       </select>
     </div>
+
   </div>
 
   <div class="stats-grid" style="margin-bottom:25px;">
+
     <div class="stat-card">
       <div class="stat-title">عدد الطلاب</div>
       <div class="stat-number" id="studentsCount">0</div>
@@ -101,6 +114,7 @@
       <div class="stat-title">طلاب في نزول</div>
       <div class="stat-number" id="declinedCount">0</div>
     </div>
+
   </div>
 
   <div style="overflow:auto;">
@@ -145,7 +159,10 @@ async function loadTeachers() {
 
   snapshot.forEach(item => {
     const data = item.data();
-    teacherSelect.innerHTML += `<option>${data.name}</option>`;
+
+    teacherSelect.innerHTML += `
+      <option>${data.name}</option>
+    `;
   });
 }
 
@@ -159,9 +176,12 @@ async function loadExams() {
 
     exams.push({
       examName: data.examName,
-      maxDegree: Number(data.maxDegree || 0)
+      maxDegree: Number(data.maxDegree || 0),
+      order: Number(data.order || 999)
     });
   });
+
+  exams.sort((a, b) => a.order - b.order);
 }
 
 teacherSelect.addEventListener("change", loadTeacherClasses);
@@ -171,6 +191,8 @@ async function loadTeacherClasses() {
   classSelect.innerHTML = "<option>اختر الفصل</option>";
   tableHead.innerHTML = "";
   tableBody.innerHTML = "";
+
+  resetStats();
 
   const teacherName = teacherSelect.value;
 
@@ -187,18 +209,101 @@ async function loadTeacherClasses() {
 
   snapshot.forEach(item => {
     const data = item.data();
-    classSelect.innerHTML += `<option>${data.className}</option>`;
+
+    classSelect.innerHTML += `
+      <option>${data.className}</option>
+    `;
   });
+}
+
+function getChangeLabel(currentPercent, previousPercent) {
+  if (previousPercent === null) {
+    return {
+      text: "-",
+      color: "#94a3b8",
+      key: "none"
+    };
+  }
+
+  if (currentPercent > previousPercent) {
+    return {
+      text: "↑ تحسن",
+      color: "#22c55e",
+      key: "up"
+    };
+  }
+
+  if (currentPercent < previousPercent) {
+    return {
+      text: "↓ نزول",
+      color: "#ef4444",
+      key: "down"
+    };
+  }
+
+  return {
+    text: "→ ثابت",
+    color: "#facc15",
+    key: "stable"
+  };
+}
+
+function getOverallStatus(changes) {
+  const up = changes.filter(item => item === "up").length;
+  const down = changes.filter(item => item === "down").length;
+
+  if (up > down) {
+    return {
+      text: "تحسن عام",
+      color: "#22c55e",
+      key: "up"
+    };
+  }
+
+  if (down > up) {
+    return {
+      text: "نزول عام",
+      color: "#ef4444",
+      key: "down"
+    };
+  }
+
+  return {
+    text: "ثابت",
+    color: "#facc15",
+    key: "stable"
+  };
+}
+
+function resetStats() {
+  document.getElementById("studentsCount").innerText = "0";
+  document.getElementById("classAverage").innerText = "0%";
+  document.getElementById("improvedCount").innerText = "0";
+  document.getElementById("declinedCount").innerText = "0";
 }
 
 async function loadReport() {
   tableHead.innerHTML = "";
   tableBody.innerHTML = "";
 
+  resetStats();
+
   const teacherName = teacherSelect.value;
   const className = classSelect.value;
 
-  if (teacherName === "اختر المعلم" || className === "اختر الفصل") {
+  if (
+    teacherName === "اختر المعلم" ||
+    className === "اختر الفصل"
+  ) {
+    return;
+  }
+
+  if (exams.length === 0) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="10">لا توجد اختبارات مضافة من الأدمن</td>
+      </tr>
+    `;
     return;
   }
 
@@ -219,7 +324,7 @@ async function loadReport() {
 
   head += `
       <th>متوسط الطالب</th>
-      <th>الحالة</th>
+      <th>الاتجاه العام</th>
     </tr>
   `;
 
@@ -247,9 +352,10 @@ async function loadReport() {
         <td>${student.name}</td>
     `;
 
-    let percentages = [];
-    let studentTotal = 0;
-    let studentGradesCount = 0;
+    let previousPercent = null;
+    let changes = [];
+    let studentTotalPercent = 0;
+    let studentGradeCount = 0;
 
     for (const exam of exams) {
       let grade = "";
@@ -273,23 +379,46 @@ async function loadReport() {
           ? Math.round((Number(grade) / Number(exam.maxDegree)) * 100)
           : 0;
 
-        percentages.push(percent);
-        studentTotal += percent;
-        studentGradesCount++;
+        const change = getChangeLabel(percent, previousPercent);
 
-        let color = "#facc15";
+        if (change.key === "up") {
+          changes.push("up");
+        }
+
+        if (change.key === "down") {
+          changes.push("down");
+        }
+
+        if (change.key === "stable") {
+          changes.push("stable");
+        }
+
+        previousPercent = percent;
+
+        studentTotalPercent += percent;
+        studentGradeCount++;
+
+        let gradeColor = "#facc15";
 
         if (percent >= 85) {
-          color = "#22c55e";
+          gradeColor = "#22c55e";
         } else if (percent < 60) {
-          color = "#ef4444";
+          gradeColor = "#ef4444";
         }
 
         row += `
-          <td style="color:${color};font-weight:800;">
-            ${grade} / ${exam.maxDegree}
-            <br>
-            ${percent}%
+          <td>
+            <div style="color:${gradeColor};font-weight:800;">
+              ${grade} / ${exam.maxDegree}
+            </div>
+
+            <div style="color:${gradeColor};font-weight:700;">
+              ${percent}%
+            </div>
+
+            <div style="color:${change.color};font-weight:900;margin-top:6px;">
+              ${change.text}
+            </div>
           </td>
         `;
       } else {
@@ -297,36 +426,30 @@ async function loadReport() {
       }
     }
 
-    const average = studentGradesCount
-      ? Math.round(studentTotal / studentGradesCount)
+    const average = studentGradeCount
+      ? Math.round(studentTotalPercent / studentGradeCount)
       : 0;
 
     classTotalPercent += average;
 
-    let status = "-";
-    let statusColor = "#94a3b8";
+    const overall = getOverallStatus(changes);
 
-    if (percentages.length >= 2) {
-      const first = percentages[0];
-      const last = percentages[percentages.length - 1];
+    if (overall.key === "up") {
+      improvedCount++;
+    }
 
-      if (last > first) {
-        status = "تحسن";
-        statusColor = "#22c55e";
-        improvedCount++;
-      } else if (last < first) {
-        status = "نزول";
-        statusColor = "#ef4444";
-        declinedCount++;
-      } else {
-        status = "ثابت";
-        statusColor = "#facc15";
-      }
+    if (overall.key === "down") {
+      declinedCount++;
     }
 
     row += `
-        <td style="font-weight:800;">${average}%</td>
-        <td style="color:${statusColor};font-weight:900;">${status}</td>
+        <td style="font-weight:900;">
+          ${average}%
+        </td>
+
+        <td style="color:${overall.color};font-weight:900;">
+          ${overall.text}
+        </td>
       </tr>
     `;
 
@@ -336,7 +459,9 @@ async function loadReport() {
   document.getElementById("studentsCount").innerText = studentsCount;
 
   document.getElementById("classAverage").innerText =
-    studentsCount ? Math.round(classTotalPercent / studentsCount) + "%" : "0%";
+    studentsCount
+      ? Math.round(classTotalPercent / studentsCount) + "%"
+      : "0%";
 
   document.getElementById("improvedCount").innerText = improvedCount;
   document.getElementById("declinedCount").innerText = declinedCount;
