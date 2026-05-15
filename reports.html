@@ -7,41 +7,118 @@
 <link rel="stylesheet" href="style.css"/>
 
 <style>
-@media print {
-  .sidebar,
-  .filters-area,
-  .print-btn {
-    display: none !important;
-  }
+.report-title{
+text-align:center;
+font-size:26px;
+font-weight:900;
+color:#facc15;
+margin-bottom:10px;
+}
 
-  .dashboard-layout {
-    display: block;
-  }
+.report-subtitle{
+text-align:center;
+color:#cbd5e1;
+font-size:15px;
+margin-bottom:25px;
+}
 
-  .main {
-    padding: 0;
-  }
+@media print{
 
-  body {
-    background: white;
-    color: black;
-  }
+@page{
+size:A4 landscape;
+margin:8mm;
+}
 
-  .section {
-    display: block !important;
-    background: white;
-    color: black;
-  }
+body{
+background:white !important;
+color:black !important;
+-webkit-print-color-adjust:exact;
+print-color-adjust:exact;
+}
 
-  table {
-    color: black;
-  }
+.sidebar,
+.filters-area,
+.print-actions{
+display:none !important;
+}
 
-  th,
-  td {
-    color: black;
-    border: 1px solid #ddd;
-  }
+.dashboard-layout{
+display:block !important;
+}
+
+.main{
+padding:0 !important;
+overflow:visible !important;
+}
+
+.section{
+display:block !important;
+background:white !important;
+color:black !important;
+padding:0 !important;
+margin:0 !important;
+border-radius:0 !important;
+overflow:visible !important;
+}
+
+.report-title{
+color:black !important;
+font-size:18px !important;
+margin-bottom:4px !important;
+}
+
+.report-subtitle{
+color:black !important;
+font-size:11px !important;
+margin-bottom:8px !important;
+}
+
+.stats-grid{
+grid-template-columns:repeat(4,1fr) !important;
+gap:6px !important;
+margin-bottom:8px !important;
+}
+
+.stat-card{
+background:white !important;
+border:1px solid #999 !important;
+padding:6px !important;
+border-radius:0 !important;
+}
+
+.stat-title{
+color:black !important;
+font-size:10px !important;
+margin-bottom:2px !important;
+}
+
+.stat-number{
+color:black !important;
+font-size:16px !important;
+}
+
+table{
+width:100% !important;
+min-width:0 !important;
+font-size:8px !important;
+border-collapse:collapse !important;
+table-layout:auto !important;
+}
+
+th,
+td{
+color:black !important;
+border:1px solid #777 !important;
+padding:3px !important;
+white-space:nowrap !important;
+}
+
+th:first-child,
+td:first-child{
+min-width:70px !important;
+max-width:100px !important;
+}
+
 }
 </style>
 </head>
@@ -52,20 +129,20 @@
 
 <div class="sidebar">
 
-  <div class="logo-box">
-    Rased<br>Insights
-  </div>
+<div class="logo-box">
+Rased<br>Insights
+</div>
 
-  <div class="user-box">
-    <div class="user-title">التقارير</div>
-    <div class="user-name">قسم اللغة الإنجليزية</div>
-  </div>
+<div class="user-box">
+<div class="user-title">التقارير</div>
+<div class="user-name">قسم اللغة الإنجليزية</div>
+</div>
 
-  <div class="menu">
-    <button class="print-btn" onclick="window.print()">طباعة التقرير</button>
-    <button onclick="window.location.href='supervisor.html'">رجوع للمشرف</button>
-    <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
-  </div>
+<div class="menu print-actions">
+<button onclick="window.print()">طباعة التقرير</button>
+<button onclick="window.location.href='supervisor.html'">رجوع للمشرف</button>
+<button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+</div>
 
 </div>
 
@@ -73,56 +150,60 @@
 
 <div class="section active-section">
 
-  <div class="section-header">
-    <div class="section-title">تقرير متابعة درجات الطلاب في اللغة الإنجليزية</div>
-  </div>
+<div class="report-title">
+متابعة درجات الطلاب في اختبارات مادة اللغة الإنجليزية
+</div>
 
-  <div class="filters-area" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-bottom:25px;">
+<div class="report-subtitle" id="reportSubtitle">
+اختر المعلم والفصل لعرض التقرير
+</div>
 
-    <div class="input-group">
-      <select id="teacherSelect">
-        <option>اختر المعلم</option>
-      </select>
-    </div>
+<div class="filters-area" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-bottom:25px;">
 
-    <div class="input-group">
-      <select id="classSelect">
-        <option>اختر الفصل</option>
-      </select>
-    </div>
+<div class="input-group">
+<select id="teacherSelect">
+<option>اختر المعلم</option>
+</select>
+</div>
 
-  </div>
+<div class="input-group">
+<select id="classSelect">
+<option>اختر الفصل</option>
+</select>
+</div>
 
-  <div class="stats-grid" style="margin-bottom:25px;">
+</div>
 
-    <div class="stat-card">
-      <div class="stat-title">عدد الطلاب</div>
-      <div class="stat-number" id="studentsCount">0</div>
-    </div>
+<div class="stats-grid" style="margin-bottom:25px;">
 
-    <div class="stat-card">
-      <div class="stat-title">متوسط الفصل</div>
-      <div class="stat-number" id="classAverage">0%</div>
-    </div>
+<div class="stat-card">
+<div class="stat-title">عدد الطلاب</div>
+<div class="stat-number" id="studentsCount">0</div>
+</div>
 
-    <div class="stat-card">
-      <div class="stat-title">طلاب في تحسن</div>
-      <div class="stat-number" id="improvedCount">0</div>
-    </div>
+<div class="stat-card">
+<div class="stat-title">متوسط الفصل</div>
+<div class="stat-number" id="classAverage">0%</div>
+</div>
 
-    <div class="stat-card">
-      <div class="stat-title">طلاب في نزول</div>
-      <div class="stat-number" id="declinedCount">0</div>
-    </div>
+<div class="stat-card">
+<div class="stat-title">طلاب في تحسن</div>
+<div class="stat-number" id="improvedCount">0</div>
+</div>
 
-  </div>
+<div class="stat-card">
+<div class="stat-title">طلاب في نزول</div>
+<div class="stat-number" id="declinedCount">0</div>
+</div>
 
-  <div style="overflow:auto;">
-    <table>
-      <thead id="tableHead"></thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-  </div>
+</div>
+
+<div style="overflow:auto;">
+<table>
+<thead id="tableHead"></thead>
+<tbody id="tableBody"></tbody>
+</table>
+</div>
 
 </div>
 
@@ -135,350 +216,381 @@
 import { db } from "./firebase.js";
 
 import {
-  collection,
-  getDocs,
-  query,
-  where
+collection,
+getDocs,
+query,
+where
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-if (localStorage.getItem("rasedRole") !== "supervisor") {
-  window.location.href = "index.html";
+if(localStorage.getItem("rasedRole") !== "supervisor"){
+window.location.href = "index.html";
 }
 
 const teacherSelect = document.getElementById("teacherSelect");
 const classSelect = document.getElementById("classSelect");
 const tableHead = document.getElementById("tableHead");
 const tableBody = document.getElementById("tableBody");
+const reportSubtitle = document.getElementById("reportSubtitle");
 
 let exams = [];
+let allGrades = [];
 
-async function loadTeachers() {
-  teacherSelect.innerHTML = "<option>اختر المعلم</option>";
+async function loadTeachers(){
 
-  const snapshot = await getDocs(collection(db, "teachers"));
+teacherSelect.innerHTML = "<option>اختر المعلم</option>";
 
-  snapshot.forEach(item => {
-    const data = item.data();
+const snapshot = await getDocs(collection(db,"teachers"));
 
-    teacherSelect.innerHTML += `
-      <option>${data.name}</option>
-    `;
-  });
+const teachers = [];
+
+snapshot.forEach(item=>{
+teachers.push(item.data().name);
+});
+
+teachers.sort((a,b)=>a.localeCompare(b,"ar"));
+
+teachers.forEach(name=>{
+teacherSelect.innerHTML += `<option>${name}</option>`;
+});
+
 }
 
-async function loadExams() {
-  exams = [];
+async function loadExams(){
 
-  const snapshot = await getDocs(collection(db, "exams"));
+exams = [];
 
-  snapshot.forEach(item => {
-    const data = item.data();
+const snapshot = await getDocs(collection(db,"exams"));
 
-    exams.push({
-      examName: data.examName,
-      maxDegree: Number(data.maxDegree || 0),
-      order: Number(data.order || 999)
-    });
-  });
+snapshot.forEach(item=>{
 
-  exams.sort((a, b) => a.order - b.order);
+const data = item.data();
+
+exams.push({
+examName:data.examName,
+maxDegree:Number(data.maxDegree || 0),
+order:Number(data.order || 999)
+});
+
+});
+
+exams.sort((a,b)=>a.order - b.order);
+
 }
 
-teacherSelect.addEventListener("change", loadTeacherClasses);
-classSelect.addEventListener("change", loadReport);
+async function loadAllGrades(){
 
-async function loadTeacherClasses() {
-  classSelect.innerHTML = "<option>اختر الفصل</option>";
-  tableHead.innerHTML = "";
-  tableBody.innerHTML = "";
+allGrades = [];
 
-  resetStats();
+const snapshot = await getDocs(collection(db,"grades"));
 
-  const teacherName = teacherSelect.value;
+snapshot.forEach(item=>{
+allGrades.push({
+id:item.id,
+...item.data()
+});
+});
 
-  if (teacherName === "اختر المعلم") {
-    return;
-  }
-
-  const snapshot = await getDocs(
-    query(
-      collection(db, "assignments"),
-      where("teacherName", "==", teacherName)
-    )
-  );
-
-  snapshot.forEach(item => {
-    const data = item.data();
-
-    classSelect.innerHTML += `
-      <option>${data.className}</option>
-    `;
-  });
 }
 
-function getChangeLabel(currentPercent, previousPercent) {
-  if (previousPercent === null) {
-    return {
-      text: "-",
-      color: "#94a3b8",
-      key: "none"
-    };
-  }
+teacherSelect.addEventListener("change",loadTeacherClasses);
+classSelect.addEventListener("change",loadReport);
 
-  if (currentPercent > previousPercent) {
-    return {
-      text: "↑ تحسن",
-      color: "#22c55e",
-      key: "up"
-    };
-  }
+async function loadTeacherClasses(){
 
-  if (currentPercent < previousPercent) {
-    return {
-      text: "↓ نزول",
-      color: "#ef4444",
-      key: "down"
-    };
-  }
+classSelect.innerHTML = "<option>اختر الفصل</option>";
+tableHead.innerHTML = "";
+tableBody.innerHTML = "";
+resetStats();
 
-  return {
-    text: "→ ثابت",
-    color: "#facc15",
-    key: "stable"
-  };
+const teacherName = teacherSelect.value;
+
+if(teacherName === "اختر المعلم"){
+return;
 }
 
-function getOverallStatus(changes) {
-  const up = changes.filter(item => item === "up").length;
-  const down = changes.filter(item => item === "down").length;
+const snapshot = await getDocs(
+query(
+collection(db,"assignments"),
+where("teacherName","==",teacherName)
+)
+);
 
-  if (up > down) {
-    return {
-      text: "تحسن عام",
-      color: "#22c55e",
-      key: "up"
-    };
-  }
+const classes = [];
 
-  if (down > up) {
-    return {
-      text: "نزول عام",
-      color: "#ef4444",
-      key: "down"
-    };
-  }
+snapshot.forEach(item=>{
+classes.push(item.data().className);
+});
 
-  return {
-    text: "ثابت",
-    color: "#facc15",
-    key: "stable"
-  };
+classes.sort((a,b)=>a.localeCompare(b,"ar"));
+
+classes.forEach(className=>{
+classSelect.innerHTML += `<option>${className}</option>`;
+});
+
 }
 
-function resetStats() {
-  document.getElementById("studentsCount").innerText = "0";
-  document.getElementById("classAverage").innerText = "0%";
-  document.getElementById("improvedCount").innerText = "0";
-  document.getElementById("declinedCount").innerText = "0";
+function resetStats(){
+document.getElementById("studentsCount").innerText = "0";
+document.getElementById("classAverage").innerText = "0%";
+document.getElementById("improvedCount").innerText = "0";
+document.getElementById("declinedCount").innerText = "0";
+reportSubtitle.innerText = "اختر المعلم والفصل لعرض التقرير";
 }
 
-async function loadReport() {
-  tableHead.innerHTML = "";
-  tableBody.innerHTML = "";
+function getChangeLabel(currentPercent,previousPercent){
 
-  resetStats();
+if(previousPercent === null){
+return {
+text:"-",
+color:"#94a3b8",
+key:"none"
+};
+}
 
-  const teacherName = teacherSelect.value;
-  const className = classSelect.value;
+if(currentPercent > previousPercent){
+return {
+text:"↑",
+color:"#22c55e",
+key:"up"
+};
+}
 
-  if (
-    teacherName === "اختر المعلم" ||
-    className === "اختر الفصل"
-  ) {
-    return;
-  }
+if(currentPercent < previousPercent){
+return {
+text:"↓",
+color:"#ef4444",
+key:"down"
+};
+}
 
-  if (exams.length === 0) {
-    tableBody.innerHTML = `
-      <tr>
-        <td colspan="10">لا توجد اختبارات مضافة من الأدمن</td>
-      </tr>
-    `;
-    return;
-  }
+return {
+text:"→",
+color:"#facc15",
+key:"stable"
+};
 
-  let head = `
-    <tr>
-      <th>اسم الطالب</th>
-  `;
+}
 
-  exams.forEach(exam => {
-    head += `
-      <th>
-        ${exam.examName}
-        <br>
-        من ${exam.maxDegree}
-      </th>
-    `;
-  });
+function getOverallStatus(changes){
 
-  head += `
-      <th>متوسط الطالب</th>
-      <th>الاتجاه العام</th>
-    </tr>
-  `;
+const up = changes.filter(item=>item==="up").length;
+const down = changes.filter(item=>item==="down").length;
 
-  tableHead.innerHTML = head;
+if(up > down){
+return {
+text:"تحسن",
+color:"#22c55e",
+key:"up"
+};
+}
 
-  const studentsSnapshot = await getDocs(
-    query(
-      collection(db, "students"),
-      where("className", "==", className)
-    )
-  );
+if(down > up){
+return {
+text:"نزول",
+color:"#ef4444",
+key:"down"
+};
+}
 
-  let studentsCount = 0;
-  let classTotalPercent = 0;
-  let improvedCount = 0;
-  let declinedCount = 0;
+return {
+text:"ثابت",
+color:"#facc15",
+key:"stable"
+};
+
+}
+
+async function loadReport(){
+
+tableHead.innerHTML = "";
+tableBody.innerHTML = "";
+resetStats();
+
+const teacherName = teacherSelect.value;
+const className = classSelect.value;
+
+if(
+teacherName === "اختر المعلم" ||
+className === "اختر الفصل"
+){
+return;
+}
+
+reportSubtitle.innerText =
+`المعلم: ${teacherName} | الفصل: ${className}`;
+
+await loadAllGrades();
+
+if(exams.length === 0){
+
+tableBody.innerHTML = `
+<tr>
+<td colspan="50">لا توجد اختبارات مضافة من الأدمن</td>
+</tr>
+`;
+
+return;
+
+}
+
+let head = `
+<tr>
+<th>اسم الطالب</th>
+`;
+
+exams.forEach(exam=>{
+head += `
+<th>
+${exam.examName}
+<br>
+من ${exam.maxDegree}
+</th>
+`;
+});
+
+head += `
+<th>المتوسط</th>
+<th>الاتجاه</th>
+</tr>
+`;
+
+tableHead.innerHTML = head;
+
+const studentsSnapshot = await getDocs(
+query(
+collection(db,"students"),
+where("className","==",className)
+)
+);
 
 const students = [];
 
-studentsSnapshot.forEach(studentDoc => {
-  students.push(studentDoc.data());
+studentsSnapshot.forEach(studentDoc=>{
+students.push(studentDoc.data());
 });
 
-students.sort((a, b) =>
-  a.name.localeCompare(b.name, 'ar')
+students.sort((a,b)=>a.name.localeCompare(b.name,"ar"));
+
+let studentsCount = 0;
+let classTotalPercent = 0;
+let improvedCount = 0;
+let declinedCount = 0;
+
+let html = "";
+
+for(const student of students){
+
+studentsCount++;
+
+let row = `
+<tr>
+<td class="student-name">${student.name}</td>
+`;
+
+let previousPercent = null;
+let changes = [];
+let studentTotalPercent = 0;
+let studentGradeCount = 0;
+
+for(const exam of exams){
+
+const gradeData = allGrades.find(item=>
+item.studentName === student.name &&
+item.className === className &&
+item.examName === exam.examName &&
+item.teacherName === teacherName
 );
 
-for (const student of students) {
+if(gradeData){
 
-    studentsCount++;
+const percent = exam.maxDegree
+? Math.round((Number(gradeData.grade) / Number(exam.maxDegree)) * 100)
+: 0;
 
-    let row = `
-      <tr>
-        <td>${student.name}</td>
-    `;
+const change = getChangeLabel(percent,previousPercent);
 
-    let previousPercent = null;
-    let changes = [];
-    let studentTotalPercent = 0;
-    let studentGradeCount = 0;
-
-    for (const exam of exams) {
-      let grade = "";
-
-      const gradesSnapshot = await getDocs(
-        query(
-          collection(db, "grades"),
-          where("studentName", "==", student.name),
-          where("className", "==", className),
-          where("examName", "==", exam.examName),
-          where("teacherName", "==", teacherName)
-        )
-      );
-
-      gradesSnapshot.forEach(g => {
-        grade = g.data().grade;
-      });
-
-      if (grade !== "") {
-        const percent = exam.maxDegree
-          ? Math.round((Number(grade) / Number(exam.maxDegree)) * 100)
-          : 0;
-
-        const change = getChangeLabel(percent, previousPercent);
-
-        if (change.key === "up") {
-          changes.push("up");
-        }
-
-        if (change.key === "down") {
-          changes.push("down");
-        }
-
-        if (change.key === "stable") {
-          changes.push("stable");
-        }
-
-        previousPercent = percent;
-
-        studentTotalPercent += percent;
-        studentGradeCount++;
-
-        let gradeColor = "#facc15";
-
-        if (percent >= 85) {
-          gradeColor = "#22c55e";
-        } else if (percent < 60) {
-          gradeColor = "#ef4444";
-        }
-
-        row += `
-          <td>
-            <div style="color:${gradeColor};font-weight:800;">
-              ${grade} / ${exam.maxDegree}
-            </div>
-
-            <div style="color:${gradeColor};font-weight:700;">
-              ${percent}%
-            </div>
-
-            <div style="color:${change.color};font-weight:900;margin-top:6px;">
-              ${change.text}
-            </div>
-          </td>
-        `;
-      } else {
-        row += `<td>-</td>`;
-      }
-    }
-
-    const average = studentGradeCount
-      ? Math.round(studentTotalPercent / studentGradeCount)
-      : 0;
-
-    classTotalPercent += average;
-
-    const overall = getOverallStatus(changes);
-
-    if (overall.key === "up") {
-      improvedCount++;
-    }
-
-    if (overall.key === "down") {
-      declinedCount++;
-    }
-
-    row += `
-        <td style="font-weight:900;">
-          ${average}%
-        </td>
-
-        <td style="color:${overall.color};font-weight:900;">
-          ${overall.text}
-        </td>
-      </tr>
-    `;
-
-    tableBody.innerHTML += row;
-  }
-
-  document.getElementById("studentsCount").innerText = studentsCount;
-
-  document.getElementById("classAverage").innerText =
-    studentsCount
-      ? Math.round(classTotalPercent / studentsCount) + "%"
-      : "0%";
-
-  document.getElementById("improvedCount").innerText = improvedCount;
-  document.getElementById("declinedCount").innerText = declinedCount;
+if(change.key !== "none"){
+changes.push(change.key);
 }
 
-window.logout = function() {
-  localStorage.clear();
-  window.location.href = "index.html";
+previousPercent = percent;
+
+studentTotalPercent += percent;
+studentGradeCount++;
+
+let gradeColor = "#facc15";
+
+if(percent >= 85){
+gradeColor = "#22c55e";
+}else if(percent < 60){
+gradeColor = "#ef4444";
+}
+
+row += `
+<td>
+<div style="color:${gradeColor};font-weight:800;">
+${gradeData.grade} / ${exam.maxDegree}
+</div>
+<div style="color:${gradeColor};font-weight:700;">
+${percent}%
+</div>
+<div style="color:${change.color};font-weight:900;">
+${change.text}
+</div>
+</td>
+`;
+
+}else{
+
+row += `<td>-</td>`;
+
+}
+
+}
+
+const average = studentGradeCount
+? Math.round(studentTotalPercent / studentGradeCount)
+: 0;
+
+classTotalPercent += average;
+
+const overall = getOverallStatus(changes);
+
+if(overall.key === "up"){
+improvedCount++;
+}
+
+if(overall.key === "down"){
+declinedCount++;
+}
+
+row += `
+<td style="font-weight:900;">${average}%</td>
+<td style="color:${overall.color};font-weight:900;">${overall.text}</td>
+</tr>
+`;
+
+html += row;
+
+}
+
+tableBody.innerHTML = html;
+
+document.getElementById("studentsCount").innerText = studentsCount;
+
+document.getElementById("classAverage").innerText =
+studentsCount
+? Math.round(classTotalPercent / studentsCount) + "%"
+: "0%";
+
+document.getElementById("improvedCount").innerText = improvedCount;
+document.getElementById("declinedCount").innerText = declinedCount;
+
+}
+
+window.logout = function(){
+localStorage.clear();
+window.location.href = "index.html";
 };
 
 await loadExams();
