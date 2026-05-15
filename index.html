@@ -5,140 +5,27 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>
-Rased Insights
-</title>
+<title>Rased Insights</title>
 
-<link
-href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet"
-/>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-body{
-background:linear-gradient(135deg,#020617,#0f172a);
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:20px;
-overflow:auto;
-}
-
-.card{
-width:100%;
-max-width:420px;
-background:rgba(255,255,255,.06);
-border:1px solid rgba(255,255,255,.08);
-backdrop-filter:blur(15px);
-border-radius:28px;
-padding:35px 25px;
-}
-
-.logo{
-width:90px;
-height:90px;
-background:linear-gradient(135deg,#facc15,#f59e0b);
-margin:auto;
-border-radius:24px;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:34px;
-font-weight:800;
-color:#0f172a;
-}
-
-h1{
-text-align:center;
-color:white;
-margin-top:18px;
-font-size:32px;
-}
-
-.school{
-text-align:center;
-color:#e2e8f0;
-margin-top:10px;
-font-size:17px;
-}
-
-.department{
-text-align:center;
-color:#facc15;
-margin-top:8px;
-font-size:14px;
-}
-
-.buttons{
-display:flex;
-flex-direction:column;
-gap:14px;
-margin-top:30px;
-}
-
-button{
-border:none;
-padding:15px;
-border-radius:16px;
-font-size:15px;
-font-weight:700;
-color:white;
-cursor:pointer;
-transition:.3s;
-}
-
-button:hover{
-transform:translateY(-2px);
-}
-
-.admin{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
-}
-
-.supervisor{
-background:linear-gradient(135deg,#0f766e,#115e59);
-}
-
-.teacher{
-background:linear-gradient(135deg,#ca8a04,#a16207);
-}
-
-.footer{
-text-align:center;
-color:#94a3b8;
-font-size:13px;
-margin-top:28px;
-}
-
-</style>
+<link rel="stylesheet" href="style.css"/>
 
 </head>
 
 <body>
 
-<div class="card">
+<div class="auth-container">
+
+<div class="auth-card">
 
 <div class="logo">
-E
+R
 </div>
 
-<h1>
+<div class="title">
 Rased Insights
-</h1>
+</div>
 
 <div class="school">
 مدارس الفلاح الأهلية
@@ -148,28 +35,64 @@ Rased Insights
 قسم اللغة الإنجليزية
 </div>
 
-<div class="buttons">
+<div class="roles">
 
 <button
-class="admin"
-onclick="window.location.href='./dashboard.html'"
+class="role-btn admin-btn"
+onclick="selectRole('admin')"
 >
 دخول الأدمن
 </button>
 
 <button
-class="supervisor"
-onclick="window.location.href='./supervisor.html'"
+class="role-btn supervisor-btn"
+onclick="selectRole('supervisor')"
 >
 دخول المشرف
 </button>
 
 <button
-class="teacher"
-onclick="window.location.href='./teacher.html'"
+class="role-btn teacher-btn"
+onclick="selectRole('teacher')"
 >
 دخول المعلم
 </button>
+
+</div>
+
+<div class="login-form" id="loginForm">
+
+<div class="input-group">
+
+<input
+type="text"
+id="username"
+placeholder="Username"
+/>
+
+</div>
+
+<div class="input-group">
+
+<input
+type="password"
+id="password"
+placeholder="Password"
+/>
+
+</div>
+
+<button
+class="submit-btn"
+id="loginBtn"
+>
+تسجيل الدخول
+</button>
+
+<div
+class="status"
+id="status"
+></div>
 
 </div>
 
@@ -178,6 +101,201 @@ onclick="window.location.href='./teacher.html'"
 </div>
 
 </div>
+
+</div>
+
+<script type="module">
+
+import { db }
+from "./firebase.js";
+
+import {
+
+collection,
+getDocs
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+let currentRole = "";
+
+window.selectRole = function(role){
+
+currentRole = role;
+
+document
+.getElementById("loginForm")
+.style.display = "block";
+
+};
+
+document
+.getElementById("loginBtn")
+.addEventListener("click",async()=>{
+
+const username =
+document
+.getElementById("username")
+.value
+.trim();
+
+const password =
+document
+.getElementById("password")
+.value
+.trim();
+
+const status =
+document
+.getElementById("status");
+
+if(!username || !password){
+
+status.innerText =
+"أدخل البيانات";
+
+return;
+
+}
+
+status.innerText =
+"جاري تسجيل الدخول...";
+
+try{
+
+if(currentRole === "admin"){
+
+if(
+username === "admin" &&
+password === "admin123"
+){
+
+localStorage.setItem(
+"rasedRole",
+"admin"
+);
+
+window.location.href =
+"dashboard.html";
+
+return;
+
+}
+
+status.innerText =
+"بيانات الأدمن غير صحيحة";
+
+return;
+
+}
+
+if(currentRole === "teacher"){
+
+const snapshot =
+await getDocs(
+collection(db,"teachers")
+);
+
+let found = false;
+
+snapshot.forEach(doc=>{
+
+const data = doc.data();
+
+if(
+data.username === username &&
+data.password === password
+){
+
+found = true;
+
+localStorage.setItem(
+"rasedRole",
+"teacher"
+);
+
+localStorage.setItem(
+"teacherName",
+data.name
+);
+
+window.location.href =
+"teacher.html";
+
+}
+
+});
+
+if(!found){
+
+status.innerText =
+"بيانات المعلم غير صحيحة";
+
+}
+
+}
+
+if(currentRole === "supervisor"){
+
+const snapshot =
+await getDocs(
+collection(db,"supervisors")
+);
+
+let found = false;
+
+snapshot.forEach(doc=>{
+
+const data = doc.data();
+
+if(
+data.username === username &&
+data.password === password
+){
+
+found = true;
+
+localStorage.setItem(
+"rasedRole",
+"supervisor"
+);
+
+localStorage.setItem(
+"supervisorName",
+data.name
+);
+
+window.location.href =
+"supervisor.html";
+
+}
+
+});
+
+if(!found){
+
+status.innerText =
+"بيانات المشرف غير صحيحة";
+
+}
+
+}
+
+}
+
+catch(error){
+
+console.error(error);
+
+status.innerText =
+"حدث خطأ";
+
+}
+
+});
+
+</script>
 
 </body>
 
