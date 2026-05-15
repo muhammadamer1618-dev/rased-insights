@@ -1,3 +1,4 @@
+```html id="p4kzqy"
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
@@ -176,15 +177,15 @@ readonly
 </th>
 
 <th>
-المادة
-</th>
-
-<th>
 الاختبار
 </th>
 
 <th>
 الدرجة
+</th>
+
+<th>
+الإجراءات
 </th>
 
 </tr>
@@ -194,23 +195,6 @@ readonly
 <tbody id="studentsTable"></tbody>
 
 </table>
-
-<div
-style="
-margin-top:25px;
-display:flex;
-justify-content:flex-end;
-"
->
-
-<button
-class="primary-btn"
-onclick="saveGrades()"
->
-حفظ الدرجات
-</button>
-
-</div>
 
 </div>
 
@@ -229,7 +213,10 @@ collection,
 getDocs,
 query,
 where,
-addDoc
+addDoc,
+updateDoc,
+deleteDoc,
+doc
 
 }
 
@@ -313,11 +300,9 @@ const data =
 item.data();
 
 classSelect.innerHTML += `
-
 <option>
 ${data.className}
 </option>
-
 `;
 
 });
@@ -329,23 +314,36 @@ classSelect.addEventListener(
 loadStudents
 );
 
+document
+.getElementById("examSelect")
+.addEventListener(
+"change",
+loadStudents
+);
+
 async function loadStudents(){
+
+studentsTable.innerHTML = "";
 
 const className =
 classSelect.value;
 
-studentsTable.innerHTML = "";
+const examName =
+document
+.getElementById("examSelect")
+.value;
 
 if(
-className ===
-"اختر الفصل"
+className === "اختر الفصل"
+||
+examName === "اختر الاختبار"
 ){
 
 return;
 
 }
 
-const snapshot =
+const studentsSnapshot =
 await getDocs(
 query(
 collection(db,"students"),
@@ -357,40 +355,73 @@ className
 )
 );
 
-snapshot.forEach(item=>{
+for(
+const studentDoc
+of studentsSnapshot.docs
+){
 
-const data =
-item.data();
+const student =
+studentDoc.data();
+
+let currentGrade = "";
+
+let gradeId = "";
+
+const gradesSnapshot =
+await getDocs(
+query(
+collection(db,"grades"),
+where(
+"studentName",
+"==",
+student.name
+),
+where(
+"className",
+"==",
+className
+),
+where(
+"examName",
+"==",
+examName
+)
+)
+);
+
+gradesSnapshot.forEach(g=>{
+
+currentGrade =
+g.data().grade;
+
+gradeId =
+g.id;
+
+});
 
 studentsTable.innerHTML += `
 
 <tr>
 
 <td>
-${data.name}
+${student.name}
 </td>
 
 <td>
-${data.className}
+${student.className}
 </td>
 
 <td>
-لغة إنجليزية
-</td>
-
-<td>
-${document.getElementById("examSelect").value}
+${examName}
 </td>
 
 <td>
 
 <input
 type="number"
-min="0"
-max="100"
+value="${currentGrade}"
 placeholder="الدرجة"
-class="grade-input"
-data-student="${data.name}"
+id="grade-${student.name}"
 style="
 width:100px;
 padding:10px;
@@ -404,78 +435,119 @@ text-align:center;
 
 </td>
 
+<td>
+
+<button
+class="action-btn edit-btn"
+onclick="saveGrade(
+'${student.name}',
+'${gradeId}'
+)"
+>
+حفظ
+</button>
+
+<button
+class="action-btn delete-btn"
+onclick="deleteGrade(
+'${gradeId}'
+)"
+>
+حذف
+</button>
+
+</td>
+
 </tr>
 
 `;
 
-});
+}
 
 }
 
-window.saveGrades =
-async function(){
+window.saveGrade =
+async(
+studentName,
+gradeId
+)=>{
+
+const grade =
+document
+.getElementById(
+`grade-${studentName}`
+)
+.value;
+
+const className =
+classSelect.value;
 
 const examName =
 document
 .getElementById("examSelect")
 .value;
 
-const className =
-classSelect.value;
+if(gradeId){
 
-if(
-examName ===
-"اختر الاختبار"
-){
-
-alert(
-"اختر الاختبار"
+await updateDoc(
+doc(db,"grades",gradeId),
+{
+grade
+}
 );
 
-return;
+alert(
+"تم تعديل الدرجة"
+);
 
 }
 
-const inputs =
-document.querySelectorAll(
-".grade-input"
-);
-
-for(
-const input
-of inputs
-){
+else{
 
 await addDoc(
 collection(db,"grades"),
 {
 
-teacherName:
 teacherName,
 
-studentName:
-input.dataset.student,
+studentName,
 
-className:
 className,
 
 subject:
 "لغة إنجليزية",
 
-examName:
 examName,
 
-grade:
-input.value
+grade
 
 }
 );
-
-}
 
 alert(
-"تم حفظ الدرجات"
+"تم حفظ الدرجة"
 );
+
+}
+
+loadStudents();
+
+};
+
+window.deleteGrade =
+async(id)=>{
+
+if(!id){
+
+return;
+
+}
+
+await deleteDoc(
+doc(db,"grades",id)
+);
+
+loadStudents();
 
 };
 
@@ -496,3 +568,4 @@ loadTeacherClasses();
 </body>
 
 </html>
+```
