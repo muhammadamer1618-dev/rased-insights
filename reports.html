@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
 <title>Reports</title>
-<link rel="stylesheet" href="style.css"/>
+
+<link
+rel="stylesheet"
+href="style.css"
+/>
 
 <style>
+
 *{
 direction:rtl;
 unicode-bidi:embed;
@@ -44,8 +56,8 @@ unicode-bidi:embed;
 @media print{
 
 @page{
-size:A4 landscape;
-margin:7mm;
+size:A4 portrait;
+margin:10mm;
 }
 
 html,
@@ -110,7 +122,7 @@ margin-bottom:10px !important;
 
 .stats-grid{
 display:grid !important;
-grid-template-columns:repeat(4,1fr) !important;
+grid-template-columns:repeat(2,1fr) !important;
 gap:6px !important;
 margin-bottom:10px !important;
 }
@@ -138,9 +150,9 @@ font-weight:900 !important;
 table{
 width:100% !important;
 min-width:0 !important;
-font-size:12px !important;
+font-size:11px !important;
 border-collapse:collapse !important;
-table-layout:auto !important;
+table-layout:fixed !important;
 background:#ffffff !important;
 direction:rtl !important;
 }
@@ -158,10 +170,11 @@ background:#ffffff !important;
 color:#000000 !important;
 border:1px solid #000000 !important;
 padding:4px !important;
-font-size:12px !important;
+font-size:11px !important;
 font-weight:900 !important;
-white-space:nowrap !important;
+white-space:normal !important;
 text-align:center !important;
+word-break:break-word !important;
 }
 
 td{
@@ -169,11 +182,12 @@ background:#ffffff !important;
 color:#000000 !important;
 border:1px solid #000000 !important;
 padding:4px !important;
-font-size:12px !important;
+font-size:11px !important;
 font-weight:700 !important;
-white-space:nowrap !important;
+white-space:normal !important;
 vertical-align:middle !important;
 text-align:center !important;
+word-break:break-word !important;
 }
 
 td *,
@@ -193,8 +207,8 @@ unicode-bidi:embed !important;
 
 td:first-child,
 th:first-child{
-min-width:100px !important;
-max-width:140px !important;
+min-width:80px !important;
+max-width:100px !important;
 font-weight:900 !important;
 }
 
@@ -206,7 +220,7 @@ font-weight:900 !important;
 .legend{
 display:block !important;
 text-align:center !important;
-font-size:12px !important;
+font-size:11px !important;
 margin:8px 0 8px !important;
 color:#000000 !important;
 }
@@ -218,7 +232,7 @@ gap:18px !important;
 margin-top:12px !important;
 padding-top:8px !important;
 border-top:1px solid #000000 !important;
-font-size:12px !important;
+font-size:11px !important;
 color:#000000 !important;
 align-items:end !important;
 }
@@ -231,7 +245,9 @@ margin-top:6px !important;
 }
 
 }
+
 </style>
+
 </head>
 
 <body>
@@ -239,18 +255,43 @@ margin-top:6px !important;
 <div class="dashboard-layout">
 
 <div class="sidebar">
-<div class="logo-box">Rased<br>Insights</div>
+
+<div class="logo-box">
+Rased<br>
+Insights
+</div>
 
 <div class="user-box">
-<div class="user-title">التقارير</div>
-<div class="user-name">قسم اللغة الإنجليزية</div>
+
+<div class="user-title">
+التقارير
+</div>
+
+<div class="user-name">
+قسم اللغة الإنجليزية
+</div>
+
 </div>
 
 <div class="menu print-actions">
-<button onclick="window.print()">طباعة التقرير</button>
-<button onclick="window.location.href='supervisor.html'">رجوع للمشرف</button>
-<button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+
+<button onclick="window.print()">
+طباعة التقرير
+</button>
+
+<button onclick="window.location.href='supervisor.html'">
+رجوع للمشرف
+</button>
+
+<button
+class="logout-btn"
+onclick="logout()"
+>
+تسجيل الخروج
+</button>
+
 </div>
+
 </div>
 
 <div class="main">
@@ -261,27 +302,45 @@ margin-top:6px !important;
 متابعة درجات الطلاب في اختبارات مادة اللغة الإنجليزية
 </div>
 
-<div class="report-subtitle" id="reportSubtitle">
+<div
+class="report-subtitle"
+id="reportSubtitle"
+>
 اختر المعلم والفصل لعرض التقرير
 </div>
 
-<div class="filters-area" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-bottom:25px;">
+<div
+class="filters-area"
+style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
+margin-bottom:25px;
+"
+>
 
 <div class="input-group">
+
 <select id="teacherSelect">
 <option>اختر المعلم</option>
 </select>
+
 </div>
 
 <div class="input-group">
+
 <select id="classSelect">
 <option>اختر الفصل</option>
 </select>
-</div>
 
 </div>
 
-<div class="stats-grid" style="margin-bottom:25px;">
+</div>
+
+<div
+class="stats-grid"
+style="margin-bottom:25px;"
+>
 
 <div class="stat-card">
 <div class="stat-title">عدد الطلاب</div>
@@ -306,32 +365,76 @@ margin-top:6px !important;
 </div>
 
 <div style="overflow:auto;">
+
 <table>
+
 <thead id="tableHead"></thead>
+
 <tbody id="tableBody"></tbody>
+
 </table>
+
 </div>
 
 <div class="legend">
-↑ تحسن &nbsp;&nbsp;&nbsp; ↓ تراجع &nbsp;&nbsp;&nbsp; → ثابت
+↑ تحسن &nbsp;&nbsp;&nbsp;
+↓ تراجع &nbsp;&nbsp;&nbsp;
+→ ثابت
 </div>
 
 <div class="report-footer">
 
 <div style="text-align:right;">
-<div>مشرف اللغة الإنجليزية</div>
-<div style="font-weight:900;margin-top:4px;">محمد عامر أحمد</div>
+
+<div>
+مشرف اللغة الإنجليزية
+</div>
+
+<div
+style="
+font-weight:900;
+margin-top:4px;
+"
+>
+
+محمد عامر أحمد
+
+</div>
+
 </div>
 
 <div style="text-align:center;">
-<div>التوقيع</div>
+
+<div>
+التوقيع
+</div>
+
 <span class="signature-line"></span>
+
 </div>
 
 <div style="text-align:left;">
-<div>تصميم</div>
-<div style="font-weight:900;margin-top:4px;">محمد عامر أحمد</div>
-<div id="printDate" style="margin-top:4px;"></div>
+
+<div>
+تصميم
+</div>
+
+<div
+style="
+font-weight:900;
+margin-top:4px;
+"
+>
+
+محمد عامر أحمد
+
+</div>
+
+<div
+id="printDate"
+style="margin-top:4px;"
+></div>
+
 </div>
 
 </div>
@@ -344,48 +447,100 @@ margin-top:6px !important;
 
 <script type="module">
 
-import { db } from "./firebase.js";
+import { db }
+from "./firebase.js";
 
 import {
+
 collection,
 getDocs,
 query,
 where
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-if(localStorage.getItem("rasedRole") !== "supervisor"){
-window.location.href = "index.html";
 }
 
-const teacherSelect = document.getElementById("teacherSelect");
-const classSelect = document.getElementById("classSelect");
-const tableHead = document.getElementById("tableHead");
-const tableBody = document.getElementById("tableBody");
-const reportSubtitle = document.getElementById("reportSubtitle");
-const printDate = document.getElementById("printDate");
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+if(
+localStorage.getItem("rasedRole")
+!== "supervisor"
+){
+
+window.location.href =
+"index.html";
+
+}
+
+const teacherSelect =
+document.getElementById(
+"teacherSelect"
+);
+
+const classSelect =
+document.getElementById(
+"classSelect"
+);
+
+const tableHead =
+document.getElementById(
+"tableHead"
+);
+
+const tableBody =
+document.getElementById(
+"tableBody"
+);
+
+const reportSubtitle =
+document.getElementById(
+"reportSubtitle"
+);
+
+const printDate =
+document.getElementById(
+"printDate"
+);
 
 printDate.innerText =
-"التاريخ: " + new Date().toLocaleDateString("ar-SA");
+"التاريخ: "
++
+new Date().toLocaleDateString("ar-SA");
 
 let exams = [];
 let allGrades = [];
 
 async function loadTeachers(){
 
-teacherSelect.innerHTML = "<option>اختر المعلم</option>";
+teacherSelect.innerHTML =
+"<option>اختر المعلم</option>";
 
-const snapshot = await getDocs(collection(db,"teachers"));
+const snapshot =
+await getDocs(
+collection(db,"teachers")
+);
 
 const teachers = [];
 
 snapshot.forEach(item=>{
-teachers.push(item.data().name);
+
+teachers.push(
+item.data().name
+);
+
 });
 
-teachers.sort((a,b)=>a.localeCompare(b,"ar"));
+teachers.sort((a,b)=>
+a.localeCompare(b,"ar")
+);
 
 teachers.forEach(name=>{
-teacherSelect.innerHTML += `<option>${name}</option>`;
+
+teacherSelect.innerHTML += `
+<option>
+${name}
+</option>
+`;
+
 });
 
 }
@@ -394,21 +549,38 @@ async function loadExams(){
 
 exams = [];
 
-const snapshot = await getDocs(collection(db,"exams"));
+const snapshot =
+await getDocs(
+collection(db,"exams")
+);
 
 snapshot.forEach(item=>{
 
-const data = item.data();
+const data =
+item.data();
 
 exams.push({
-examName:data.examName,
-maxDegree:Number(data.maxDegree || 0),
-order:Number(data.order || 999)
-});
+
+examName:
+data.examName,
+
+maxDegree:
+Number(
+data.maxDegree || 0
+),
+
+order:
+Number(
+data.order || 999
+)
 
 });
 
-exams.sort((a,b)=>a.order - b.order);
+});
+
+exams.sort((a,b)=>
+a.order - b.order
+);
 
 }
 
@@ -416,91 +588,129 @@ async function loadAllGrades(){
 
 allGrades = [];
 
-const snapshot = await getDocs(collection(db,"grades"));
+const snapshot =
+await getDocs(
+collection(db,"grades")
+);
 
 snapshot.forEach(item=>{
+
 allGrades.push({
 id:item.id,
 ...item.data()
 });
+
 });
 
 }
 
-teacherSelect.addEventListener("change",loadTeacherClasses);
-classSelect.addEventListener("change",loadReport);
+teacherSelect.addEventListener(
+"change",
+loadTeacherClasses
+);
+
+classSelect.addEventListener(
+"change",
+loadReport
+);
 
 async function loadTeacherClasses(){
 
-classSelect.innerHTML = "<option>اختر الفصل</option>";
+classSelect.innerHTML =
+"<option>اختر الفصل</option>";
+
 tableHead.innerHTML = "";
 tableBody.innerHTML = "";
 
-resetStats();
+const teacherName =
+teacherSelect.value;
 
-const teacherName = teacherSelect.value;
-
-if(teacherName === "اختر المعلم"){
+if(
+teacherName ===
+"اختر المعلم"
+){
 return;
 }
 
-const snapshot = await getDocs(
+const snapshot =
+await getDocs(
+
 query(
-collection(db,"assignments"),
-where("teacherName","==",teacherName)
+
+collection(
+db,
+"assignments"
+),
+
+where(
+"teacherName",
+"==",
+teacherName
 )
+
+)
+
 );
 
 const classes = [];
 
 snapshot.forEach(item=>{
-classes.push(item.data().className);
+
+classes.push(
+item.data().className
+);
+
 });
 
-classes.sort((a,b)=>a.localeCompare(b,"ar"));
+classes.sort((a,b)=>
+a.localeCompare(b,"ar")
+);
 
 classes.forEach(className=>{
-classSelect.innerHTML += `<option>${className}</option>`;
+
+classSelect.innerHTML += `
+<option>
+${className}
+</option>
+`;
+
 });
 
 }
 
-function resetStats(){
-
-document.getElementById("studentsCount").innerText = "0";
-document.getElementById("classAverage").innerText = "0%";
-document.getElementById("improvedCount").innerText = "0";
-document.getElementById("declinedCount").innerText = "0";
-
-reportSubtitle.innerText =
-"اختر المعلم والفصل لعرض التقرير";
-
-}
-
-function getChangeLabel(currentPercent,previousPercent){
+function getChangeLabel(
+currentPercent,
+previousPercent
+){
 
 if(previousPercent === null){
-return {
+
+return{
 text:"-",
 key:"none"
 };
+
 }
 
 if(currentPercent > previousPercent){
-return {
+
+return{
 text:"↑ تحسن",
 key:"up"
 };
+
 }
 
 if(currentPercent < previousPercent){
-return {
+
+return{
 text:"↓ تراجع",
 key:"down"
 };
+
 }
 
-return {
+return{
 text:"→ ثابت",
 key:"stable"
 };
@@ -509,24 +719,35 @@ key:"stable"
 
 function getOverallStatus(changes){
 
-const up = changes.filter(item=>item==="up").length;
-const down = changes.filter(item=>item==="down").length;
+const up =
+changes.filter(
+item=>item==="up"
+).length;
+
+const down =
+changes.filter(
+item=>item==="down"
+).length;
 
 if(up > down){
-return {
+
+return{
 text:"تحسن",
 key:"up"
 };
+
 }
 
 if(down > up){
-return {
+
+return{
 text:"تراجع",
 key:"down"
 };
+
 }
 
-return {
+return{
 text:"ثابت",
 key:"stable"
 };
@@ -545,37 +766,33 @@ tableBody.innerHTML = `
 </tr>
 `;
 
-resetStats();
+const teacherName =
+teacherSelect.value;
 
-const teacherName = teacherSelect.value;
-const className = classSelect.value;
+const className =
+classSelect.value;
 
 if(
-teacherName === "اختر المعلم" ||
-className === "اختر الفصل"
+
+teacherName ===
+"اختر المعلم"
+
+||
+
+className ===
+"اختر الفصل"
+
 ){
+
 tableBody.innerHTML = "";
 return;
+
 }
 
 reportSubtitle.innerText =
 `المعلم: ${teacherName} | الفصل: ${className}`;
 
 await loadAllGrades();
-
-if(exams.length === 0){
-
-tableBody.innerHTML = `
-<tr>
-<td colspan="50">
-لا توجد اختبارات مضافة
-</td>
-</tr>
-`;
-
-return;
-
-}
 
 let head = `
 <tr>
@@ -602,21 +819,43 @@ head += `
 
 tableHead.innerHTML = head;
 
-const studentsSnapshot = await getDocs(
+const studentsSnapshot =
+await getDocs(
+
 query(
-collection(db,"students"),
-where("className","==",className)
+
+collection(
+db,
+"students"
+),
+
+where(
+"className",
+"==",
+className
 )
+
+)
+
 );
 
 const students = [];
 
 studentsSnapshot.forEach(studentDoc=>{
-students.push(studentDoc.data());
+
+students.push(
+studentDoc.data()
+);
+
 });
 
 students.sort((a,b)=>
-a.name.localeCompare(b.name,"ar")
+
+a.name.localeCompare(
+b.name,
+'ar'
+)
+
 );
 
 let studentsCount = 0;
@@ -632,6 +871,7 @@ studentsCount++;
 
 let row = `
 <tr>
+
 <td class="student-name">
 ${student.name}
 </td>
@@ -639,41 +879,62 @@ ${student.name}
 
 let previousPercent = null;
 let changes = [];
+
 let studentTotalPercent = 0;
 let studentGradeCount = 0;
 
 for(const exam of exams){
 
-const gradeData = allGrades.find(item=>
+const gradeData =
+allGrades.find(item=>
 
-item.studentName === student.name
-
-&&
-
-item.className === className
+item.studentName ===
+student.name
 
 &&
 
-item.examName === exam.examName
+item.className ===
+className
 
 &&
 
-item.teacherName === teacherName
+item.examName ===
+exam.examName
+
+&&
+
+item.teacherName ===
+teacherName
 
 );
 
 if(gradeData){
 
-const percent = exam.maxDegree
+const percent =
+
+exam.maxDegree
+
 ?
+
 Math.round(
+
 (
-Number(gradeData.grade)
+Number(
+gradeData.grade
+)
+
 /
-Number(exam.maxDegree)
+
+Number(
+exam.maxDegree
 )
+
+)
+
 * 100
+
 )
+
 :0;
 
 const change =
@@ -692,17 +953,37 @@ studentTotalPercent += percent;
 studentGradeCount++;
 
 row += `
+
 <td>
-<div class="score-line" style="font-weight:800;">
-${gradeData.grade} / ${exam.maxDegree}
+
+<div
+class="score-line"
+style="font-weight:800;"
+>
+
+${gradeData.grade}
+/
+${exam.maxDegree}
+
 </div>
-<div class="percent-line" style="font-weight:700;">
+
+<div
+class="percent-line"
+style="font-weight:700;"
+>
+
 ${percent}%
+
 </div>
+
 <div style="font-weight:900;">
+
 ${change.text}
+
 </div>
+
 </td>
+
 `;
 
 }else{
@@ -713,14 +994,26 @@ row += `<td>-</td>`;
 
 }
 
-const average = studentGradeCount
+const average =
+
+studentGradeCount
+
 ?
-Math.round(studentTotalPercent / studentGradeCount)
+
+Math.round(
+studentTotalPercent
+/
+studentGradeCount
+)
+
 :0;
 
 classTotalPercent += average;
 
-const overall = getOverallStatus(changes);
+const overall =
+getOverallStatus(
+changes
+);
 
 if(overall.key === "up"){
 improvedCount++;
@@ -731,15 +1024,24 @@ declinedCount++;
 }
 
 row += `
-<td class="percent-line" style="font-weight:900;">
+
+<td
+class="percent-line"
+style="font-weight:900;"
+>
+
 ${average}%
+
 </td>
 
 <td style="font-weight:900;">
+
 ${overall.text}
+
 </td>
 
 </tr>
+
 `;
 
 html += row;
@@ -748,29 +1050,50 @@ html += row;
 
 tableBody.innerHTML = html;
 
-document.getElementById("studentsCount").innerText =
+document.getElementById(
+"studentsCount"
+).innerText =
 studentsCount;
 
-document.getElementById("classAverage").innerText =
+document.getElementById(
+"classAverage"
+).innerText =
+
 studentsCount
+
 ?
-Math.round(classTotalPercent / studentsCount) + "%"
+
+Math.round(
+classTotalPercent
+/
+studentsCount
+)
++
+"%"
+
 :
+
 "0%";
 
-document.getElementById("improvedCount").innerText =
+document.getElementById(
+"improvedCount"
+).innerText =
 improvedCount;
 
-document.getElementById("declinedCount").innerText =
+document.getElementById(
+"declinedCount"
+).innerText =
 declinedCount;
 
 }
 
-window.logout = function(){
+window.logout =
+function(){
 
 localStorage.clear();
 
-window.location.href = "index.html";
+window.location.href =
+"index.html";
 
 };
 
@@ -780,4 +1103,5 @@ await loadTeachers();
 </script>
 
 </body>
+
 </html>
