@@ -228,22 +228,10 @@ font-weight:900 !important;
 }
 
 .report-footer{
-display:grid !important;
-grid-template-columns:1.4fr 1fr 1.2fr !important;
-gap:12px !important;
-margin-top:8px !important;
-padding-top:5px !important;
-border-top:1px solid #000000 !important;
-font-size:9px !important;
-color:#000000 !important;
-align-items:end !important;
-}
-
-.signature-line{
 display:block !important;
-border-bottom:1px dotted #000000 !important;
-height:14px !important;
-margin-top:4px !important;
+margin-top:10px !important;
+padding-top:6px !important;
+border-top:1px solid #000000 !important;
 }
 
 }
@@ -305,7 +293,13 @@ Insights
 اختر المعلم والفصل لعرض التقرير
 </div>
 
-<div class="filters-area" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-bottom:25px;">
+<div class="filters-area"
+style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
+margin-bottom:25px;
+">
 
 <div class="input-group">
 <select id="teacherSelect">
@@ -346,56 +340,149 @@ Insights
 </div>
 
 <div style="overflow:auto;">
+
 <table>
+
 <thead id="tableHead"></thead>
+
 <tbody id="tableBody"></tbody>
+
 </table>
+
 </div>
 
 <div class="legend">
-↑ تحسن &nbsp;&nbsp;&nbsp;
-↓ تراجع &nbsp;&nbsp;&nbsp;
+↑ تحسن
+&nbsp;&nbsp;&nbsp;
+↓ تراجع
+&nbsp;&nbsp;&nbsp;
 → ثابت
 </div>
 
 <div class="report-footer">
 
-<div style="text-align:right;line-height:1.7;">
+<table
+style="
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+"
+>
 
-<div style="font-weight:900;">مشرف اللغة الإنجليزية</div>
-<div style="margin-bottom:4px;">محمد عامر أحمد</div>
+<tr>
 
-<div style="font-weight:900;">رئيس قسم الإشراف</div>
-<div style="margin-bottom:4px;">أحمد سمير</div>
+<td
+style="
+width:33%;
+text-align:right;
+padding:8px;
+font-weight:900;
+border:none;
+line-height:1.8;
+"
+>
 
-<div style="font-weight:900;">مدير المدرسة</div>
-<div>سعيد بن علي الجمعان</div>
+مشرف اللغة الإنجليزية : محمد عامر أحمد
+
+</td>
+
+<td
+style="
+width:33%;
+text-align:center;
+padding:8px;
+font-weight:900;
+border:none;
+line-height:1.8;
+"
+>
+
+رئيس قسم الإشراف : أحمد سمير
+
+</td>
+
+<td
+style="
+width:33%;
+text-align:left;
+padding:8px;
+font-weight:900;
+border:none;
+line-height:1.8;
+"
+>
+
+مدير المدرسة : سعيد بن علي الجمعان
+
+</td>
+
+</tr>
+
+<tr>
+
+<td
+colspan="3"
+style="
+padding-top:20px;
+border:none;
+"
+>
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+align-items:end;
+"
+>
+
+<div
+style="
+font-family:Calibri,sans-serif;
+font-weight:900;
+font-size:13px;
+"
+>
+
+تصميم محمد عامر أحمد
 
 </div>
 
-<div style="text-align:center;">
+<div
+style="
+text-align:center;
+font-weight:900;
+"
+>
 
-<div style="font-weight:900;">
-التوقيع
-</div>
+التوقيع :
+<br><br>
 
-<span class="signature-line"></span>
-
-</div>
-
-<div style="text-align:left;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;">
-
-<div style="font-size:8px;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;">
-Designed & Developed By
-</div>
-
-<div style="font-size:12px;font-weight:900;line-height:1.4;">
-Mohamed Amer Ahmed
-</div>
-
-<div id="printDate" style="margin-top:6px;font-size:8px;font-weight:900;"></div>
+<span
+style="
+display:inline-block;
+width:180px;
+border-bottom:1px solid #000;
+"
+></span>
 
 </div>
+
+<div
+id="printDate"
+style="
+font-weight:900;
+font-size:11px;
+"
+></div>
+
+</div>
+
+</td>
+
+</tr>
+
+</table>
 
 </div>
 
@@ -421,24 +508,41 @@ if(localStorage.getItem("rasedRole") !== "supervisor"){
 window.location.href = "index.html";
 }
 
-const teacherSelect = document.getElementById("teacherSelect");
-const classSelect = document.getElementById("classSelect");
-const tableHead = document.getElementById("tableHead");
-const tableBody = document.getElementById("tableBody");
-const reportSubtitle = document.getElementById("reportSubtitle");
-const printDate = document.getElementById("printDate");
+const teacherSelect =
+document.getElementById("teacherSelect");
+
+const classSelect =
+document.getElementById("classSelect");
+
+const tableHead =
+document.getElementById("tableHead");
+
+const tableBody =
+document.getElementById("tableBody");
+
+const reportSubtitle =
+document.getElementById("reportSubtitle");
+
+const printDate =
+document.getElementById("printDate");
 
 printDate.innerText =
-"التاريخ: " + new Date().toLocaleDateString("ar-SA");
+"التاريخ: "
++
+new Date().toLocaleDateString("ar-SA");
 
 let exams = [];
 let allGrades = [];
 
 async function loadTeachers(){
 
-teacherSelect.innerHTML = "<option>اختر المعلم</option>";
+teacherSelect.innerHTML =
+"<option>اختر المعلم</option>";
 
-const snapshot = await getDocs(collection(db,"teachers"));
+const snapshot =
+await getDocs(
+collection(db,"teachers")
+);
 
 const teachers = [];
 
@@ -446,10 +550,14 @@ snapshot.forEach(item=>{
 teachers.push(item.data().name);
 });
 
-teachers.sort((a,b)=>a.localeCompare(b,"ar"));
+teachers.sort((a,b)=>
+a.localeCompare(b,"ar")
+);
 
 teachers.forEach(name=>{
-teacherSelect.innerHTML += `<option>${name}</option>`;
+teacherSelect.innerHTML += `
+<option>${name}</option>
+`;
 });
 
 }
@@ -458,7 +566,10 @@ async function loadExams(){
 
 exams = [];
 
-const snapshot = await getDocs(collection(db,"exams"));
+const snapshot =
+await getDocs(
+collection(db,"exams")
+);
 
 snapshot.forEach(item=>{
 
@@ -472,7 +583,9 @@ order:Number(data.order || 999)
 
 });
 
-exams.sort((a,b)=>a.order - b.order);
+exams.sort((a,b)=>
+a.order - b.order
+);
 
 }
 
@@ -480,7 +593,10 @@ async function loadAllGrades(){
 
 allGrades = [];
 
-const snapshot = await getDocs(collection(db,"grades"));
+const snapshot =
+await getDocs(
+collection(db,"grades")
+);
 
 snapshot.forEach(item=>{
 allGrades.push({
@@ -491,27 +607,41 @@ id:item.id,
 
 }
 
-teacherSelect.addEventListener("change",loadTeacherClasses);
-classSelect.addEventListener("change",loadReport);
+teacherSelect.addEventListener(
+"change",
+loadTeacherClasses
+);
+
+classSelect.addEventListener(
+"change",
+loadReport
+);
 
 async function loadTeacherClasses(){
 
-classSelect.innerHTML = "<option>اختر الفصل</option>";
+classSelect.innerHTML =
+"<option>اختر الفصل</option>";
 
 tableHead.innerHTML = "";
 tableBody.innerHTML = "";
 
-const teacherName = teacherSelect.value;
+const teacherName =
+teacherSelect.value;
 
-if(teacherName === "اختر المعلم"){
+if(
+teacherName === "اختر المعلم"
+){
 return;
 }
 
-const snapshot = await getDocs(
+const snapshot =
+await getDocs(
+
 query(
 collection(db,"assignments"),
 where("teacherName","==",teacherName)
 )
+
 );
 
 const classes = [];
@@ -520,15 +650,22 @@ snapshot.forEach(item=>{
 classes.push(item.data().className);
 });
 
-classes.sort((a,b)=>a.localeCompare(b,"ar"));
+classes.sort((a,b)=>
+a.localeCompare(b,"ar")
+);
 
 classes.forEach(className=>{
-classSelect.innerHTML += `<option>${className}</option>`;
+classSelect.innerHTML += `
+<option>${className}</option>
+`;
 });
 
 }
 
-function getChangeLabel(currentPercent,previousPercent){
+function getChangeLabel(
+currentPercent,
+previousPercent
+){
 
 if(previousPercent === null){
 return{
@@ -560,8 +697,15 @@ key:"stable"
 
 function getOverallStatus(changes){
 
-const up = changes.filter(item=>item==="up").length;
-const down = changes.filter(item=>item==="down").length;
+const up =
+changes.filter(
+item=>item==="up"
+).length;
+
+const down =
+changes.filter(
+item=>item==="down"
+).length;
 
 if(up > down){
 return{
@@ -596,11 +740,15 @@ tableBody.innerHTML = `
 </tr>
 `;
 
-const teacherName = teacherSelect.value;
-const className = classSelect.value;
+const teacherName =
+teacherSelect.value;
+
+const className =
+classSelect.value;
 
 if(
-teacherName === "اختر المعلم" ||
+teacherName === "اختر المعلم"
+||
 className === "اختر الفصل"
 ){
 tableBody.innerHTML = "";
@@ -618,6 +766,7 @@ let head = `
 `;
 
 exams.forEach(exam=>{
+
 head += `
 <th>
 ${exam.examName}
@@ -625,6 +774,7 @@ ${exam.examName}
 من ${exam.maxDegree}
 </th>
 `;
+
 });
 
 head += `
@@ -635,11 +785,14 @@ head += `
 
 tableHead.innerHTML = head;
 
-const studentsSnapshot = await getDocs(
+const studentsSnapshot =
+await getDocs(
+
 query(
 collection(db,"students"),
 where("className","==",className)
 )
+
 );
 
 const students = [];
@@ -649,7 +802,7 @@ students.push(studentDoc.data());
 });
 
 students.sort((a,b)=>
-a.name.localeCompare(b.name,'ar')
+a.name.localeCompare(b.name,"ar")
 );
 
 let studentsCount = 0;
@@ -665,6 +818,7 @@ studentsCount++;
 
 let row = `
 <tr>
+
 <td class="student-name">
 ${student.name}
 </td>
@@ -672,23 +826,42 @@ ${student.name}
 
 let previousPercent = null;
 let changes = [];
+
 let studentTotalPercent = 0;
 let studentGradeCount = 0;
 
 for(const exam of exams){
 
-const gradeData = allGrades.find(item=>
-item.studentName === student.name &&
-item.className === className &&
-item.examName === exam.examName &&
+const gradeData =
+allGrades.find(item=>
+
+item.studentName === student.name
+&&
+item.className === className
+&&
+item.examName === exam.examName
+&&
 item.teacherName === teacherName
+
 );
 
 if(gradeData){
 
-const percent = exam.maxDegree
+const percent =
+
+exam.maxDegree
+
 ?
-Math.round((Number(gradeData.grade) / Number(exam.maxDegree)) * 100)
+
+Math.round(
+(
+Number(gradeData.grade)
+/
+Number(exam.maxDegree)
+)
+*100
+)
+
 :0;
 
 const change =
@@ -708,6 +881,7 @@ studentGradeCount++;
 
 row += `
 <td>
+
 <div class="score-line" style="font-weight:900;">
 ${gradeData.grade} / ${exam.maxDegree}
 </div>
@@ -719,6 +893,7 @@ ${percent}%
 <div style="font-weight:900;">
 ${change.text}
 </div>
+
 </td>
 `;
 
@@ -730,9 +905,18 @@ row += `<td>-</td>`;
 
 }
 
-const average = studentGradeCount
+const average =
+
+studentGradeCount
+
 ?
-Math.round(studentTotalPercent / studentGradeCount)
+
+Math.round(
+studentTotalPercent
+/
+studentGradeCount
+)
+
 :0;
 
 classTotalPercent += average;
@@ -766,20 +950,39 @@ html += row;
 
 tableBody.innerHTML = html;
 
-document.getElementById("studentsCount").innerText =
+document.getElementById(
+"studentsCount"
+).innerText =
 studentsCount;
 
-document.getElementById("classAverage").innerText =
+document.getElementById(
+"classAverage"
+).innerText =
+
 studentsCount
+
 ?
-Math.round(classTotalPercent / studentsCount) + "%"
+
+Math.round(
+classTotalPercent
+/
+studentsCount
+)
++
+"%"
+
 :
+
 "0%";
 
-document.getElementById("improvedCount").innerText =
+document.getElementById(
+"improvedCount"
+).innerText =
 improvedCount;
 
-document.getElementById("declinedCount").innerText =
+document.getElementById(
+"declinedCount"
+).innerText =
 declinedCount;
 
 }
@@ -788,7 +991,8 @@ window.logout = function(){
 
 localStorage.clear();
 
-window.location.href = "index.html";
+window.location.href =
+"index.html";
 
 };
 
