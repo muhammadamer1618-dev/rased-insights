@@ -107,6 +107,7 @@ const tableBody = document.getElementById("tableBody");
 
 let exams = [];
 let allGrades = [];
+let currentStudents = [];
 
 window.showSection = function(id) {
   document.querySelectorAll(".section").forEach(section => {
@@ -229,7 +230,11 @@ async function loadStudentsTable() {
     `;
   });
 
-  head += `</tr>`;
+  head += `
+      <th>واتساب</th>
+    </tr>
+  `;
+
   tableHead.innerHTML = head;
 
   const studentsSnapshot = await getDocs(
@@ -239,19 +244,19 @@ async function loadStudentsTable() {
     )
   );
 
-  const students = [];
+  currentStudents = [];
 
   studentsSnapshot.forEach(studentDoc => {
-    students.push(studentDoc.data());
+    currentStudents.push(studentDoc.data());
   });
 
-  students.sort((a, b) =>
+  currentStudents.sort((a, b) =>
     a.name.localeCompare(b.name, "ar")
   );
 
   let html = "";
 
-  for (const student of students) {
+  for (const student of currentStudents) {
     html += `
       <tr>
         <td class="student-name">
@@ -293,11 +298,97 @@ async function loadStudentsTable() {
       `;
     }
 
-    html += `</tr>`;
+    html += `
+        <td>
+          <button
+            class="primary-btn"
+            style="background:#16a34a;color:white;padding:8px 12px;font-size:12px;"
+            onclick="sendWhatsApp('${encodeURIComponent(student.name)}')"
+          >
+            إرسال
+          </button>
+        </td>
+      </tr>
+    `;
   }
 
   tableBody.innerHTML = html;
 }
+
+function cleanPhone(phone) {
+  let value = String(phone || "").trim();
+
+  value = value.replace(/[^\d]/g, "");
+
+  if (value.startsWith("00")) {
+    value = value.slice(2);
+  }
+
+  if (value.startsWith("0")) {
+    value = "966" + value.slice(1);
+  }
+
+  if (!value.startsWith("966")) {
+    value = "966" + value;
+  }
+
+  return value;
+}
+
+window.sendWhatsApp = function(encodedStudentName) {
+  const studentName = decodeURIComponent(encodedStudentName);
+  const className = classSelect.value;
+
+  const student = currentStudents.find(item =>
+    item.name === studentName
+  );
+
+  if (!student || !student.guardianPhone) {
+    alert("رقم ولي الأمر غير موجود لهذا الطالب");
+    return;
+  }
+
+  const studentGrades = [];
+
+  exams.forEach(exam => {
+    const gradeData = allGrades.find(item =>
+      item.studentName === studentName &&
+      item.className === className &&
+      item.examName === exam.examName &&
+      item.teacherName === teacherName
+    );
+
+    if (gradeData && gradeData.grade !== "") {
+      studentGrades.push(
+        `${exam.examName}: ${gradeData.grade} / ${exam.maxDegree}`
+      );
+    }
+  });
+
+  if (studentGrades.length === 0) {
+    alert("لا توجد درجات مرصودة لهذا الطالب");
+    return;
+  }
+
+  const message =
+`السلام عليكم ورحمة الله وبركاته
+
+ولي أمر الطالب: ${studentName}
+الفصل: ${className}
+
+نحيطكم علمًا بدرجات الطالب في اختبارات مادة اللغة الإنجليزية:
+
+${studentGrades.join("\n")}
+
+مع تمنياتنا له بالتوفيق والنجاح.`;
+
+  const phone = cleanPhone(student.guardianPhone);
+
+  const url =
+    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
+};
 
 window.saveAllGrades = async function() {
   const className = classSelect.value;
