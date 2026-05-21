@@ -460,7 +460,10 @@ window.sendWhatsApp = function(encodedStudentName) {
     return;
   }
 
-  const message =
+  const supervisorName =
+localStorage.getItem("supervisorName") || "المشرف";
+
+const message =
 `السلام عليكم ورحمة الله وبركاته
 
 ولي أمر الطالب: ${studentName}
@@ -470,8 +473,9 @@ window.sendWhatsApp = function(encodedStudentName) {
 
 ${studentGrades.join("\n")}
 
-مع تمنياتنا له بالتوفيق والنجاح.`;
+المشرف: ${supervisorName}
 
+مع تمنياتنا له بالتوفيق والنجاح.`;
   const phone = cleanPhone(student.guardianPhone);
 
   const url =
