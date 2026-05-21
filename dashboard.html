@@ -85,6 +85,9 @@
 <div class="section-title">إدارة الطلاب</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;">
 <button class="primary-btn" onclick="openModal('student')">إضافة طالب</button>
+  <button class="delete-btn" onclick="deleteAllStudents()">
+حذف جميع الطلاب
+</button>
 <button class="primary-btn" onclick="document.getElementById('excelFile').click()">استيراد Excel</button>
 <input type="file" id="excelFile" accept=".xlsx,.xls" class="hidden"/>
 </div>
@@ -177,7 +180,31 @@
 
 <script type="module">
 import { db } from "./firebase.js";
+window.deleteAllStudents = async function(){
 
+const confirmDelete = confirm(
+"هل أنت متأكد من حذف جميع الطلاب؟"
+);
+
+if(!confirmDelete) return;
+
+const snapshot = await getDocs(
+collection(db,"students")
+);
+
+for(const item of snapshot.docs){
+
+await deleteDoc(
+doc(db,"students",item.id)
+);
+
+}
+
+alert("تم حذف جميع الطلاب");
+
+loadStudents();
+
+};
 import {
 collection,
 addDoc,
