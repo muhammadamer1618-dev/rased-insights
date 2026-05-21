@@ -1,4 +1,3 @@
-```html id="g4r7sn"
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
@@ -6,17 +5,11 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>Admin Dashboard</title>
 
-<link
-rel="stylesheet"
-href="style.css"
-/>
+<link rel="stylesheet" href="style.css"/>
 
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
@@ -28,63 +21,25 @@ href="style.css"
 
 <div class="sidebar">
 
-<div class="logo-box">
-Rased<br>
-Insights
-</div>
+<div class="logo-box">Rased<br>Insights</div>
 
 <div class="user-box">
-
-<div class="user-title">
-الأدمن الحالي
-</div>
-
-<div class="user-name">
-محمد عامر أحمد
-</div>
-
+<div class="user-title">الأدمن الحالي</div>
+<div class="user-name">محمد عامر أحمد</div>
 </div>
 
 <div class="menu">
 
-<button onclick="showSection('overviewSection')">
-لوحة التحكم
-</button>
+<button onclick="showSection('overviewSection')">لوحة التحكم</button>
+<button onclick="showSection('teachersSection')">المعلمين</button>
+<button onclick="showSection('supervisorsSection')">المشرفين</button>
+<button onclick="showSection('classesSection')">الفصول</button>
+<button onclick="showSection('studentsSection')">الطلاب</button>
+<button onclick="showSection('assignmentsSection')">الإسناد</button>
+<button onclick="showSection('examsSection')">الاختبارات</button>
+<button onclick="showSection('archiveSection')">الأرشيف</button>
 
-<button onclick="showSection('teachersSection')">
-المعلمين
-</button>
-
-<button onclick="showSection('supervisorsSection')">
-المشرفين
-</button>
-
-<button onclick="showSection('classesSection')">
-الفصول
-</button>
-
-<button onclick="showSection('studentsSection')">
-الطلاب
-</button>
-
-<button onclick="showSection('assignmentsSection')">
-الإسناد
-</button>
-
-<button onclick="showSection('examsSection')">
-الاختبارات
-</button>
-
-<button onclick="showSection('archiveSection')">
-الأرشيف
-</button>
-
-<button
-class="logout-btn"
-onclick="logout()"
->
-تسجيل الخروج
-</button>
+<button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
 
 </div>
 
@@ -92,17 +47,10 @@ onclick="logout()"
 
 <div class="main">
 
-<div
-class="section active-section"
-id="overviewSection"
->
+<div class="section active-section" id="overviewSection">
 
 <div class="section-header">
-
-<div class="section-title">
-لوحة التحكم
-</div>
-
+<div class="section-title">لوحة التحكم</div>
 </div>
 
 <div class="stats-grid">
@@ -134,35 +82,20 @@ id="overviewSection"
 <div class="section" id="teachersSection">
 
 <div class="section-header">
-
-<div class="section-title">
-إدارة المعلمين
-</div>
-
-<button
-class="primary-btn"
-onclick="openModal('teacher')"
->
-إضافة معلم
-</button>
-
+<div class="section-title">إدارة المعلمين</div>
+<button class="primary-btn" onclick="openModal('teacher')">إضافة معلم</button>
 </div>
 
 <table>
-
 <thead>
-
 <tr>
 <th>الاسم</th>
 <th>Username</th>
 <th>Password</th>
 <th>الإجراءات</th>
 </tr>
-
 </thead>
-
 <tbody id="teachersTable"></tbody>
-
 </table>
 
 </div>
@@ -170,35 +103,20 @@ onclick="openModal('teacher')"
 <div class="section" id="supervisorsSection">
 
 <div class="section-header">
-
-<div class="section-title">
-إدارة المشرفين
-</div>
-
-<button
-class="primary-btn"
-onclick="openModal('supervisor')"
->
-إضافة مشرف
-</button>
-
+<div class="section-title">إدارة المشرفين</div>
+<button class="primary-btn" onclick="openModal('supervisor')">إضافة مشرف</button>
 </div>
 
 <table>
-
 <thead>
-
 <tr>
 <th>الاسم</th>
 <th>Username</th>
 <th>Password</th>
 <th>الإجراءات</th>
 </tr>
-
 </thead>
-
 <tbody id="supervisorsTable"></tbody>
-
 </table>
 
 </div>
@@ -206,33 +124,18 @@ onclick="openModal('supervisor')"
 <div class="section" id="classesSection">
 
 <div class="section-header">
-
-<div class="section-title">
-إدارة الفصول
-</div>
-
-<button
-class="primary-btn"
-onclick="openModal('class')"
->
-إضافة فصل
-</button>
-
+<div class="section-title">إدارة الفصول</div>
+<button class="primary-btn" onclick="openModal('class')">إضافة فصل</button>
 </div>
 
 <table>
-
 <thead>
-
 <tr>
 <th>الفصل</th>
 <th>الإجراءات</th>
 </tr>
-
 </thead>
-
 <tbody id="classesTable"></tbody>
-
 </table>
 
 </div>
@@ -241,96 +144,46 @@ onclick="openModal('class')"
 
 <div class="section-header">
 
-<div class="section-title">
-إدارة الطلاب
-</div>
+<div class="section-title">إدارة الطلاب</div>
 
-<div
-style="
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-"
->
-
-<button
-class="primary-btn"
-onclick="openModal('student')"
->
-إضافة طالب
-</button>
-
-<button
-class="primary-btn"
-onclick="document.getElementById('excelFile').click()"
->
-استيراد Excel
-</button>
-
-<input
-type="file"
-id="excelFile"
-accept=".xlsx,.xls"
-class="hidden"
-/>
-
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
+<button class="primary-btn" onclick="openModal('student')">إضافة طالب</button>
+<button class="primary-btn" onclick="document.getElementById('excelFile').click()">استيراد Excel</button>
+<input type="file" id="excelFile" accept=".xlsx,.xls" class="hidden"/>
 </div>
 
 </div>
-
-<div style="overflow:auto;">
 
 <table>
-
 <thead>
-
 <tr>
 <th>اسم الطالب</th>
 <th>الفصل</th>
+<th>رقم ولي الأمر</th>
 <th>الإجراءات</th>
 </tr>
-
 </thead>
-
 <tbody id="studentsTable"></tbody>
-
 </table>
-
-</div>
 
 </div>
 
 <div class="section" id="assignmentsSection">
 
 <div class="section-header">
-
-<div class="section-title">
-إسناد المعلمين
-</div>
-
-<button
-class="primary-btn"
-onclick="openModal('assignment')"
->
-إسناد جديد
-</button>
-
+<div class="section-title">إسناد المعلمين</div>
+<button class="primary-btn" onclick="openModal('assignment')">إسناد جديد</button>
 </div>
 
 <table>
-
 <thead>
-
 <tr>
 <th>الفصل</th>
 <th>المعلم</th>
 <th>الإجراءات</th>
 </tr>
-
 </thead>
-
 <tbody id="assignmentsTable"></tbody>
-
 </table>
 
 </div>
@@ -338,35 +191,20 @@ onclick="openModal('assignment')"
 <div class="section" id="examsSection">
 
 <div class="section-header">
-
-<div class="section-title">
-إدارة الاختبارات
-</div>
-
-<button
-class="primary-btn"
-onclick="openModal('exam')"
->
-إضافة اختبار
-</button>
-
+<div class="section-title">إدارة الاختبارات</div>
+<button class="primary-btn" onclick="openModal('exam')">إضافة اختبار</button>
 </div>
 
 <table>
-
 <thead>
-
 <tr>
 <th>الترتيب</th>
 <th>الاختبار</th>
 <th>الدرجة النهائية</th>
 <th>الإجراءات</th>
 </tr>
-
 </thead>
-
 <tbody id="examsTable"></tbody>
-
 </table>
 
 </div>
@@ -374,27 +212,18 @@ onclick="openModal('exam')"
 <div class="section" id="archiveSection">
 
 <div class="section-header">
-
-<div class="section-title">
-الأرشيف
-</div>
-
+<div class="section-title">الأرشيف</div>
 </div>
 
 <table>
-
 <thead>
-
 <tr>
 <th>العنصر</th>
 <th>النوع</th>
 <th>تاريخ الأرشفة</th>
 </tr>
-
 </thead>
-
 <tbody id="archiveTable"></tbody>
-
 </table>
 
 </div>
@@ -403,106 +232,43 @@ onclick="openModal('exam')"
 
 </div>
 
-<div
-class="modal"
-id="modal"
->
+<div class="modal" id="modal">
 
 <div class="modal-content">
 
-<div
-class="modal-title"
-id="modalTitle"
->
-إضافة
+<div class="modal-title" id="modalTitle">إضافة</div>
+
+<div class="input-group" id="nameGroup">
+<input type="text" id="nameInput" placeholder="الاسم"/>
 </div>
 
-<div
-class="input-group"
-id="nameGroup"
->
-
-<input
-type="text"
-id="nameInput"
-placeholder="الاسم"
-/>
-
+<div class="input-group hidden" id="usernameGroup">
+<input type="text" id="usernameInput" placeholder="Username"/>
 </div>
 
-<div
-class="input-group hidden"
-id="usernameGroup"
->
-
-<input
-type="text"
-id="usernameInput"
-placeholder="Username"
-/>
-
+<div class="input-group hidden" id="passwordGroup">
+<input type="text" id="passwordInput" placeholder="Password"/>
 </div>
 
-<div
-class="input-group hidden"
-id="passwordGroup"
->
-
-<input
-type="text"
-id="passwordInput"
-placeholder="Password"
-/>
-
+<div class="input-group hidden" id="phoneGroup">
+<input type="text" id="phoneInput" placeholder="رقم ولي الأمر"/>
 </div>
 
-<div
-class="input-group hidden"
-id="classGroup"
->
-
+<div class="input-group hidden" id="classGroup">
 <select id="classSelect"></select>
-
 </div>
 
-<div
-class="input-group hidden"
-id="teacherGroup"
->
-
+<div class="input-group hidden" id="teacherGroup">
 <select id="teacherSelect"></select>
-
 </div>
 
-<div
-class="input-group hidden"
-id="degreeGroup"
->
-
-<input
-type="number"
-id="degreeInput"
-placeholder="الدرجة النهائية"
-/>
-
+<div class="input-group hidden" id="degreeGroup">
+<input type="number" id="degreeInput" placeholder="الدرجة النهائية"/>
 </div>
 
 <div class="modal-actions">
-
-<button
-class="save-btn"
-onclick="saveData()"
->
-حفظ
-</button>
-
-<button
-class="cancel-btn"
-onclick="closeModal()"
->
-إلغاء
-</button>
-
+<button class="save-btn" onclick="saveData()">حفظ</button>
+<button class="cancel-btn" onclick="closeModal()">إلغاء</button>
 </div>
 
 </div>
@@ -511,324 +277,153 @@ onclick="closeModal()"
 
 <script type="module">
 
-import { db }
-from "./firebase.js";
+import { db } from "./firebase.js";
 
 import {
-
 collection,
 addDoc,
 getDocs,
 deleteDoc,
 updateDoc,
 doc
-
 }
-
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-if(
-localStorage.getItem("rasedRole")
-!== "admin"
-){
-
-window.location.href =
-"index.html";
-
+if(localStorage.getItem("rasedRole") !== "admin"){
+window.location.href = "index.html";
 }
 
 let currentType = "";
 let editId = null;
 
-const modal =
-document.getElementById(
-"modal"
-);
+const modal = document.getElementById("modal");
 
-window.showSection =
-function(id){
+window.showSection = function(id){
 
-document
-.querySelectorAll(".section")
-.forEach(section=>{
-
-section.classList.remove(
-"active-section"
-);
-
+document.querySelectorAll(".section").forEach(section=>{
+section.classList.remove("active-section");
 });
 
-document
-.getElementById(id)
-.classList.add(
-"active-section"
-);
+document.getElementById(id).classList.add("active-section");
 
 };
 
-window.openModal =
-async function(
-type,
-id = null,
-data = {}
-){
+window.openModal = async function(type,id = null,data = {}){
 
 currentType = type;
 editId = id;
 
-modal.style.display =
-"flex";
+modal.style.display = "flex";
 
-document
-.getElementById("nameInput")
-.value =
-data.name ||
-data.examName ||
-"";
+document.getElementById("nameInput").value = data.name || data.examName || "";
+document.getElementById("usernameInput").value = data.username || "";
+document.getElementById("passwordInput").value = data.password || "";
+document.getElementById("phoneInput").value = data.guardianPhone || "";
+document.getElementById("degreeInput").value = data.maxDegree || "";
 
-document
-.getElementById("usernameInput")
-.value =
-data.username || "";
-
-document
-.getElementById("passwordInput")
-.value =
-data.password || "";
-
-document
-.getElementById("degreeInput")
-.value =
-data.maxDegree || "";
-
-document
-.getElementById("nameGroup")
-.classList.remove("hidden");
-
-document
-.getElementById("usernameGroup")
-.classList.add("hidden");
-
-document
-.getElementById("passwordGroup")
-.classList.add("hidden");
-
-document
-.getElementById("classGroup")
-.classList.add("hidden");
-
-document
-.getElementById("teacherGroup")
-.classList.add("hidden");
-
-document
-.getElementById("degreeGroup")
-.classList.add("hidden");
+document.getElementById("nameGroup").classList.remove("hidden");
+document.getElementById("usernameGroup").classList.add("hidden");
+document.getElementById("passwordGroup").classList.add("hidden");
+document.getElementById("phoneGroup").classList.add("hidden");
+document.getElementById("classGroup").classList.add("hidden");
+document.getElementById("teacherGroup").classList.add("hidden");
+document.getElementById("degreeGroup").classList.add("hidden");
 
 if(type === "teacher"){
 
-document
-.getElementById("modalTitle")
-.innerText =
-id ? "تعديل معلم" : "إضافة معلم";
-
-document
-.getElementById("usernameGroup")
-.classList.remove("hidden");
-
-document
-.getElementById("passwordGroup")
-.classList.remove("hidden");
+document.getElementById("modalTitle").innerText = id ? "تعديل معلم" : "إضافة معلم";
+document.getElementById("usernameGroup").classList.remove("hidden");
+document.getElementById("passwordGroup").classList.remove("hidden");
 
 }
 
 if(type === "supervisor"){
 
-document
-.getElementById("modalTitle")
-.innerText =
-id ? "تعديل مشرف" : "إضافة مشرف";
-
-document
-.getElementById("usernameGroup")
-.classList.remove("hidden");
-
-document
-.getElementById("passwordGroup")
-.classList.remove("hidden");
+document.getElementById("modalTitle").innerText = id ? "تعديل مشرف" : "إضافة مشرف";
+document.getElementById("usernameGroup").classList.remove("hidden");
+document.getElementById("passwordGroup").classList.remove("hidden");
 
 }
 
 if(type === "class"){
 
-document
-.getElementById("modalTitle")
-.innerText =
-id ? "تعديل فصل" : "إضافة فصل";
+document.getElementById("modalTitle").innerText = id ? "تعديل فصل" : "إضافة فصل";
 
 }
 
 if(type === "student"){
 
-document
-.getElementById("modalTitle")
-.innerText =
-id ? "تعديل طالب" : "إضافة طالب";
-
-document
-.getElementById("classGroup")
-.classList.remove("hidden");
+document.getElementById("modalTitle").innerText = id ? "تعديل طالب" : "إضافة طالب";
+document.getElementById("classGroup").classList.remove("hidden");
+document.getElementById("phoneGroup").classList.remove("hidden");
 
 await loadClassOptions();
 
 if(data.className){
-
-document
-.getElementById("classSelect")
-.value =
-data.className;
-
+document.getElementById("classSelect").value = data.className;
 }
 
 }
 
 if(type === "assignment"){
 
-document
-.getElementById("modalTitle")
-.innerText =
-id ? "تعديل إسناد" : "إسناد فصل";
-
-document
-.getElementById("nameGroup")
-.classList.add("hidden");
-
-document
-.getElementById("classGroup")
-.classList.remove("hidden");
-
-document
-.getElementById("teacherGroup")
-.classList.remove("hidden");
+document.getElementById("modalTitle").innerText = id ? "تعديل إسناد" : "إسناد فصل";
+document.getElementById("nameGroup").classList.add("hidden");
+document.getElementById("classGroup").classList.remove("hidden");
+document.getElementById("teacherGroup").classList.remove("hidden");
 
 await loadClassOptions();
 await loadTeacherOptions();
 
 if(data.className){
-
-document
-.getElementById("classSelect")
-.value =
-data.className;
-
+document.getElementById("classSelect").value = data.className;
 }
 
 if(data.teacherName){
-
-document
-.getElementById("teacherSelect")
-.value =
-data.teacherName;
-
+document.getElementById("teacherSelect").value = data.teacherName;
 }
 
 }
 
 if(type === "exam"){
 
-document
-.getElementById("modalTitle")
-.innerText =
-id ? "تعديل اختبار" : "إضافة اختبار";
-
-document
-.getElementById("degreeGroup")
-.classList.remove("hidden");
+document.getElementById("modalTitle").innerText = id ? "تعديل اختبار" : "إضافة اختبار";
+document.getElementById("degreeGroup").classList.remove("hidden");
 
 }
 
 };
 
-window.closeModal =
-function(){
+window.closeModal = function(){
 
-modal.style.display =
-"none";
-
+modal.style.display = "none";
 editId = null;
 
 };
 
-window.saveData =
-async function(){
+window.saveData = async function(){
 
-const name =
-document
-.getElementById("nameInput")
-.value
-.trim();
+const name = document.getElementById("nameInput").value.trim();
+const username = document.getElementById("usernameInput").value.trim();
+const password = document.getElementById("passwordInput").value.trim();
+const guardianPhone = document.getElementById("phoneInput").value.trim();
+const className = document.getElementById("classSelect").value;
+const teacherName = document.getElementById("teacherSelect").value;
+const maxDegree = document.getElementById("degreeInput").value.trim();
 
-const username =
-document
-.getElementById("usernameInput")
-.value
-.trim();
-
-const password =
-document
-.getElementById("passwordInput")
-.value
-.trim();
-
-const className =
-document
-.getElementById("classSelect")
-.value;
-
-const teacherName =
-document
-.getElementById("teacherSelect")
-.value;
-
-const maxDegree =
-document
-.getElementById("degreeInput")
-.value
-.trim();
-
-if(
-currentType !== "assignment"
-&&
-!name
-){
-
+if(currentType !== "assignment" && !name){
 alert("أدخل الاسم");
 return;
-
 }
 
 if(currentType === "teacher"){
 
-const payload = {
-name,
-username,
-password
-};
+const payload = {name,username,password};
 
 if(editId){
-
-await updateDoc(
-doc(db,"teachers",editId),
-payload
-);
-
+await updateDoc(doc(db,"teachers",editId),payload);
 }else{
-
-await addDoc(
-collection(db,"teachers"),
-payload
-);
-
+await addDoc(collection(db,"teachers"),payload);
 }
 
 loadTeachers();
@@ -837,26 +432,12 @@ loadTeachers();
 
 if(currentType === "supervisor"){
 
-const payload = {
-name,
-username,
-password
-};
+const payload = {name,username,password};
 
 if(editId){
-
-await updateDoc(
-doc(db,"supervisors",editId),
-payload
-);
-
+await updateDoc(doc(db,"supervisors",editId),payload);
 }else{
-
-await addDoc(
-collection(db,"supervisors"),
-payload
-);
-
+await addDoc(collection(db,"supervisors"),payload);
 }
 
 loadSupervisors();
@@ -865,24 +446,12 @@ loadSupervisors();
 
 if(currentType === "class"){
 
-const payload = {
-name
-};
+const payload = {name};
 
 if(editId){
-
-await updateDoc(
-doc(db,"classes",editId),
-payload
-);
-
+await updateDoc(doc(db,"classes",editId),payload);
 }else{
-
-await addDoc(
-collection(db,"classes"),
-payload
-);
-
+await addDoc(collection(db,"classes"),payload);
 }
 
 loadClasses();
@@ -893,23 +462,14 @@ if(currentType === "student"){
 
 const payload = {
 name,
-className
+className,
+guardianPhone
 };
 
 if(editId){
-
-await updateDoc(
-doc(db,"students",editId),
-payload
-);
-
+await updateDoc(doc(db,"students",editId),payload);
 }else{
-
-await addDoc(
-collection(db,"students"),
-payload
-);
-
+await addDoc(collection(db,"students"),payload);
 }
 
 loadStudents();
@@ -918,25 +478,12 @@ loadStudents();
 
 if(currentType === "assignment"){
 
-const payload = {
-className,
-teacherName
-};
+const payload = {className,teacherName};
 
 if(editId){
-
-await updateDoc(
-doc(db,"assignments",editId),
-payload
-);
-
+await updateDoc(doc(db,"assignments",editId),payload);
 }else{
-
-await addDoc(
-collection(db,"assignments"),
-payload
-);
-
+await addDoc(collection(db,"assignments"),payload);
 }
 
 loadAssignments();
@@ -946,23 +493,16 @@ loadAssignments();
 if(currentType === "exam"){
 
 if(!maxDegree){
-
 alert("أدخل الدرجة النهائية");
 return;
-
 }
 
 let order = 1;
 
 if(!editId){
 
-const examsSnapshot =
-await getDocs(
-collection(db,"exams")
-);
-
-order =
-examsSnapshot.size + 1;
+const examsSnapshot = await getDocs(collection(db,"exams"));
+order = examsSnapshot.size + 1;
 
 }
 
@@ -972,22 +512,12 @@ maxDegree:Number(maxDegree)
 };
 
 if(editId){
-
-await updateDoc(
-doc(db,"exams",editId),
-payload
-);
-
+await updateDoc(doc(db,"exams",editId),payload);
 }else{
-
-await addDoc(
-collection(db,"exams"),
-{
+await addDoc(collection(db,"exams"),{
 ...payload,
 order
-}
-);
-
+});
 }
 
 loadExams();
@@ -998,20 +528,13 @@ closeModal();
 
 };
 
-async function archiveItem(
-name,
-type
-){
+async function archiveItem(name,type){
 
-await addDoc(
-collection(db,"adminArchive"),
-{
+await addDoc(collection(db,"adminArchive"),{
 name,
 type,
-archivedAt:
-new Date().toLocaleString()
-}
-);
+archivedAt:new Date().toLocaleString()
+});
 
 loadArchive();
 
@@ -1019,324 +542,162 @@ loadArchive();
 
 async function loadTeachers(){
 
-const table =
-document.getElementById(
-"teachersTable"
-);
-
+const table = document.getElementById("teachersTable");
 table.innerHTML = "";
 
-const snapshot =
-await getDocs(
-collection(db,"teachers")
-);
+const snapshot = await getDocs(collection(db,"teachers"));
 
 const teachers = [];
 
 snapshot.forEach(item=>{
-
 teachers.push({
 id:item.id,
 ...item.data()
 });
-
 });
 
-teachers.sort((a,b)=>
-a.name.localeCompare(
-b.name,
-'ar'
-)
-);
+teachers.sort((a,b)=>a.name.localeCompare(b.name,"ar"));
 
 teachers.forEach(data=>{
 
 table.innerHTML += `
-
 <tr>
-
-<td class="teacher-name">
-${data.name}
-</td>
-
+<td class="teacher-name">${data.name || ""}</td>
+<td>${data.username || ""}</td>
+<td>${data.password || ""}</td>
 <td>
-${data.username}
+<button class="action-btn edit-btn" onclick='openModal("teacher","${data.id}",${JSON.stringify(data)})'>تعديل</button>
+<button class="action-btn delete-btn" onclick="deleteTeacher('${data.id}','${data.name || ""}')">حذف</button>
 </td>
-
-<td>
-${data.password}
-</td>
-
-<td>
-
-<button
-class="action-btn edit-btn"
-onclick='openModal("teacher","${data.id}",${JSON.stringify(data)})'
->
-تعديل
-</button>
-
-<button
-class="action-btn delete-btn"
-onclick="deleteTeacher('${data.id}','${data.name}')"
->
-حذف
-</button>
-
-</td>
-
 </tr>
-
 `;
 
 });
 
-document.getElementById(
-"teachersCount"
-).innerText =
-teachers.length;
+document.getElementById("teachersCount").innerText = teachers.length;
 
 }
 
-window.deleteTeacher =
-async function(id,name){
+window.deleteTeacher = async function(id,name){
 
-await archiveItem(
-name,
-"معلم"
-);
-
-await deleteDoc(
-doc(db,"teachers",id)
-);
-
+await archiveItem(name,"معلم");
+await deleteDoc(doc(db,"teachers",id));
 loadTeachers();
 
 };
 
 async function loadSupervisors(){
 
-const table =
-document.getElementById(
-"supervisorsTable"
-);
-
+const table = document.getElementById("supervisorsTable");
 table.innerHTML = "";
 
-const snapshot =
-await getDocs(
-collection(db,"supervisors")
-);
+const snapshot = await getDocs(collection(db,"supervisors"));
 
 const supervisors = [];
 
 snapshot.forEach(item=>{
-
 supervisors.push({
 id:item.id,
 ...item.data()
 });
-
 });
 
-supervisors.sort((a,b)=>
-a.name.localeCompare(
-b.name,
-'ar'
-)
-);
+supervisors.sort((a,b)=>a.name.localeCompare(b.name,"ar"));
 
 supervisors.forEach(data=>{
 
 table.innerHTML += `
-
 <tr>
-
+<td>${data.name || ""}</td>
+<td>${data.username || ""}</td>
+<td>${data.password || ""}</td>
 <td>
-${data.name}
+<button class="action-btn edit-btn" onclick='openModal("supervisor","${data.id}",${JSON.stringify(data)})'>تعديل</button>
+<button class="action-btn delete-btn" onclick="deleteSupervisor('${data.id}','${data.name || ""}')">حذف</button>
 </td>
-
-<td>
-${data.username}
-</td>
-
-<td>
-${data.password}
-</td>
-
-<td>
-
-<button
-class="action-btn edit-btn"
-onclick='openModal("supervisor","${data.id}",${JSON.stringify(data)})'
->
-تعديل
-</button>
-
-<button
-class="action-btn delete-btn"
-onclick="deleteSupervisor('${data.id}','${data.name}')"
->
-حذف
-</button>
-
-</td>
-
 </tr>
-
 `;
 
 });
 
-document.getElementById(
-"supervisorsCount"
-).innerText =
-supervisors.length;
+document.getElementById("supervisorsCount").innerText = supervisors.length;
 
 }
 
-window.deleteSupervisor =
-async function(id,name){
+window.deleteSupervisor = async function(id,name){
 
-await archiveItem(
-name,
-"مشرف"
-);
-
-await deleteDoc(
-doc(db,"supervisors",id)
-);
-
+await archiveItem(name,"مشرف");
+await deleteDoc(doc(db,"supervisors",id));
 loadSupervisors();
 
 };
 
 async function loadClasses(){
 
-const table =
-document.getElementById(
-"classesTable"
-);
-
+const table = document.getElementById("classesTable");
 table.innerHTML = "";
 
-const snapshot =
-await getDocs(
-collection(db,"classes")
-);
+const snapshot = await getDocs(collection(db,"classes"));
 
 const classes = [];
 
 snapshot.forEach(item=>{
-
 classes.push({
 id:item.id,
 ...item.data()
 });
-
 });
 
-classes.sort((a,b)=>
-a.name.localeCompare(
-b.name,
-'ar'
-)
-);
+classes.sort((a,b)=>a.name.localeCompare(b.name,"ar"));
 
 classes.forEach(data=>{
 
 table.innerHTML += `
-
 <tr>
-
-<td class="class-name">
-${data.name}
-</td>
-
+<td class="class-name">${data.name || ""}</td>
 <td>
-
-<button
-class="action-btn edit-btn"
-onclick='openModal("class","${data.id}",${JSON.stringify(data)})'
->
-تعديل
-</button>
-
-<button
-class="action-btn delete-btn"
-onclick="deleteClass('${data.id}','${data.name}')"
->
-حذف
-</button>
-
+<button class="action-btn edit-btn" onclick='openModal("class","${data.id}",${JSON.stringify(data)})'>تعديل</button>
+<button class="action-btn delete-btn" onclick="deleteClass('${data.id}','${data.name || ""}')">حذف</button>
 </td>
-
 </tr>
-
 `;
 
 });
 
-document.getElementById(
-"classesCount"
-).innerText =
-classes.length;
+document.getElementById("classesCount").innerText = classes.length;
 
 }
 
-window.deleteClass =
-async function(id,name){
+window.deleteClass = async function(id,name){
 
-await archiveItem(
-name,
-"فصل"
-);
-
-await deleteDoc(
-doc(db,"classes",id)
-);
-
+await archiveItem(name,"فصل");
+await deleteDoc(doc(db,"classes",id));
 loadClasses();
 
 };
 
 async function loadStudents(){
 
-const table =
-document.getElementById(
-"studentsTable"
-);
-
+const table = document.getElementById("studentsTable");
 table.innerHTML = "";
 
-const snapshot =
-await getDocs(
-collection(db,"students")
-);
+const snapshot = await getDocs(collection(db,"students"));
 
 const students = [];
 
 snapshot.forEach(item=>{
-
 students.push({
 id:item.id,
 ...item.data()
 });
-
 });
 
 students.sort((a,b)=>{
 
-if(a.className < b.className)
-return -1;
+if((a.className || "") < (b.className || "")) return -1;
+if((a.className || "") > (b.className || "")) return 1;
 
-if(a.className > b.className)
-return 1;
-
-return a.name.localeCompare(
-b.name,
-'ar'
-);
+return (a.name || "").localeCompare(b.name || "","ar");
 
 });
 
@@ -1346,310 +707,143 @@ students.forEach(student=>{
 
 if(student.className !== currentClass){
 
-currentClass =
-student.className;
+currentClass = student.className || "بدون فصل";
 
 table.innerHTML += `
-
 <tr class="class-divider">
-
-<td colspan="3">
-${currentClass}
-</td>
-
+<td colspan="4">${currentClass}</td>
 </tr>
-
 `;
 
 }
 
 table.innerHTML += `
-
 <tr>
-
-<td
-class="student-name"
-style="
-padding:10px 14px;
-font-size:14px;
-"
->
-
-${student.name}
-
+<td class="student-name" style="padding:10px 14px;font-size:14px;">
+${student.name || ""}
 </td>
-
-<td
-style="
-padding:10px;
-font-size:13px;
-"
->
-
-${student.className}
-
+<td style="padding:10px;font-size:13px;">
+${student.className || ""}
 </td>
-
-<td
-style="
-padding:8px;
-"
->
-
-<button
-class="action-btn edit-btn"
-style="
-padding:6px 10px;
-font-size:12px;
-"
-onclick='openModal("student","${student.id}",${JSON.stringify(student)})'
->
-تعديل
-</button>
-
-<button
-class="action-btn delete-btn"
-style="
-padding:6px 10px;
-font-size:12px;
-"
-onclick="deleteStudent('${student.id}','${student.name}')"
->
-حذف
-</button>
-
+<td style="padding:10px;font-size:13px;direction:ltr;">
+${student.guardianPhone || ""}
 </td>
-
+<td style="padding:8px;">
+<button class="action-btn edit-btn" style="padding:6px 10px;font-size:12px;" onclick='openModal("student","${student.id}",${JSON.stringify(student)})'>تعديل</button>
+<button class="action-btn delete-btn" style="padding:6px 10px;font-size:12px;" onclick="deleteStudent('${student.id}','${student.name || ""}')">حذف</button>
+</td>
 </tr>
-
 `;
 
 });
 
-document.getElementById(
-"studentsCount"
-).innerText =
-students.length;
+document.getElementById("studentsCount").innerText = students.length;
 
 }
 
-window.deleteStudent =
-async function(id,name){
+window.deleteStudent = async function(id,name){
 
-await archiveItem(
-name,
-"طالب"
-);
-
-await deleteDoc(
-doc(db,"students",id)
-);
-
+await archiveItem(name,"طالب");
+await deleteDoc(doc(db,"students",id));
 loadStudents();
 
 };
 
 async function loadAssignments(){
 
-const table =
-document.getElementById(
-"assignmentsTable"
-);
-
+const table = document.getElementById("assignmentsTable");
 table.innerHTML = "";
 
-const snapshot =
-await getDocs(
-collection(db,"assignments")
-);
+const snapshot = await getDocs(collection(db,"assignments"));
 
 snapshot.forEach(item=>{
 
-const data =
-item.data();
+const data = item.data();
 
 table.innerHTML += `
-
 <tr>
-
+<td>${data.className || ""}</td>
+<td>${data.teacherName || ""}</td>
 <td>
-${data.className}
+<button class="action-btn edit-btn" onclick='openModal("assignment","${item.id}",${JSON.stringify(data)})'>تعديل</button>
+<button class="action-btn delete-btn" onclick="deleteAssignment('${item.id}','${data.className || ""}')">حذف</button>
 </td>
-
-<td>
-${data.teacherName}
-</td>
-
-<td>
-
-<button
-class="action-btn edit-btn"
-onclick='openModal("assignment","${item.id}",${JSON.stringify(data)})'
->
-تعديل
-</button>
-
-<button
-class="action-btn delete-btn"
-onclick="deleteAssignment('${item.id}','${data.className}')"
->
-حذف
-</button>
-
-</td>
-
 </tr>
-
 `;
 
 });
 
 }
 
-window.deleteAssignment =
-async function(id,name){
+window.deleteAssignment = async function(id,name){
 
-await archiveItem(
-name,
-"إسناد"
-);
-
-await deleteDoc(
-doc(db,"assignments",id)
-);
-
+await archiveItem(name,"إسناد");
+await deleteDoc(doc(db,"assignments",id));
 loadAssignments();
 
 };
 
 async function loadExams(){
 
-const table =
-document.getElementById(
-"examsTable"
-);
-
+const table = document.getElementById("examsTable");
 table.innerHTML = "";
 
-const snapshot =
-await getDocs(
-collection(db,"exams")
-);
+const snapshot = await getDocs(collection(db,"exams"));
 
 let exams = [];
 
 snapshot.forEach(item=>{
-
 exams.push({
 id:item.id,
 ...item.data()
 });
-
 });
 
-exams.sort((a,b)=>
-Number(a.order || 999)
--
-Number(b.order || 999)
-);
+exams.sort((a,b)=>Number(a.order || 999) - Number(b.order || 999));
 
 exams.forEach(exam=>{
 
 table.innerHTML += `
-
 <tr>
-
+<td>${exam.order || "-"}</td>
+<td>${exam.examName || ""}</td>
+<td>${exam.maxDegree || ""}</td>
 <td>
-${exam.order || "-"}
+<button class="action-btn edit-btn" onclick='openModal("exam","${exam.id}",${JSON.stringify(exam)})'>تعديل</button>
+<button class="action-btn delete-btn" onclick="deleteExam('${exam.id}','${exam.examName || ""}')">حذف</button>
 </td>
-
-<td>
-${exam.examName}
-</td>
-
-<td>
-${exam.maxDegree}
-</td>
-
-<td>
-
-<button
-class="action-btn edit-btn"
-onclick='openModal("exam","${exam.id}",${JSON.stringify(exam)})'
->
-تعديل
-</button>
-
-<button
-class="action-btn delete-btn"
-onclick="deleteExam('${exam.id}','${exam.examName}')"
->
-حذف
-</button>
-
-</td>
-
 </tr>
-
 `;
 
 });
 
 }
 
-window.deleteExam =
-async function(id,name){
+window.deleteExam = async function(id,name){
 
-await archiveItem(
-name,
-"اختبار"
-);
-
-await deleteDoc(
-doc(db,"exams",id)
-);
-
+await archiveItem(name,"اختبار");
+await deleteDoc(doc(db,"exams",id));
 loadExams();
 
 };
 
 async function loadArchive(){
 
-const table =
-document.getElementById(
-"archiveTable"
-);
-
+const table = document.getElementById("archiveTable");
 table.innerHTML = "";
 
-const snapshot =
-await getDocs(
-collection(db,"adminArchive")
-);
+const snapshot = await getDocs(collection(db,"adminArchive"));
 
 snapshot.forEach(item=>{
 
-const data =
-item.data();
+const data = item.data();
 
 table.innerHTML += `
-
 <tr>
-
-<td>
-${data.name}
-</td>
-
-<td>
-${data.type}
-</td>
-
-<td>
-${data.archivedAt}
-</td>
-
+<td>${data.name || ""}</td>
+<td>${data.type || ""}</td>
+<td>${data.archivedAt || ""}</td>
 </tr>
-
 `;
 
 });
@@ -1658,146 +852,77 @@ ${data.archivedAt}
 
 async function loadClassOptions(){
 
-const select =
-document.getElementById(
-"classSelect"
-);
-
+const select = document.getElementById("classSelect");
 select.innerHTML = "";
 
-const snapshot =
-await getDocs(
-collection(db,"classes")
-);
+const snapshot = await getDocs(collection(db,"classes"));
 
 const classes = [];
 
 snapshot.forEach(item=>{
-
 classes.push(item.data());
-
 });
 
-classes.sort((a,b)=>
-a.name.localeCompare(
-b.name,
-'ar'
-)
-);
+classes.sort((a,b)=>a.name.localeCompare(b.name,"ar"));
 
 classes.forEach(item=>{
-
-select.innerHTML += `
-<option>
-${item.name}
-</option>
-`;
-
+select.innerHTML += `<option>${item.name}</option>`;
 });
 
 }
 
 async function loadTeacherOptions(){
 
-const select =
-document.getElementById(
-"teacherSelect"
-);
-
+const select = document.getElementById("teacherSelect");
 select.innerHTML = "";
 
-const snapshot =
-await getDocs(
-collection(db,"teachers")
-);
+const snapshot = await getDocs(collection(db,"teachers"));
 
 const teachers = [];
 
 snapshot.forEach(item=>{
-
 teachers.push(item.data());
-
 });
 
-teachers.sort((a,b)=>
-a.name.localeCompare(
-b.name,
-'ar'
-)
-);
+teachers.sort((a,b)=>a.name.localeCompare(b.name,"ar"));
 
 teachers.forEach(item=>{
-
-select.innerHTML += `
-<option>
-${item.name}
-</option>
-`;
-
+select.innerHTML += `<option>${item.name}</option>`;
 });
 
 }
 
-document
-.getElementById("excelFile")
-.addEventListener(
-"change",
-event=>{
+document.getElementById("excelFile").addEventListener("change",event=>{
 
-const file =
-event.target.files[0];
+const file = event.target.files[0];
 
-if(!file)
-return;
+if(!file) return;
 
-const reader =
-new FileReader();
+const reader = new FileReader();
 
-reader.onload =
-async(e)=>{
+reader.onload = async(e)=>{
 
-const data =
-new Uint8Array(
-e.target.result
-);
+const data = new Uint8Array(e.target.result);
 
-const workbook =
-XLSX.read(
-data,
-{
+const workbook = XLSX.read(data,{
 type:"array"
-}
-);
+});
 
-const sheet =
-workbook.Sheets[
-workbook.SheetNames[0]
-];
+const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-const rows =
-XLSX.utils.sheet_to_json(
-sheet,
-{
+const rows = XLSX.utils.sheet_to_json(sheet,{
 header:1
-}
-);
+});
 
-for(
-let i = 1;
-i < rows.length;
-i++
-){
+for(let i = 1; i < rows.length; i++){
 
-if(!rows[i][0])
-continue;
+if(!rows[i][0]) continue;
 
-await addDoc(
-collection(db,"students"),
-{
-name:rows[i][0],
-className:rows[i][1] || ""
-}
-);
+await addDoc(collection(db,"students"),{
+name:rows[i][0] || "",
+className:rows[i][1] || "",
+guardianPhone:rows[i][2] ? String(rows[i][2]).trim() : ""
+});
 
 }
 
@@ -1807,16 +932,12 @@ loadStudents();
 
 reader.readAsArrayBuffer(file);
 
-}
-);
+});
 
-window.logout =
-function(){
+window.logout = function(){
 
 localStorage.clear();
-
-window.location.href =
-"index.html";
+window.location.href = "index.html";
 
 };
 
@@ -1833,4 +954,3 @@ await loadArchive();
 </body>
 
 </html>
-```
