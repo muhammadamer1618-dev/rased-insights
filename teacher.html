@@ -370,7 +370,7 @@ window.sendWhatsApp = function(encodedStudentName) {
     return;
   }
 
-  const message =
+const message =
 `السلام عليكم ورحمة الله وبركاته
 
 ولي أمر الطالب: ${studentName}
@@ -379,6 +379,8 @@ window.sendWhatsApp = function(encodedStudentName) {
 نحيطكم علمًا بدرجات الطالب في اختبارات مادة اللغة الإنجليزية:
 
 ${studentGrades.join("\n")}
+
+المعلم: ${teacherName}
 
 مع تمنياتنا له بالتوفيق والنجاح.`;
 
