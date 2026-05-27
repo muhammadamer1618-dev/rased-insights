@@ -21,6 +21,7 @@
 
   <div class="menu">
     <button onclick="showSection('reportsSection')">متابعة النتائج</button>
+    <button onclick="window.location.href='analysis.html'">تحليل النتائج</button>
     <button onclick="window.location.href='reports.html'">التقارير التحليلية</button>
     <button onclick="archiveResults()">أرشفة النتائج</button>
     <button onclick="window.location.href='archive.html'">عرض الأرشيف</button>
@@ -429,6 +430,9 @@ window.sendWhatsApp = function(encodedStudentName) {
   const teacherName = teacherSelect.value;
   const className = classSelect.value;
 
+  const supervisorName =
+    localStorage.getItem("supervisorName") || "المشرف";
+
   const student = currentStudents.find(item =>
     item.name === studentName
   );
@@ -460,10 +464,7 @@ window.sendWhatsApp = function(encodedStudentName) {
     return;
   }
 
-const supervisorName =
-localStorage.getItem("supervisorName") || "المشرف";
-
-const message =
+  const message =
 `السلام عليكم ورحمة الله وبركاته
 
 ولي أمر الطالب: ${studentName}
