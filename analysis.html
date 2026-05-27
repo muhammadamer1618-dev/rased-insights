@@ -8,174 +8,46 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-.analysis-header{
-text-align:center;
-margin-bottom:18px;
-line-height:1.7;
-}
-
-.analysis-header h1{
-font-size:24px;
-color:#facc15;
-font-weight:900;
-}
-
-.analysis-header div{
-color:#cbd5e1;
-font-weight:800;
-}
-
-.analysis-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:12px;
-margin-bottom:18px;
-}
-
-.analysis-box{
-background:#020617;
-border-radius:16px;
-padding:14px;
-}
-
-.analysis-box label{
-display:block;
-margin-bottom:6px;
-font-weight:800;
-color:#facc15;
-}
-
-.analysis-box input,
-.analysis-box select{
-width:100%;
-padding:10px;
-border:none;
-border-radius:10px;
-background:#111827;
-color:white;
-}
-
-.analysis-print-footer{
-display:none;
-}
+.analysis-header{text-align:center;margin-bottom:18px;line-height:1.7;}
+.analysis-header h1{font-size:24px;color:#facc15;font-weight:900;}
+.analysis-header div{color:#cbd5e1;font-weight:800;}
+.analysis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:18px;}
+.analysis-box{background:#020617;border-radius:16px;padding:14px;}
+.analysis-box label{display:block;margin-bottom:6px;font-weight:800;color:#facc15;}
+.analysis-box input,.analysis-box select{width:100%;padding:10px;border:none;border-radius:10px;background:#111827;color:white;}
+.analysis-print-footer{display:none;}
 
 @media print{
+@page{size:A4 landscape;margin:6mm;}
 
-@page{
-size:A4 landscape;
-margin:7mm;
+body{background:white!important;color:black!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.sidebar,.filters-area,.no-print{display:none!important;}
+.dashboard-layout{display:block!important;}
+.main,.section{background:white!important;color:black!important;padding:0!important;margin:0!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important;}
+
+.analysis-header{margin-bottom:5px!important;}
+.analysis-header h1{color:black!important;font-size:16px!important;margin-bottom:0!important;}
+.analysis-header div{color:black!important;font-size:9px!important;}
+
+.stats-grid{grid-template-columns:repeat(5,1fr)!important;gap:4px!important;margin-bottom:5px!important;}
+.stat-card{background:white!important;border:1px solid black!important;padding:4px!important;border-radius:0!important;}
+.stat-title,.stat-number{color:black!important;}
+.stat-title{font-size:8px!important;}
+.stat-number{font-size:12px!important;}
+
+.print-layout{
+display:grid!important;
+grid-template-columns:1.25fr .75fr!important;
+gap:8px!important;
+align-items:start!important;
 }
 
-body{
-background:white !important;
-color:black !important;
--webkit-print-color-adjust:exact;
-print-color-adjust:exact;
-}
+table{width:100%!important;min-width:0!important;border-collapse:collapse!important;table-layout:fixed!important;font-size:8px!important;}
+th,td{background:white!important;color:black!important;border:1px solid #000!important;padding:2px!important;font-size:8px!important;font-weight:800!important;white-space:normal!important;word-break:break-word!important;text-align:center!important;line-height:1.15!important;}
 
-.sidebar,
-.filters-area,
-.no-print{
-display:none !important;
-}
-
-.dashboard-layout{
-display:block !important;
-}
-
-.main,
-.section{
-background:white !important;
-color:black !important;
-padding:0 !important;
-margin:0 !important;
-box-shadow:none !important;
-border-radius:0 !important;
-overflow:visible !important;
-}
-
-.analysis-header h1,
-.analysis-header div{
-color:black !important;
-}
-
-.analysis-header h1{
-font-size:18px !important;
-margin-bottom:2px !important;
-}
-
-.analysis-header div{
-font-size:11px !important;
-}
-
-.stats-grid{
-grid-template-columns:repeat(5,1fr) !important;
-gap:5px !important;
-margin-bottom:8px !important;
-}
-
-.stat-card{
-background:white !important;
-border:1px solid black !important;
-padding:5px !important;
-border-radius:0 !important;
-}
-
-.stat-title,
-.stat-number{
-color:black !important;
-}
-
-.stat-title{
-font-size:9px !important;
-}
-
-.stat-number{
-font-size:13px !important;
-}
-
-table{
-width:100% !important;
-min-width:0 !important;
-border-collapse:collapse !important;
-table-layout:fixed !important;
-font-size:9px !important;
-}
-
-th,
-td{
-background:white !important;
-color:black !important;
-border:1px solid #000 !important;
-padding:3px !important;
-font-size:9px !important;
-font-weight:800 !important;
-white-space:normal !important;
-word-break:break-word !important;
-text-align:center !important;
-}
-
-.chart-wrap{
-height:220px !important;
-margin-top:8px !important;
-}
-
-.analysis-print-footer{
-display:table !important;
-width:100% !important;
-border-collapse:collapse !important;
-margin-top:8px !important;
-font-family:Calibri, Arial, sans-serif !important;
-}
-
-.analysis-print-footer td{
-border:1px solid #000 !important;
-padding:5px !important;
-font-size:10px !important;
-font-weight:900 !important;
-text-align:center !important;
-}
-
+.chart-wrap{height:170px!important;margin-top:6px!important;}
+.analysis-print-footer{display:table!important;width:100%!important;border-collapse:collapse!important;margin-top:5px!important;font-family:Calibri,Arial,sans-serif!important;}
+.analysis-print-footer td{border:1px solid #000!important;padding:4px!important;font-size:9px!important;font-weight:900!important;text-align:center!important;}
 }
 </style>
 </head>
@@ -300,7 +172,7 @@ text-align:center !important;
 
 </div>
 
-<div style="display:grid;grid-template-columns:1.4fr .9fr;gap:15px;align-items:start;">
+<div class="print-layout" style="display:grid;grid-template-columns:1.35fr .8fr;gap:15px;align-items:start;">
 
 <div style="overflow:auto;">
 <table>
@@ -309,7 +181,7 @@ text-align:center !important;
 <th>م</th>
 <th>اسم الطالب</th>
 <th>الدرجة</th>
-<th>التقدير</th>
+<th>التصنيف</th>
 </tr>
 </thead>
 <tbody id="studentsTable"></tbody>
@@ -317,22 +189,24 @@ text-align:center !important;
 </div>
 
 <div>
+
 <table>
 <thead>
 <tr>
-<th>التقدير</th>
-<th>عدد الطلاب</th>
+<th>التصنيف</th>
+<th>العدد</th>
 <th>المدى</th>
 </tr>
 </thead>
 <tbody id="summaryTable"></tbody>
 </table>
-</div>
 
-</div>
-
-<div class="chart-wrap" style="height:300px;margin-top:20px;">
+<div class="chart-wrap" style="height:260px;margin-top:15px;">
 <canvas id="analysisChart"></canvas>
+</div>
+
+</div>
+
 </div>
 
 <table class="analysis-print-footer">
@@ -384,11 +258,9 @@ let exams = [];
 let chartInstance = null;
 
 async function loadTeachers(){
-
 teacherSelect.innerHTML = "<option>اختر المعلم</option>";
 
 const snapshot = await getDocs(collection(db,"teachers"));
-
 const teachers = [];
 
 snapshot.forEach(item=>{
@@ -400,13 +272,10 @@ teachers.sort((a,b)=>a.localeCompare(b,"ar"));
 teachers.forEach(name=>{
 teacherSelect.innerHTML += `<option>${name}</option>`;
 });
-
 }
 
 async function loadExams(){
-
 exams = [];
-
 examSelect.innerHTML = "<option>اختر الاختبار</option>";
 
 const snapshot = await getDocs(collection(db,"exams"));
@@ -426,13 +295,11 @@ exams.sort((a,b)=>a.order - b.order);
 exams.forEach(exam=>{
 examSelect.innerHTML += `<option value="${exam.examName}">${exam.examName}</option>`;
 });
-
 }
 
 teacherSelect.addEventListener("change",loadTeacherClasses);
 
 async function loadTeacherClasses(){
-
 classSelect.innerHTML = "<option>اختر الفصل</option>";
 
 const teacherName = teacherSelect.value;
@@ -457,10 +324,13 @@ classes.sort((a,b)=>a.localeCompare(b,"ar"));
 classes.forEach(className=>{
 classSelect.innerHTML += `<option>${className}</option>`;
 });
-
 }
 
-function getCategory(grade, ranges){
+function getCategory(grade,ranges,maxDegree){
+
+if(grade === maxDegree){
+return "الدرجة النهائية";
+}
 
 if(grade >= ranges.highFrom && grade <= ranges.highTo){
 return "مستوى مرتفع";
@@ -500,7 +370,6 @@ return;
 }
 
 const selectedExam = exams.find(item=>item.examName === examName);
-
 const maxDegree = selectedExam ? selectedExam.maxDegree : 0;
 
 const ranges = {
@@ -516,7 +385,7 @@ document.getElementById("mainTitle").innerText =
 `تحليل نتائج ${examName} لمادة اللغة الإنجليزية`;
 
 document.getElementById("subTitle").innerText =
-`المدرسة: مدارس الفلاح الأهلية | الصف / الفصل: ${className} | المادة: اللغة الإنجليزية | الدرجة النهائية: ${maxDegree}`;
+`مدارس الفلاح الأهلية | الفصل: ${className} | المادة: اللغة الإنجليزية | الدرجة النهائية: ${maxDegree}`;
 
 document.getElementById("footerTeacher").innerText = teacherName;
 
@@ -558,6 +427,7 @@ let highest = null;
 let lowest = null;
 
 const summary = {
+"الدرجة النهائية":0,
 "مستوى مرتفع":0,
 "أولى بالرعاية":0,
 "دراسة حالة":0,
@@ -567,14 +437,11 @@ const summary = {
 students.forEach(student=>{
 
 const gradeData = grades.find(g=>g.studentName === student.name);
-
 const grade = gradeData ? Number(gradeData.grade) : "";
-
 let category = "-";
 
 if(grade !== ""){
-category = getCategory(grade,ranges);
-
+category = getCategory(grade,ranges,maxDegree);
 summary[category]++;
 
 total += grade;
@@ -607,6 +474,11 @@ document.getElementById("averageGrade").innerText =
 countWithGrades ? Math.round(total / countWithGrades) : 0;
 
 document.getElementById("summaryTable").innerHTML = `
+<tr>
+<td>الدرجة النهائية</td>
+<td>${summary["الدرجة النهائية"]}</td>
+<td>${maxDegree}</td>
+</tr>
 <tr>
 <td>مستوى مرتفع</td>
 <td>${summary["مستوى مرتفع"]}</td>
@@ -644,10 +516,17 @@ chartInstance.destroy();
 chartInstance = new Chart(ctx,{
 type:"bar",
 data:{
-labels:["مستوى مرتفع","أولى بالرعاية","دراسة حالة","خارج التصنيف"],
+labels:[
+"الدرجة النهائية",
+"مستوى مرتفع",
+"أولى بالرعاية",
+"دراسة حالة",
+"خارج التصنيف"
+],
 datasets:[{
 label:"عدد الطلاب",
 data:[
+summary["الدرجة النهائية"],
 summary["مستوى مرتفع"],
 summary["أولى بالرعاية"],
 summary["دراسة حالة"],
