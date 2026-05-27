@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Analysis</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+.analysis-header{
+text-align:center;
+margin-bottom:18px;
+line-height:1.7;
+}
+
+.analysis-header h1{
+font-size:24px;
+color:#facc15;
+font-weight:900;
+}
+
+.analysis-header div{
+color:#cbd5e1;
+font-weight:800;
+}
+
+.analysis-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:12px;
+margin-bottom:18px;
+}
+
+.analysis-box{
+background:#020617;
+border-radius:16px;
+padding:14px;
+}
+
+.analysis-box label{
+display:block;
+margin-bottom:6px;
+font-weight:800;
+color:#facc15;
+}
+
+.analysis-box input,
+.analysis-box select{
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+background:#111827;
+color:white;
+}
+
+.analysis-print-footer{
+display:none;
+}
+
+@media print{
+
+@page{
+size:A4 landscape;
+margin:7mm;
+}
+
+body{
+background:white !important;
+color:black !important;
+-webkit-print-color-adjust:exact;
+print-color-adjust:exact;
+}
+
+.sidebar,
+.filters-area,
+.no-print{
+display:none !important;
+}
+
+.dashboard-layout{
+display:block !important;
+}
+
+.main,
+.section{
+background:white !important;
+color:black !important;
+padding:0 !important;
+margin:0 !important;
+box-shadow:none !important;
+border-radius:0 !important;
+overflow:visible !important;
+}
+
+.analysis-header h1,
+.analysis-header div{
+color:black !important;
+}
+
+.analysis-header h1{
+font-size:18px !important;
+margin-bottom:2px !important;
+}
+
+.analysis-header div{
+font-size:11px !important;
+}
+
+.stats-grid{
+grid-template-columns:repeat(5,1fr) !important;
+gap:5px !important;
+margin-bottom:8px !important;
+}
+
+.stat-card{
+background:white !important;
+border:1px solid black !important;
+padding:5px !important;
+border-radius:0 !important;
+}
+
+.stat-title,
+.stat-number{
+color:black !important;
+}
+
+.stat-title{
+font-size:9px !important;
+}
+
+.stat-number{
+font-size:13px !important;
+}
+
+table{
+width:100% !important;
+min-width:0 !important;
+border-collapse:collapse !important;
+table-layout:fixed !important;
+font-size:9px !important;
+}
+
+th,
+td{
+background:white !important;
+color:black !important;
+border:1px solid #000 !important;
+padding:3px !important;
+font-size:9px !important;
+font-weight:800 !important;
+white-space:normal !important;
+word-break:break-word !important;
+text-align:center !important;
+}
+
+.chart-wrap{
+height:220px !important;
+margin-top:8px !important;
+}
+
+.analysis-print-footer{
+display:table !important;
+width:100% !important;
+border-collapse:collapse !important;
+margin-top:8px !important;
+font-family:Calibri, Arial, sans-serif !important;
+}
+
+.analysis-print-footer td{
+border:1px solid #000 !important;
+padding:5px !important;
+font-size:10px !important;
+font-weight:900 !important;
+text-align:center !important;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+<div class="sidebar">
+<div class="logo-box">Rased<br>Insights</div>
+
+<div class="user-box">
+<div class="user-title">تحليل النتائج</div>
+<div class="user-name" id="supervisorName">Supervisor</div>
+</div>
+
+<div class="menu">
+<button onclick="window.print()">طباعة التحليل</button>
+<button onclick="window.location.href='supervisor.html'">رجوع للمشرف</button>
+<button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+</div>
+</div>
+
+<div class="main">
+
+<div class="section active-section">
+
+<div class="analysis-header">
+<h1 id="mainTitle">تحليل نتائج اختبار لمادة اللغة الإنجليزية</h1>
+<div id="subTitle">اختر المعلم والفصل والاختبار</div>
+</div>
+
+<div class="filters-area analysis-grid">
+
+<div class="analysis-box">
+<label>المعلم</label>
+<select id="teacherSelect">
+<option>اختر المعلم</option>
+</select>
+</div>
+
+<div class="analysis-box">
+<label>الفصل</label>
+<select id="classSelect">
+<option>اختر الفصل</option>
+</select>
+</div>
+
+<div class="analysis-box">
+<label>الاختبار</label>
+<select id="examSelect">
+<option>اختر الاختبار</option>
+</select>
+</div>
+
+</div>
+
+<div class="analysis-grid no-print">
+
+<div class="analysis-box">
+<label>مستوى مرتفع من</label>
+<input type="number" id="highFrom">
+</div>
+
+<div class="analysis-box">
+<label>مستوى مرتفع إلى</label>
+<input type="number" id="highTo">
+</div>
+
+<div class="analysis-box">
+<label>أولى بالرعاية من</label>
+<input type="number" id="careFrom">
+</div>
+
+<div class="analysis-box">
+<label>أولى بالرعاية إلى</label>
+<input type="number" id="careTo">
+</div>
+
+<div class="analysis-box">
+<label>دراسة حالة من</label>
+<input type="number" id="caseFrom">
+</div>
+
+<div class="analysis-box">
+<label>دراسة حالة إلى</label>
+<input type="number" id="caseTo">
+</div>
+
+<div class="analysis-box" style="display:flex;align-items:end;">
+<button class="primary-btn" style="width:100%;" onclick="generateAnalysis()">تحليل النتائج</button>
+</div>
+
+</div>
+
+<div class="stats-grid" style="margin-bottom:18px;">
+
+<div class="stat-card">
+<div class="stat-title">عدد الطلاب</div>
+<div class="stat-number" id="totalStudents">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">أعلى درجة</div>
+<div class="stat-number" id="highestGrade">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">أدنى درجة</div>
+<div class="stat-number" id="lowestGrade">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">المجموع</div>
+<div class="stat-number" id="totalGrades">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">المتوسط</div>
+<div class="stat-number" id="averageGrade">0</div>
+</div>
+
+</div>
+
+<div style="display:grid;grid-template-columns:1.4fr .9fr;gap:15px;align-items:start;">
+
+<div style="overflow:auto;">
+<table>
+<thead>
+<tr>
+<th>م</th>
+<th>اسم الطالب</th>
+<th>الدرجة</th>
+<th>التقدير</th>
+</tr>
+</thead>
+<tbody id="studentsTable"></tbody>
+</table>
+</div>
+
+<div>
+<table>
+<thead>
+<tr>
+<th>التقدير</th>
+<th>عدد الطلاب</th>
+<th>المدى</th>
+</tr>
+</thead>
+<tbody id="summaryTable"></tbody>
+</table>
+</div>
+
+</div>
+
+<div class="chart-wrap" style="height:300px;margin-top:20px;">
+<canvas id="analysisChart"></canvas>
+</div>
+
+<table class="analysis-print-footer">
+<tr>
+<td>معلم المادة</td>
+<td>مشرف اللغة الإنجليزية</td>
+<td>رئيس قسم الإشراف والتدريب</td>
+<td>مدير المدرسة</td>
+</tr>
+<tr>
+<td id="footerTeacher">-</td>
+<td id="footerSupervisor">محمد عامر أحمد</td>
+<td>أحمد سمير</td>
+<td>سعيد بن علي الجمعان</td>
+</tr>
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs,
+query,
+where
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+if(localStorage.getItem("rasedRole") !== "supervisor"){
+window.location.href = "index.html";
+}
+
+const supervisorName = localStorage.getItem("supervisorName") || "محمد عامر أحمد";
+
+document.getElementById("supervisorName").innerText = supervisorName;
+document.getElementById("footerSupervisor").innerText = supervisorName;
+
+const teacherSelect = document.getElementById("teacherSelect");
+const classSelect = document.getElementById("classSelect");
+const examSelect = document.getElementById("examSelect");
+
+let exams = [];
+let chartInstance = null;
+
+async function loadTeachers(){
+
+teacherSelect.innerHTML = "<option>اختر المعلم</option>";
+
+const snapshot = await getDocs(collection(db,"teachers"));
+
+const teachers = [];
+
+snapshot.forEach(item=>{
+teachers.push(item.data().name);
+});
+
+teachers.sort((a,b)=>a.localeCompare(b,"ar"));
+
+teachers.forEach(name=>{
+teacherSelect.innerHTML += `<option>${name}</option>`;
+});
+
+}
+
+async function loadExams(){
+
+exams = [];
+
+examSelect.innerHTML = "<option>اختر الاختبار</option>";
+
+const snapshot = await getDocs(collection(db,"exams"));
+
+snapshot.forEach(item=>{
+const data = item.data();
+
+exams.push({
+examName:data.examName,
+maxDegree:Number(data.maxDegree || 0),
+order:Number(data.order || 999)
+});
+});
+
+exams.sort((a,b)=>a.order - b.order);
+
+exams.forEach(exam=>{
+examSelect.innerHTML += `<option value="${exam.examName}">${exam.examName}</option>`;
+});
+
+}
+
+teacherSelect.addEventListener("change",loadTeacherClasses);
+
+async function loadTeacherClasses(){
+
+classSelect.innerHTML = "<option>اختر الفصل</option>";
+
+const teacherName = teacherSelect.value;
+
+if(teacherName === "اختر المعلم") return;
+
+const snapshot = await getDocs(
+query(
+collection(db,"assignments"),
+where("teacherName","==",teacherName)
+)
+);
+
+const classes = [];
+
+snapshot.forEach(item=>{
+classes.push(item.data().className);
+});
+
+classes.sort((a,b)=>a.localeCompare(b,"ar"));
+
+classes.forEach(className=>{
+classSelect.innerHTML += `<option>${className}</option>`;
+});
+
+}
+
+function getCategory(grade, ranges){
+
+if(grade >= ranges.highFrom && grade <= ranges.highTo){
+return "مستوى مرتفع";
+}
+
+if(grade >= ranges.careFrom && grade <= ranges.careTo){
+return "أولى بالرعاية";
+}
+
+if(grade >= ranges.caseFrom && grade <= ranges.caseTo){
+return "دراسة حالة";
+}
+
+return "خارج التصنيف";
+
+}
+
+window.generateAnalysis = async function(){
+
+const teacherName = teacherSelect.value;
+const className = classSelect.value;
+const examName = examSelect.value;
+
+if(teacherName === "اختر المعلم"){
+alert("اختر المعلم");
+return;
+}
+
+if(className === "اختر الفصل"){
+alert("اختر الفصل");
+return;
+}
+
+if(examName === "اختر الاختبار"){
+alert("اختر الاختبار");
+return;
+}
+
+const selectedExam = exams.find(item=>item.examName === examName);
+
+const maxDegree = selectedExam ? selectedExam.maxDegree : 0;
+
+const ranges = {
+highFrom:Number(document.getElementById("highFrom").value || 0),
+highTo:Number(document.getElementById("highTo").value || 0),
+careFrom:Number(document.getElementById("careFrom").value || 0),
+careTo:Number(document.getElementById("careTo").value || 0),
+caseFrom:Number(document.getElementById("caseFrom").value || 0),
+caseTo:Number(document.getElementById("caseTo").value || 0)
+};
+
+document.getElementById("mainTitle").innerText =
+`تحليل نتائج ${examName} لمادة اللغة الإنجليزية`;
+
+document.getElementById("subTitle").innerText =
+`المدرسة: مدارس الفلاح الأهلية | الصف / الفصل: ${className} | المادة: اللغة الإنجليزية | الدرجة النهائية: ${maxDegree}`;
+
+document.getElementById("footerTeacher").innerText = teacherName;
+
+const studentsSnapshot = await getDocs(
+query(
+collection(db,"students"),
+where("className","==",className)
+)
+);
+
+const gradesSnapshot = await getDocs(
+query(
+collection(db,"grades"),
+where("teacherName","==",teacherName),
+where("className","==",className),
+where("examName","==",examName)
+)
+);
+
+const grades = [];
+
+gradesSnapshot.forEach(item=>{
+grades.push(item.data());
+});
+
+const students = [];
+
+studentsSnapshot.forEach(item=>{
+students.push(item.data());
+});
+
+students.sort((a,b)=>a.name.localeCompare(b.name,"ar"));
+
+let tableHtml = "";
+let index = 1;
+let total = 0;
+let countWithGrades = 0;
+let highest = null;
+let lowest = null;
+
+const summary = {
+"مستوى مرتفع":0,
+"أولى بالرعاية":0,
+"دراسة حالة":0,
+"خارج التصنيف":0
+};
+
+students.forEach(student=>{
+
+const gradeData = grades.find(g=>g.studentName === student.name);
+
+const grade = gradeData ? Number(gradeData.grade) : "";
+
+let category = "-";
+
+if(grade !== ""){
+category = getCategory(grade,ranges);
+
+summary[category]++;
+
+total += grade;
+countWithGrades++;
+
+if(highest === null || grade > highest) highest = grade;
+if(lowest === null || grade < lowest) lowest = grade;
+}
+
+tableHtml += `
+<tr>
+<td>${index}</td>
+<td>${student.name}</td>
+<td>${grade === "" ? "-" : grade}</td>
+<td>${category}</td>
+</tr>
+`;
+
+index++;
+
+});
+
+document.getElementById("studentsTable").innerHTML = tableHtml;
+
+document.getElementById("totalStudents").innerText = students.length;
+document.getElementById("highestGrade").innerText = highest === null ? 0 : highest;
+document.getElementById("lowestGrade").innerText = lowest === null ? 0 : lowest;
+document.getElementById("totalGrades").innerText = total;
+document.getElementById("averageGrade").innerText =
+countWithGrades ? Math.round(total / countWithGrades) : 0;
+
+document.getElementById("summaryTable").innerHTML = `
+<tr>
+<td>مستوى مرتفع</td>
+<td>${summary["مستوى مرتفع"]}</td>
+<td>${ranges.highFrom} - ${ranges.highTo}</td>
+</tr>
+<tr>
+<td>أولى بالرعاية</td>
+<td>${summary["أولى بالرعاية"]}</td>
+<td>${ranges.careFrom} - ${ranges.careTo}</td>
+</tr>
+<tr>
+<td>دراسة حالة</td>
+<td>${summary["دراسة حالة"]}</td>
+<td>${ranges.caseFrom} - ${ranges.caseTo}</td>
+</tr>
+<tr>
+<td>خارج التصنيف</td>
+<td>${summary["خارج التصنيف"]}</td>
+<td>-</td>
+</tr>
+`;
+
+drawChart(summary);
+
+};
+
+function drawChart(summary){
+
+const ctx = document.getElementById("analysisChart");
+
+if(chartInstance){
+chartInstance.destroy();
+}
+
+chartInstance = new Chart(ctx,{
+type:"bar",
+data:{
+labels:["مستوى مرتفع","أولى بالرعاية","دراسة حالة","خارج التصنيف"],
+datasets:[{
+label:"عدد الطلاب",
+data:[
+summary["مستوى مرتفع"],
+summary["أولى بالرعاية"],
+summary["دراسة حالة"],
+summary["خارج التصنيف"]
+],
+borderWidth:1
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+plugins:{
+legend:{
+display:false
+}
+},
+scales:{
+y:{
+beginAtZero:true,
+ticks:{
+precision:0
+}
+}
+}
+}
+});
+
+}
+
+window.logout = function(){
+localStorage.clear();
+window.location.href = "index.html";
+};
+
+await loadTeachers();
+await loadExams();
+
+</script>
+
+</body>
+</html>
