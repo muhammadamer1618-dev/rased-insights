@@ -8,231 +8,281 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-.analysis-header{
-text-align:center;
+.analysis-card{
+background:#111827;
+border-radius:24px;
+padding:24px;
+border:1px solid rgba(255,255,255,.06);
+}
+
+.print-header{
+display:grid;
+grid-template-columns:120px 1fr 120px;
+align-items:center;
+gap:18px;
 margin-bottom:18px;
+}
+
+.logo-circle{
+width:105px;
+height:105px;
+border-radius:50%;
+object-fit:contain;
+background:white;
+padding:8px;
+border:2px solid #facc15;
+}
+
+.header-center{
+text-align:center;
 line-height:1.7;
 }
 
-.analysis-header h1{
-font-size:24px;
-color:#facc15;
+.header-center h1{
+font-size:28px;
 font-weight:900;
+color:#facc15;
+margin-bottom:4px;
 }
 
-.analysis-header div{
-color:#cbd5e1;
+.header-center div{
+font-size:15px;
 font-weight:800;
+color:#cbd5e1;
 }
 
 .analysis-grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:12px;
-margin-bottom:18px;
+margin-bottom:16px;
 }
 
 .analysis-box{
 background:#020617;
 border-radius:16px;
 padding:14px;
+border:1px solid rgba(255,255,255,.06);
 }
 
 .analysis-box label{
 display:block;
 margin-bottom:6px;
-font-weight:800;
+font-weight:900;
 color:#facc15;
 }
 
 .analysis-box input,
 .analysis-box select{
 width:100%;
-padding:10px;
+padding:11px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 background:#111827;
 color:white;
+font-weight:800;
 }
 
+.grade-scale-print{
+margin-bottom:14px;
+}
+
+.grade-scale-print table,
 .analysis-print-footer{
-display:none;
-}
-
-.grade-scale-print{
-display:none;
-}
-
-.care-row td{
-color:#f97316 !important;
-font-weight:900 !important;
-}
-
-.case-row td{
-color:#dc2626 !important;
-font-weight:900 !important;
-}
-
-@media print{
-
-@page{
-size:A4 landscape;
-margin:6mm;
-}
-
-body{
-background:white !important;
-color:black !important;
--webkit-print-color-adjust:exact;
-print-color-adjust:exact;
-}
-
-.sidebar,
-.filters-area,
-.no-print{
-display:none !important;
-}
-
-.dashboard-layout{
-display:block !important;
-}
-
-.main,
-.section{
-background:white !important;
-color:black !important;
-padding:0 !important;
-margin:0 !important;
-box-shadow:none !important;
-border-radius:0 !important;
-overflow:visible !important;
-}
-
-.analysis-header{
-margin-bottom:5px !important;
-}
-
-.analysis-header h1{
-color:black !important;
-font-size:16px !important;
-margin-bottom:0 !important;
-}
-
-.analysis-header div{
-color:black !important;
-font-size:9px !important;
-}
-
-.stats-grid{
-grid-template-columns:repeat(5,1fr) !important;
-gap:4px !important;
-margin-bottom:5px !important;
-}
-
-.stat-card{
-background:white !important;
-border:1px solid black !important;
-padding:4px !important;
-border-radius:0 !important;
-}
-
-.stat-title,
-.stat-number{
-color:black !important;
-}
-
-.stat-title{
-font-size:8px !important;
-}
-
-.stat-number{
-font-size:12px !important;
-}
-
-.grade-scale-print{
-display:block !important;
-margin-bottom:5px !important;
-}
-
-.grade-scale-print table{
-width:100% !important;
-border-collapse:collapse !important;
-table-layout:fixed !important;
+width:100%;
+border-collapse:collapse;
 }
 
 .grade-scale-print th,
-.grade-scale-print td{
-border:1px solid #000 !important;
-padding:3px !important;
-font-size:8px !important;
-font-weight:900 !important;
-text-align:center !important;
-color:#000 !important;
-background:white !important;
+.grade-scale-print td,
+.analysis-print-footer td{
+border:1px solid rgba(255,255,255,.15);
+padding:8px;
+text-align:center;
+font-weight:900;
 }
 
-.print-layout{
-display:grid !important;
-grid-template-columns:1.25fr .75fr !important;
-gap:8px !important;
-align-items:start !important;
-}
-
-table{
-width:100% !important;
-min-width:0 !important;
-border-collapse:collapse !important;
-table-layout:fixed !important;
-font-size:8px !important;
-}
-
-th,
-td{
-background:white !important;
-color:black !important;
-border:1px solid #000 !important;
-padding:2px !important;
-font-size:8px !important;
-font-weight:800 !important;
-white-space:normal !important;
-word-break:break-word !important;
-text-align:center !important;
-line-height:1.15 !important;
-}
-
-.care-row td{
+.care-row td,
+.care-text{
 color:#f97316 !important;
 font-weight:900 !important;
 }
 
-.case-row td{
+.case-row td,
+.case-text{
 color:#dc2626 !important;
 font-weight:900 !important;
 }
 
 .chart-wrap{
-height:170px !important;
-margin-top:6px !important;
+height:280px;
+margin-top:15px;
+background:white;
+border-radius:16px;
+padding:12px;
+}
+
+@media print{
+@page{
+size:A4 landscape;
+margin:6mm;
+}
+
+html,body{
+background:white!important;
+color:black!important;
+-webkit-print-color-adjust:exact;
+print-color-adjust:exact;
+font-family:'Cairo',Arial,Tahoma,sans-serif!important;
+}
+
+.sidebar,.filters-area,.no-print{
+display:none!important;
+}
+
+.dashboard-layout{
+display:block!important;
+}
+
+.main,.section,.analysis-card{
+background:white!important;
+color:black!important;
+padding:0!important;
+margin:0!important;
+box-shadow:none!important;
+border:none!important;
+border-radius:0!important;
+overflow:visible!important;
+}
+
+.print-header{
+grid-template-columns:95px 1fr 95px!important;
+gap:10px!important;
+margin-bottom:6px!important;
+border:1px solid #000!important;
+padding:5px!important;
+}
+
+.logo-circle{
+width:82px!important;
+height:82px!important;
+border:1px solid #000!important;
+padding:4px!important;
+}
+
+.header-center h1{
+font-size:18px!important;
+color:black!important;
+margin:0!important;
+line-height:1.25!important;
+}
+
+.header-center div{
+font-size:10px!important;
+color:black!important;
+line-height:1.35!important;
+}
+
+.stats-grid{
+grid-template-columns:repeat(5,1fr)!important;
+gap:4px!important;
+margin-bottom:5px!important;
+}
+
+.stat-card{
+background:white!important;
+border:1px solid #000!important;
+padding:4px!important;
+border-radius:0!important;
+}
+
+.stat-title,.stat-number{
+color:black!important;
+}
+
+.stat-title{
+font-size:8px!important;
+margin-bottom:0!important;
+}
+
+.stat-number{
+font-size:12px!important;
+}
+
+.grade-scale-print{
+display:block!important;
+margin-bottom:5px!important;
+}
+
+.grade-scale-print th,
+.grade-scale-print td{
+border:1px solid #000!important;
+padding:2px!important;
+font-size:8px!important;
+font-weight:900!important;
+text-align:center!important;
+color:#000!important;
+background:white!important;
+}
+
+.print-layout{
+display:grid!important;
+grid-template-columns:1.25fr .75fr!important;
+gap:8px!important;
+align-items:start!important;
+}
+
+table{
+width:100%!important;
+min-width:0!important;
+border-collapse:collapse!important;
+table-layout:fixed!important;
+font-size:8px!important;
+}
+
+th,td{
+background:white!important;
+color:black!important;
+border:1px solid #000!important;
+padding:2px!important;
+font-size:8px!important;
+font-weight:900!important;
+white-space:normal!important;
+word-break:break-word!important;
+text-align:center!important;
+line-height:1.15!important;
+}
+
+.care-row td,.care-text{
+color:#f97316!important;
+}
+
+.case-row td,.case-text{
+color:#dc2626!important;
+}
+
+.chart-wrap{
+height:165px!important;
+margin-top:5px!important;
+padding:2px!important;
+border:1px solid #000!important;
+border-radius:0!important;
 }
 
 .analysis-print-footer{
-display:table !important;
-width:100% !important;
-border-collapse:collapse !important;
-margin-top:5px !important;
-font-family:Calibri,Arial,sans-serif !important;
+margin-top:5px!important;
+font-family:Calibri,Arial,sans-serif!important;
 }
 
 .analysis-print-footer td{
-border:1px solid #000 !important;
-padding:4px !important;
-font-size:9px !important;
-font-weight:900 !important;
-text-align:center !important;
-color:black !important;
-background:white !important;
+border:1px solid #000!important;
+padding:4px!important;
+font-size:9px!important;
+font-weight:900!important;
+text-align:center!important;
+color:black!important;
+background:white!important;
 }
-
 }
 </style>
 </head>
@@ -257,41 +307,39 @@ background:white !important;
 </div>
 
 <div class="main">
-
 <div class="section active-section">
+<div class="analysis-card">
 
-<div class="analysis-header">
+<div class="print-header">
+<img src="ministry.png" class="logo-circle" alt="Ministry Logo">
+
+<div class="header-center">
 <h1 id="mainTitle">تحليل نتائج اختبار لمادة اللغة الإنجليزية</h1>
+<div>مدارس الفلاح الأهلية</div>
 <div id="subTitle">اختر المعلم والفصل والاختبار</div>
 </div>
 
-<div class="filters-area analysis-grid">
+<img src="school.png" class="logo-circle" alt="School Logo">
+</div>
 
+<div class="filters-area analysis-grid">
 <div class="analysis-box">
 <label>المعلم</label>
-<select id="teacherSelect">
-<option>اختر المعلم</option>
-</select>
+<select id="teacherSelect"><option>اختر المعلم</option></select>
 </div>
 
 <div class="analysis-box">
 <label>الفصل</label>
-<select id="classSelect">
-<option>اختر الفصل</option>
-</select>
+<select id="classSelect"><option>اختر الفصل</option></select>
 </div>
 
 <div class="analysis-box">
 <label>الاختبار</label>
-<select id="examSelect">
-<option>اختر الاختبار</option>
-</select>
+<select id="examSelect"><option>اختر الاختبار</option></select>
 </div>
-
 </div>
 
 <div class="analysis-grid no-print">
-
 <div class="analysis-box">
 <label>مستوى مرتفع من</label>
 <input type="number" id="highFrom">
@@ -325,7 +373,6 @@ background:white !important;
 <div class="analysis-box" style="display:flex;align-items:end;">
 <button class="primary-btn" style="width:100%;" onclick="generateAnalysis()">تحليل النتائج</button>
 </div>
-
 </div>
 
 <div class="grade-scale-print">
@@ -342,7 +389,6 @@ background:white !important;
 </div>
 
 <div class="stats-grid" style="margin-bottom:18px;">
-
 <div class="stat-card">
 <div class="stat-title">عدد الطلاب</div>
 <div class="stat-number" id="totalStudents">0</div>
@@ -367,7 +413,6 @@ background:white !important;
 <div class="stat-title">المتوسط</div>
 <div class="stat-number" id="averageGrade">0</div>
 </div>
-
 </div>
 
 <div class="print-layout" style="display:grid;grid-template-columns:1.35fr .8fr;gap:15px;align-items:start;">
@@ -387,7 +432,6 @@ background:white !important;
 </div>
 
 <div>
-
 <table>
 <thead>
 <tr>
@@ -399,10 +443,9 @@ background:white !important;
 <tbody id="summaryTable"></tbody>
 </table>
 
-<div class="chart-wrap" style="height:260px;margin-top:15px;">
+<div class="chart-wrap">
 <canvas id="analysisChart"></canvas>
 </div>
-
 </div>
 
 </div>
@@ -423,13 +466,11 @@ background:white !important;
 </table>
 
 </div>
-
 </div>
-
+</div>
 </div>
 
 <script type="module">
-
 import { db } from "./firebase.js";
 
 import {
@@ -525,7 +566,6 @@ classSelect.innerHTML += `<option>${className}</option>`;
 }
 
 function getCategory(grade,ranges,maxDegree){
-
 if(grade === maxDegree){
 return "الدرجة النهائية";
 }
@@ -543,25 +583,15 @@ return "دراسة حالة";
 }
 
 return "خارج التصنيف";
-
 }
 
 function getRowClass(category){
-
-if(category === "أولى بالرعاية"){
-return "care-row";
-}
-
-if(category === "دراسة حالة"){
-return "case-row";
-}
-
+if(category === "أولى بالرعاية") return "care-row";
+if(category === "دراسة حالة") return "case-row";
 return "";
-
 }
 
 window.generateAnalysis = async function(){
-
 const teacherName = teacherSelect.value;
 const className = classSelect.value;
 const examName = examSelect.value;
@@ -597,7 +627,7 @@ document.getElementById("mainTitle").innerText =
 `تحليل نتائج ${examName} لمادة اللغة الإنجليزية`;
 
 document.getElementById("subTitle").innerText =
-`مدارس الفلاح الأهلية | الفصل: ${className} | المادة: اللغة الإنجليزية | الدرجة النهائية: ${maxDegree}`;
+`الفصل: ${className} | المادة: اللغة الإنجليزية | الاختبار: ${examName} | الدرجة النهائية: ${maxDegree}`;
 
 document.getElementById("footerTeacher").innerText = teacherName;
 
@@ -613,14 +643,14 @@ document.getElementById("gradeScaleTable").innerHTML = `
 <td>طلاب ذوو مستوى متقدم</td>
 </tr>
 <tr>
-<td>أولى بالرعاية</td>
-<td>${ranges.careFrom} - ${ranges.careTo}</td>
-<td>تظهر باللون البرتقالي</td>
+<td class="care-text">أولى بالرعاية</td>
+<td class="care-text">${ranges.careFrom} - ${ranges.careTo}</td>
+<td class="care-text">تظهر باللون البرتقالي</td>
 </tr>
 <tr>
-<td>دراسة حالة</td>
-<td>${ranges.caseFrom} - ${ranges.caseTo}</td>
-<td>تظهر باللون الأحمر</td>
+<td class="case-text">دراسة حالة</td>
+<td class="case-text">${ranges.caseFrom} - ${ranges.caseTo}</td>
+<td class="case-text">تظهر باللون الأحمر</td>
 </tr>
 `;
 
@@ -641,13 +671,11 @@ where("examName","==",examName)
 );
 
 const grades = [];
-
 gradesSnapshot.forEach(item=>{
 grades.push(item.data());
 });
 
 const students = [];
-
 studentsSnapshot.forEach(item=>{
 students.push(item.data());
 });
@@ -670,7 +698,6 @@ const summary = {
 };
 
 students.forEach(student=>{
-
 const gradeData = grades.find(g=>g.studentName === student.name);
 const grade = gradeData ? Number(gradeData.grade) : "";
 let category = "-";
@@ -698,7 +725,6 @@ tableHtml += `
 `;
 
 index++;
-
 });
 
 document.getElementById("studentsTable").innerHTML = tableHtml;
@@ -722,14 +748,14 @@ document.getElementById("summaryTable").innerHTML = `
 <td>${ranges.highFrom} - ${ranges.highTo}</td>
 </tr>
 <tr>
-<td>أولى بالرعاية</td>
-<td>${summary["أولى بالرعاية"]}</td>
-<td>${ranges.careFrom} - ${ranges.careTo}</td>
+<td class="care-text">أولى بالرعاية</td>
+<td class="care-text">${summary["أولى بالرعاية"]}</td>
+<td class="care-text">${ranges.careFrom} - ${ranges.careTo}</td>
 </tr>
 <tr>
-<td>دراسة حالة</td>
-<td>${summary["دراسة حالة"]}</td>
-<td>${ranges.caseFrom} - ${ranges.caseTo}</td>
+<td class="case-text">دراسة حالة</td>
+<td class="case-text">${summary["دراسة حالة"]}</td>
+<td class="case-text">${ranges.caseFrom} - ${ranges.caseTo}</td>
 </tr>
 <tr>
 <td>خارج التصنيف</td>
@@ -739,11 +765,9 @@ document.getElementById("summaryTable").innerHTML = `
 `;
 
 drawChart(summary);
-
 };
 
 function drawChart(summary){
-
 const ctx = document.getElementById("analysisChart");
 
 if(chartInstance){
@@ -769,6 +793,13 @@ summary["أولى بالرعاية"],
 summary["دراسة حالة"],
 summary["خارج التصنيف"]
 ],
+backgroundColor:[
+"#0f766e",
+"#22c55e",
+"#f97316",
+"#dc2626",
+"#6b7280"
+],
 borderWidth:1
 }]
 },
@@ -776,21 +807,16 @@ options:{
 responsive:true,
 maintainAspectRatio:false,
 plugins:{
-legend:{
-display:false
-}
+legend:{display:false}
 },
 scales:{
 y:{
 beginAtZero:true,
-ticks:{
-precision:0
-}
+ticks:{precision:0}
 }
 }
 }
 });
-
 }
 
 window.logout = function(){
@@ -800,7 +826,6 @@ window.location.href = "index.html";
 
 await loadTeachers();
 await loadExams();
-
 </script>
 
 </body>
