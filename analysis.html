@@ -8,46 +8,231 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-.analysis-header{text-align:center;margin-bottom:18px;line-height:1.7;}
-.analysis-header h1{font-size:24px;color:#facc15;font-weight:900;}
-.analysis-header div{color:#cbd5e1;font-weight:800;}
-.analysis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:18px;}
-.analysis-box{background:#020617;border-radius:16px;padding:14px;}
-.analysis-box label{display:block;margin-bottom:6px;font-weight:800;color:#facc15;}
-.analysis-box input,.analysis-box select{width:100%;padding:10px;border:none;border-radius:10px;background:#111827;color:white;}
-.analysis-print-footer{display:none;}
-
-@media print{
-@page{size:A4 landscape;margin:6mm;}
-
-body{background:white!important;color:black!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-.sidebar,.filters-area,.no-print{display:none!important;}
-.dashboard-layout{display:block!important;}
-.main,.section{background:white!important;color:black!important;padding:0!important;margin:0!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important;}
-
-.analysis-header{margin-bottom:5px!important;}
-.analysis-header h1{color:black!important;font-size:16px!important;margin-bottom:0!important;}
-.analysis-header div{color:black!important;font-size:9px!important;}
-
-.stats-grid{grid-template-columns:repeat(5,1fr)!important;gap:4px!important;margin-bottom:5px!important;}
-.stat-card{background:white!important;border:1px solid black!important;padding:4px!important;border-radius:0!important;}
-.stat-title,.stat-number{color:black!important;}
-.stat-title{font-size:8px!important;}
-.stat-number{font-size:12px!important;}
-
-.print-layout{
-display:grid!important;
-grid-template-columns:1.25fr .75fr!important;
-gap:8px!important;
-align-items:start!important;
+.analysis-header{
+text-align:center;
+margin-bottom:18px;
+line-height:1.7;
 }
 
-table{width:100%!important;min-width:0!important;border-collapse:collapse!important;table-layout:fixed!important;font-size:8px!important;}
-th,td{background:white!important;color:black!important;border:1px solid #000!important;padding:2px!important;font-size:8px!important;font-weight:800!important;white-space:normal!important;word-break:break-word!important;text-align:center!important;line-height:1.15!important;}
+.analysis-header h1{
+font-size:24px;
+color:#facc15;
+font-weight:900;
+}
 
-.chart-wrap{height:170px!important;margin-top:6px!important;}
-.analysis-print-footer{display:table!important;width:100%!important;border-collapse:collapse!important;margin-top:5px!important;font-family:Calibri,Arial,sans-serif!important;}
-.analysis-print-footer td{border:1px solid #000!important;padding:4px!important;font-size:9px!important;font-weight:900!important;text-align:center!important;}
+.analysis-header div{
+color:#cbd5e1;
+font-weight:800;
+}
+
+.analysis-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:12px;
+margin-bottom:18px;
+}
+
+.analysis-box{
+background:#020617;
+border-radius:16px;
+padding:14px;
+}
+
+.analysis-box label{
+display:block;
+margin-bottom:6px;
+font-weight:800;
+color:#facc15;
+}
+
+.analysis-box input,
+.analysis-box select{
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+background:#111827;
+color:white;
+}
+
+.analysis-print-footer{
+display:none;
+}
+
+.grade-scale-print{
+display:none;
+}
+
+.care-row td{
+color:#f97316 !important;
+font-weight:900 !important;
+}
+
+.case-row td{
+color:#dc2626 !important;
+font-weight:900 !important;
+}
+
+@media print{
+
+@page{
+size:A4 landscape;
+margin:6mm;
+}
+
+body{
+background:white !important;
+color:black !important;
+-webkit-print-color-adjust:exact;
+print-color-adjust:exact;
+}
+
+.sidebar,
+.filters-area,
+.no-print{
+display:none !important;
+}
+
+.dashboard-layout{
+display:block !important;
+}
+
+.main,
+.section{
+background:white !important;
+color:black !important;
+padding:0 !important;
+margin:0 !important;
+box-shadow:none !important;
+border-radius:0 !important;
+overflow:visible !important;
+}
+
+.analysis-header{
+margin-bottom:5px !important;
+}
+
+.analysis-header h1{
+color:black !important;
+font-size:16px !important;
+margin-bottom:0 !important;
+}
+
+.analysis-header div{
+color:black !important;
+font-size:9px !important;
+}
+
+.stats-grid{
+grid-template-columns:repeat(5,1fr) !important;
+gap:4px !important;
+margin-bottom:5px !important;
+}
+
+.stat-card{
+background:white !important;
+border:1px solid black !important;
+padding:4px !important;
+border-radius:0 !important;
+}
+
+.stat-title,
+.stat-number{
+color:black !important;
+}
+
+.stat-title{
+font-size:8px !important;
+}
+
+.stat-number{
+font-size:12px !important;
+}
+
+.grade-scale-print{
+display:block !important;
+margin-bottom:5px !important;
+}
+
+.grade-scale-print table{
+width:100% !important;
+border-collapse:collapse !important;
+table-layout:fixed !important;
+}
+
+.grade-scale-print th,
+.grade-scale-print td{
+border:1px solid #000 !important;
+padding:3px !important;
+font-size:8px !important;
+font-weight:900 !important;
+text-align:center !important;
+color:#000 !important;
+background:white !important;
+}
+
+.print-layout{
+display:grid !important;
+grid-template-columns:1.25fr .75fr !important;
+gap:8px !important;
+align-items:start !important;
+}
+
+table{
+width:100% !important;
+min-width:0 !important;
+border-collapse:collapse !important;
+table-layout:fixed !important;
+font-size:8px !important;
+}
+
+th,
+td{
+background:white !important;
+color:black !important;
+border:1px solid #000 !important;
+padding:2px !important;
+font-size:8px !important;
+font-weight:800 !important;
+white-space:normal !important;
+word-break:break-word !important;
+text-align:center !important;
+line-height:1.15 !important;
+}
+
+.care-row td{
+color:#f97316 !important;
+font-weight:900 !important;
+}
+
+.case-row td{
+color:#dc2626 !important;
+font-weight:900 !important;
+}
+
+.chart-wrap{
+height:170px !important;
+margin-top:6px !important;
+}
+
+.analysis-print-footer{
+display:table !important;
+width:100% !important;
+border-collapse:collapse !important;
+margin-top:5px !important;
+font-family:Calibri,Arial,sans-serif !important;
+}
+
+.analysis-print-footer td{
+border:1px solid #000 !important;
+padding:4px !important;
+font-size:9px !important;
+font-weight:900 !important;
+text-align:center !important;
+color:black !important;
+background:white !important;
+}
+
 }
 </style>
 </head>
@@ -141,6 +326,19 @@ th,td{background:white!important;color:black!important;border:1px solid #000!imp
 <button class="primary-btn" style="width:100%;" onclick="generateAnalysis()">تحليل النتائج</button>
 </div>
 
+</div>
+
+<div class="grade-scale-print">
+<table>
+<thead>
+<tr>
+<th>سلم الدرجات</th>
+<th>المدى</th>
+<th>ملاحظات</th>
+</tr>
+</thead>
+<tbody id="gradeScaleTable"></tbody>
+</table>
 </div>
 
 <div class="stats-grid" style="margin-bottom:18px;">
@@ -348,6 +546,20 @@ return "خارج التصنيف";
 
 }
 
+function getRowClass(category){
+
+if(category === "أولى بالرعاية"){
+return "care-row";
+}
+
+if(category === "دراسة حالة"){
+return "case-row";
+}
+
+return "";
+
+}
+
 window.generateAnalysis = async function(){
 
 const teacherName = teacherSelect.value;
@@ -388,6 +600,29 @@ document.getElementById("subTitle").innerText =
 `مدارس الفلاح الأهلية | الفصل: ${className} | المادة: اللغة الإنجليزية | الدرجة النهائية: ${maxDegree}`;
 
 document.getElementById("footerTeacher").innerText = teacherName;
+
+document.getElementById("gradeScaleTable").innerHTML = `
+<tr>
+<td>الدرجة النهائية</td>
+<td>${maxDegree}</td>
+<td>الطلاب الحاصلون على الدرجة الكاملة</td>
+</tr>
+<tr>
+<td>مستوى مرتفع</td>
+<td>${ranges.highFrom} - ${ranges.highTo}</td>
+<td>طلاب ذوو مستوى متقدم</td>
+</tr>
+<tr>
+<td>أولى بالرعاية</td>
+<td>${ranges.careFrom} - ${ranges.careTo}</td>
+<td>تظهر باللون البرتقالي</td>
+</tr>
+<tr>
+<td>دراسة حالة</td>
+<td>${ranges.caseFrom} - ${ranges.caseTo}</td>
+<td>تظهر باللون الأحمر</td>
+</tr>
+`;
 
 const studentsSnapshot = await getDocs(
 query(
@@ -451,8 +686,10 @@ if(highest === null || grade > highest) highest = grade;
 if(lowest === null || grade < lowest) lowest = grade;
 }
 
+const rowClass = getRowClass(category);
+
 tableHtml += `
-<tr>
+<tr class="${rowClass}">
 <td>${index}</td>
 <td>${student.name}</td>
 <td>${grade === "" ? "-" : grade}</td>
