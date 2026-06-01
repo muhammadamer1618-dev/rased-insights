@@ -1,304 +1,69 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Analysis</title>
 <link rel="stylesheet" href="style.css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-.analysis-card{
-background:#111827;
-border-radius:24px;
-padding:24px;
-border:1px solid rgba(255,255,255,.06);
-}
-
-.print-header{
-display:grid;
-grid-template-columns:120px 1fr 120px;
-align-items:center;
-gap:18px;
-margin-bottom:18px;
-}
-
-.logo-circle{
-width:105px;
-height:105px;
-border-radius:50%;
-object-fit:contain;
-background:white;
-padding:8px;
-border:2px solid #facc15;
-}
-
-.header-center{
-text-align:center;
-line-height:1.7;
-}
-
-.header-center h1{
-font-size:28px;
-font-weight:900;
-color:#facc15;
-margin-bottom:4px;
-}
-
-.header-center div{
-font-size:15px;
-font-weight:800;
-color:#cbd5e1;
-}
-
-.analysis-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:12px;
-margin-bottom:16px;
-}
-
-.analysis-box{
-background:#020617;
-border-radius:16px;
-padding:14px;
-border:1px solid rgba(255,255,255,.06);
-}
-
-.analysis-box label{
-display:block;
-margin-bottom:6px;
-font-weight:900;
-color:#facc15;
-}
-
-.analysis-box input,
-.analysis-box select{
-width:100%;
-padding:11px;
-border:none;
-border-radius:12px;
-background:#111827;
-color:white;
-font-weight:800;
-}
-
-.grade-scale-print{
-margin-bottom:14px;
-}
-
-.grade-scale-print table,
-.analysis-print-footer{
-width:100%;
-border-collapse:collapse;
-}
-
-.grade-scale-print th,
-.grade-scale-print td,
-.analysis-print-footer td{
-border:1px solid rgba(255,255,255,.15);
-padding:8px;
-text-align:center;
-font-weight:900;
-}
-
-.care-row td,
-.care-text{
-color:#f97316 !important;
-font-weight:900 !important;
-}
-
-.case-row td,
-.case-text{
-color:#dc2626 !important;
-font-weight:900 !important;
-}
-
-.chart-wrap{
-height:280px;
-margin-top:15px;
-background:white;
-border-radius:16px;
-padding:12px;
-}
+.analysis-card{background:#111827;border-radius:24px;padding:24px;border:1px solid rgba(255,255,255,.06)}
+.print-header{display:grid;grid-template-columns:1fr 120px;align-items:center;gap:16px;margin-bottom:16px;border:1px solid rgba(255,255,255,.08);padding:14px;border-radius:18px;background:#020617}
+.logo-circle{width:115px;height:115px;border-radius:50%;object-fit:cover;object-position:center;background:transparent;border:none}
+.header-center{text-align:center;line-height:1.7}
+.header-center h1{font-size:28px;font-weight:900;color:#facc15;margin-bottom:5px}
+.header-center div{font-size:15px;font-weight:800;color:#cbd5e1}
+.analysis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px}
+.analysis-box{background:#020617;border-radius:16px;padding:14px;border:1px solid rgba(255,255,255,.06)}
+.analysis-box label{display:block;margin-bottom:6px;font-weight:900;color:#facc15}
+.analysis-box input,.analysis-box select{width:100%;padding:11px;border:none;border-radius:12px;background:#111827;color:white;font-weight:800}
+.scale-summary-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.scale-summary-row table,.analysis-print-footer{width:100%;border-collapse:collapse}
+.scale-summary-row th,.scale-summary-row td,.analysis-print-footer td{border:1px solid rgba(255,255,255,.18);padding:7px;text-align:center;font-weight:900}
+.care-row td,.care-text{color:#f97316!important;font-weight:900!important}
+.case-row td,.case-text{color:#dc2626!important;font-weight:900!important}
+.chart-wrap{height:230px;background:white;border-radius:16px;padding:10px;margin-top:10px}
 
 @media print{
-@page{
-size:A4 landscape;
-margin:6mm;
-}
-
-html,body{
-background:white!important;
-color:black!important;
--webkit-print-color-adjust:exact;
-print-color-adjust:exact;
-font-family:'Cairo',Arial,Tahoma,sans-serif!important;
-}
-
-.sidebar,.filters-area,.no-print{
-display:none!important;
-}
-
-.dashboard-layout{
-display:block!important;
-}
-
-.main,.section,.analysis-card{
-background:white!important;
-color:black!important;
-padding:0!important;
-margin:0!important;
-box-shadow:none!important;
-border:none!important;
-border-radius:0!important;
-overflow:visible!important;
-}
-
-.print-header{
-grid-template-columns:95px 1fr 95px!important;
-gap:10px!important;
-margin-bottom:6px!important;
-border:1px solid #000!important;
-padding:5px!important;
-}
-
-.logo-circle{
-width:82px!important;
-height:82px!important;
-border:1px solid #000!important;
-padding:4px!important;
-}
-
-.header-center h1{
-font-size:18px!important;
-color:black!important;
-margin:0!important;
-line-height:1.25!important;
-}
-
-.header-center div{
-font-size:10px!important;
-color:black!important;
-line-height:1.35!important;
-}
-
-.stats-grid{
-grid-template-columns:repeat(5,1fr)!important;
-gap:4px!important;
-margin-bottom:5px!important;
-}
-
-.stat-card{
-background:white!important;
-border:1px solid #000!important;
-padding:4px!important;
-border-radius:0!important;
-}
-
-.stat-title,.stat-number{
-color:black!important;
-}
-
-.stat-title{
-font-size:8px!important;
-margin-bottom:0!important;
-}
-
-.stat-number{
-font-size:12px!important;
-}
-
-.grade-scale-print{
-display:block!important;
-margin-bottom:5px!important;
-}
-
-.grade-scale-print th,
-.grade-scale-print td{
-border:1px solid #000!important;
-padding:2px!important;
-font-size:8px!important;
-font-weight:900!important;
-text-align:center!important;
-color:#000!important;
-background:white!important;
-}
-
-.print-layout{
-display:grid!important;
-grid-template-columns:1.25fr .75fr!important;
-gap:8px!important;
-align-items:start!important;
-}
-
-table{
-width:100%!important;
-min-width:0!important;
-border-collapse:collapse!important;
-table-layout:fixed!important;
-font-size:8px!important;
-}
-
-th,td{
-background:white!important;
-color:black!important;
-border:1px solid #000!important;
-padding:2px!important;
-font-size:8px!important;
-font-weight:900!important;
-white-space:normal!important;
-word-break:break-word!important;
-text-align:center!important;
-line-height:1.15!important;
-}
-
-.care-row td,.care-text{
-color:#f97316!important;
-}
-
-.case-row td,.case-text{
-color:#dc2626!important;
-}
-
-.chart-wrap{
-height:165px!important;
-margin-top:5px!important;
-padding:2px!important;
-border:1px solid #000!important;
-border-radius:0!important;
-}
-
-.analysis-print-footer{
-margin-top:5px!important;
-font-family:Calibri,Arial,sans-serif!important;
-}
-
-.analysis-print-footer td{
-border:1px solid #000!important;
-padding:4px!important;
-font-size:9px!important;
-font-weight:900!important;
-text-align:center!important;
-color:black!important;
-background:white!important;
-}
+@page{size:A4 portrait;margin:6mm}
+html,body{background:white!important;color:black!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:Arial,Tahoma,sans-serif!important}
+.sidebar,.filters-area,.no-print{display:none!important}
+.dashboard-layout{display:block!important}
+.main,.section,.analysis-card{background:white!important;color:black!important;padding:0!important;margin:0!important;box-shadow:none!important;border:none!important;border-radius:0!important;overflow:visible!important}
+.print-header{grid-template-columns:1fr 75px!important;gap:6px!important;margin-bottom:4px!important;border:1px solid #000!important;padding:4px!important;background:white!important;border-radius:0!important}
+.logo-circle{width:70px!important;height:70px!important;border-radius:50%!important;object-fit:cover!important}
+.header-center h1{font-size:15px!important;color:black!important;margin:0!important;line-height:1.2!important}
+.header-center div{font-size:9px!important;color:black!important;line-height:1.25!important}
+.scale-summary-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:5px!important;margin-bottom:5px!important}
+.scale-summary-row th,.scale-summary-row td{border:1px solid #000!important;padding:2px!important;font-size:8.5px!important;color:#000!important;background:white!important}
+.stats-grid{grid-template-columns:repeat(5,1fr)!important;gap:3px!important;margin-bottom:4px!important}
+.stat-card{background:white!important;border:1px solid #000!important;padding:3px!important;border-radius:0!important}
+.stat-title,.stat-number{color:black!important}
+.stat-title{font-size:8px!important;margin-bottom:0!important}
+.stat-number{font-size:12px!important}
+.print-layout{display:grid!important;grid-template-columns:1fr!important;gap:4px!important}
+table{width:100%!important;min-width:0!important;border-collapse:collapse!important;table-layout:fixed!important}
+th,td{background:white!important;color:black!important;border:1px solid #000!important;padding:2px!important;font-size:9.5px!important;font-weight:900!important;white-space:normal!important;word-break:break-word!important;text-align:center!important;line-height:1.18!important}
+#studentsTable td{font-size:10.5px!important}
+.chart-wrap{height:115px!important;margin-top:4px!important;padding:1px!important;border:1px solid #000!important;border-radius:0!important}
+.analysis-print-footer{margin-top:4px!important;font-family:Calibri,Arial,sans-serif!important}
+.analysis-print-footer td{border:1px solid #000!important;padding:3px!important;font-size:8.5px!important;font-weight:900!important;text-align:center!important;color:black!important;background:white!important}
+.care-row td,.care-text{color:#f97316!important}
+.case-row td,.case-text{color:#dc2626!important}
 }
 </style>
 </head>
 
 <body>
-
 <div class="dashboard-layout">
 
 <div class="sidebar">
 <div class="logo-box">Rased<br>Insights</div>
-
 <div class="user-box">
 <div class="user-title">تحليل النتائج</div>
 <div class="user-name" id="supervisorName">Supervisor</div>
 </div>
-
 <div class="menu">
 <button onclick="window.print()">طباعة التحليل</button>
 <button onclick="window.location.href='supervisor.html'">رجوع للمشرف</button>
@@ -311,14 +76,11 @@ background:white!important;
 <div class="analysis-card">
 
 <div class="print-header">
-<img src="ministry.png" class="logo-circle" alt="Ministry Logo">
-
 <div class="header-center">
 <h1 id="mainTitle">تحليل نتائج اختبار لمادة اللغة الإنجليزية</h1>
 <div>مدارس الفلاح الأهلية</div>
 <div id="subTitle">اختر المعلم والفصل والاختبار</div>
 </div>
-
 <img src="school-new1.png" class="logo-circle" alt="School Logo">
 </div>
 
@@ -327,12 +89,10 @@ background:white!important;
 <label>المعلم</label>
 <select id="teacherSelect"><option>اختر المعلم</option></select>
 </div>
-
 <div class="analysis-box">
 <label>الفصل</label>
 <select id="classSelect"><option>اختر الفصل</option></select>
 </div>
-
 <div class="analysis-box">
 <label>الاختبار</label>
 <select id="examSelect"><option>اختر الاختبار</option></select>
@@ -340,46 +100,26 @@ background:white!important;
 </div>
 
 <div class="analysis-grid no-print">
-<div class="analysis-box">
-<label>مستوى مرتفع من</label>
-<input type="number" id="highFrom">
-</div>
-
-<div class="analysis-box">
-<label>مستوى مرتفع إلى</label>
-<input type="number" id="highTo">
-</div>
-
-<div class="analysis-box">
-<label>أولى بالرعاية من</label>
-<input type="number" id="careFrom">
-</div>
-
-<div class="analysis-box">
-<label>أولى بالرعاية إلى</label>
-<input type="number" id="careTo">
-</div>
-
-<div class="analysis-box">
-<label>دراسة حالة من</label>
-<input type="number" id="caseFrom">
-</div>
-
-<div class="analysis-box">
-<label>دراسة حالة إلى</label>
-<input type="number" id="caseTo">
-</div>
-
+<div class="analysis-box"><label>مستوى مرتفع من</label><input type="number" id="highFrom"></div>
+<div class="analysis-box"><label>مستوى مرتفع إلى</label><input type="number" id="highTo"></div>
+<div class="analysis-box"><label>أولى بالرعاية من</label><input type="number" id="careFrom"></div>
+<div class="analysis-box"><label>أولى بالرعاية إلى</label><input type="number" id="careTo"></div>
+<div class="analysis-box"><label>دراسة حالة من</label><input type="number" id="caseFrom"></div>
+<div class="analysis-box"><label>دراسة حالة إلى</label><input type="number" id="caseTo"></div>
 <div class="analysis-box" style="display:flex;align-items:end;">
 <button class="primary-btn" style="width:100%;" onclick="generateAnalysis()">تحليل النتائج</button>
 </div>
 </div>
 
-<div class="grade-scale-print">
+<div class="scale-summary-row">
+<div>
 <table>
 <thead>
 <tr>
-<th>سلم الدرجات</th>
+<th colspan="3">سلم الدرجات</th>
+</tr>
+<tr>
+<th>التصنيف</th>
 <th>المدى</th>
 <th>ملاحظات</th>
 </tr>
@@ -388,52 +128,12 @@ background:white!important;
 </table>
 </div>
 
-<div class="stats-grid" style="margin-bottom:18px;">
-<div class="stat-card">
-<div class="stat-title">عدد الطلاب</div>
-<div class="stat-number" id="totalStudents">0</div>
-</div>
-
-<div class="stat-card">
-<div class="stat-title">أعلى درجة</div>
-<div class="stat-number" id="highestGrade">0</div>
-</div>
-
-<div class="stat-card">
-<div class="stat-title">أدنى درجة</div>
-<div class="stat-number" id="lowestGrade">0</div>
-</div>
-
-<div class="stat-card">
-<div class="stat-title">المجموع</div>
-<div class="stat-number" id="totalGrades">0</div>
-</div>
-
-<div class="stat-card">
-<div class="stat-title">المتوسط</div>
-<div class="stat-number" id="averageGrade">0</div>
-</div>
-</div>
-
-<div class="print-layout" style="display:grid;grid-template-columns:1.35fr .8fr;gap:15px;align-items:start;">
-
-<div style="overflow:auto;">
-<table>
-<thead>
-<tr>
-<th>م</th>
-<th>اسم الطالب</th>
-<th>الدرجة</th>
-<th>التصنيف</th>
-</tr>
-</thead>
-<tbody id="studentsTable"></tbody>
-</table>
-</div>
-
 <div>
 <table>
 <thead>
+<tr>
+<th colspan="3">ملخص التصنيفات</th>
+</tr>
 <tr>
 <th>التصنيف</th>
 <th>العدد</th>
@@ -442,12 +142,33 @@ background:white!important;
 </thead>
 <tbody id="summaryTable"></tbody>
 </table>
+</div>
+</div>
+
+<div class="stats-grid" style="margin-bottom:14px;">
+<div class="stat-card"><div class="stat-title">عدد الطلاب</div><div class="stat-number" id="totalStudents">0</div></div>
+<div class="stat-card"><div class="stat-title">أعلى درجة</div><div class="stat-number" id="highestGrade">0</div></div>
+<div class="stat-card"><div class="stat-title">أدنى درجة</div><div class="stat-number" id="lowestGrade">0</div></div>
+<div class="stat-card"><div class="stat-title">المجموع</div><div class="stat-number" id="totalGrades">0</div></div>
+<div class="stat-card"><div class="stat-title">المتوسط</div><div class="stat-number" id="averageGrade">0</div></div>
+</div>
+
+<div class="print-layout">
+<table>
+<thead>
+<tr>
+<th style="width:7%">م</th>
+<th style="width:48%">اسم الطالب</th>
+<th style="width:15%">الدرجة</th>
+<th style="width:30%">التصنيف</th>
+</tr>
+</thead>
+<tbody id="studentsTable"></tbody>
+</table>
 
 <div class="chart-wrap">
 <canvas id="analysisChart"></canvas>
 </div>
-</div>
-
 </div>
 
 <table class="analysis-print-footer">
@@ -485,7 +206,6 @@ window.location.href = "index.html";
 }
 
 const supervisorName = localStorage.getItem("supervisorName") || "محمد عامر أحمد";
-
 document.getElementById("supervisorName").innerText = supervisorName;
 document.getElementById("footerSupervisor").innerText = supervisorName;
 
@@ -498,16 +218,10 @@ let chartInstance = null;
 
 async function loadTeachers(){
 teacherSelect.innerHTML = "<option>اختر المعلم</option>";
-
 const snapshot = await getDocs(collection(db,"teachers"));
 const teachers = [];
-
-snapshot.forEach(item=>{
-teachers.push(item.data().name);
-});
-
+snapshot.forEach(item=>teachers.push(item.data().name));
 teachers.sort((a,b)=>a.localeCompare(b,"ar"));
-
 teachers.forEach(name=>{
 teacherSelect.innerHTML += `<option>${name}</option>`;
 });
@@ -516,21 +230,16 @@ teacherSelect.innerHTML += `<option>${name}</option>`;
 async function loadExams(){
 exams = [];
 examSelect.innerHTML = "<option>اختر الاختبار</option>";
-
 const snapshot = await getDocs(collection(db,"exams"));
-
 snapshot.forEach(item=>{
 const data = item.data();
-
 exams.push({
 examName:data.examName,
 maxDegree:Number(data.maxDegree || 0),
 order:Number(data.order || 999)
 });
 });
-
 exams.sort((a,b)=>a.order - b.order);
-
 exams.forEach(exam=>{
 examSelect.innerHTML += `<option value="${exam.examName}">${exam.examName}</option>`;
 });
@@ -540,48 +249,26 @@ teacherSelect.addEventListener("change",loadTeacherClasses);
 
 async function loadTeacherClasses(){
 classSelect.innerHTML = "<option>اختر الفصل</option>";
-
 const teacherName = teacherSelect.value;
-
 if(teacherName === "اختر المعلم") return;
 
 const snapshot = await getDocs(
-query(
-collection(db,"assignments"),
-where("teacherName","==",teacherName)
-)
+query(collection(db,"assignments"),where("teacherName","==",teacherName))
 );
 
 const classes = [];
-
-snapshot.forEach(item=>{
-classes.push(item.data().className);
-});
-
+snapshot.forEach(item=>classes.push(item.data().className));
 classes.sort((a,b)=>a.localeCompare(b,"ar"));
-
 classes.forEach(className=>{
 classSelect.innerHTML += `<option>${className}</option>`;
 });
 }
 
 function getCategory(grade,ranges,maxDegree){
-if(grade === maxDegree){
-return "الدرجة النهائية";
-}
-
-if(grade >= ranges.highFrom && grade <= ranges.highTo){
-return "مستوى مرتفع";
-}
-
-if(grade >= ranges.careFrom && grade <= ranges.careTo){
-return "أولى بالرعاية";
-}
-
-if(grade >= ranges.caseFrom && grade <= ranges.caseTo){
-return "دراسة حالة";
-}
-
+if(grade === maxDegree) return "الدرجة النهائية";
+if(grade >= ranges.highFrom && grade <= ranges.highTo) return "مستوى مرتفع";
+if(grade >= ranges.careFrom && grade <= ranges.careTo) return "أولى بالرعاية";
+if(grade >= ranges.caseFrom && grade <= ranges.caseTo) return "دراسة حالة";
 return "خارج التصنيف";
 }
 
@@ -655,10 +342,7 @@ document.getElementById("gradeScaleTable").innerHTML = `
 `;
 
 const studentsSnapshot = await getDocs(
-query(
-collection(db,"students"),
-where("className","==",className)
-)
+query(collection(db,"students"),where("className","==",className))
 );
 
 const gradesSnapshot = await getDocs(
@@ -671,15 +355,10 @@ where("examName","==",examName)
 );
 
 const grades = [];
-gradesSnapshot.forEach(item=>{
-grades.push(item.data());
-});
+gradesSnapshot.forEach(item=>grades.push(item.data()));
 
 const students = [];
-studentsSnapshot.forEach(item=>{
-students.push(item.data());
-});
-
+studentsSnapshot.forEach(item=>students.push(item.data()));
 students.sort((a,b)=>a.name.localeCompare(b.name,"ar"));
 
 let tableHtml = "";
@@ -705,10 +384,8 @@ let category = "-";
 if(grade !== ""){
 category = getCategory(grade,ranges,maxDegree);
 summary[category]++;
-
 total += grade;
 countWithGrades++;
-
 if(highest === null || grade > highest) highest = grade;
 if(lowest === null || grade < lowest) lowest = grade;
 }
@@ -728,7 +405,6 @@ index++;
 });
 
 document.getElementById("studentsTable").innerHTML = tableHtml;
-
 document.getElementById("totalStudents").innerText = students.length;
 document.getElementById("highestGrade").innerText = highest === null ? 0 : highest;
 document.getElementById("lowestGrade").innerText = lowest === null ? 0 : lowest;
@@ -777,13 +453,7 @@ chartInstance.destroy();
 chartInstance = new Chart(ctx,{
 type:"bar",
 data:{
-labels:[
-"الدرجة النهائية",
-"مستوى مرتفع",
-"أولى بالرعاية",
-"دراسة حالة",
-"خارج التصنيف"
-],
+labels:["الدرجة النهائية","مستوى مرتفع","أولى بالرعاية","دراسة حالة","خارج التصنيف"],
 datasets:[{
 label:"عدد الطلاب",
 data:[
@@ -793,28 +463,15 @@ summary["أولى بالرعاية"],
 summary["دراسة حالة"],
 summary["خارج التصنيف"]
 ],
-backgroundColor:[
-"#0f766e",
-"#22c55e",
-"#f97316",
-"#dc2626",
-"#6b7280"
-],
+backgroundColor:["#0f766e","#22c55e","#f97316","#dc2626","#6b7280"],
 borderWidth:1
 }]
 },
 options:{
 responsive:true,
 maintainAspectRatio:false,
-plugins:{
-legend:{display:false}
-},
-scales:{
-y:{
-beginAtZero:true,
-ticks:{precision:0}
-}
-}
+plugins:{legend:{display:false}},
+scales:{y:{beginAtZero:true,ticks:{precision:0}}}
 }
 });
 }
