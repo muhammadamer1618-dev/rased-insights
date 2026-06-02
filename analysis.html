@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 <title>Analysis</title>
+
 <link rel="stylesheet" href="style.css"/>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
 .analysis-card{
 background:#111827;
 border-radius:24px;
@@ -15,41 +21,46 @@ padding:24px;
 border:1px solid rgba(255,255,255,.06);
 }
 
-.report-header{
+.print-header{
 display:grid;
-grid-template-columns:1fr 90px;
-gap:12px;
+grid-template-columns:1fr 140px;
 align-items:center;
-background:#020617;
-border:1px solid rgba(255,255,255,.1);
+gap:18px;
+margin-bottom:18px;
+border:1px solid rgba(255,255,255,.08);
+padding:15px;
 border-radius:18px;
-padding:14px;
-margin-bottom:14px;
+background:#020617;
 }
 
-.report-logo{
-width:82px;
-height:82px;
-object-fit:cover;
+.logo-circle{
+width:125px;
+height:125px;
 border-radius:50%;
+object-fit:cover;
+object-position:center;
+background:transparent;
+padding:0;
+border:none;
+box-shadow:none;
 }
 
-.report-title{
+.header-center{
 text-align:center;
-line-height:1.7;
+line-height:1.8;
 }
 
-.report-title h1{
-color:#facc15;
-font-size:28px;
+.header-center h1{
+font-size:30px;
 font-weight:900;
-margin:0;
+color:#facc15;
+margin-bottom:5px;
 }
 
-.report-title div{
-color:#cbd5e1;
-font-weight:800;
+.header-center div{
 font-size:15px;
+font-weight:800;
+color:#cbd5e1;
 }
 
 .analysis-grid{
@@ -84,74 +95,50 @@ color:white;
 font-weight:800;
 }
 
-.print-body{
-display:grid;
-grid-template-columns:58% 40%;
-gap:14px;
-align-items:start;
+.grade-scale-print{
+margin-bottom:14px;
 }
 
-.left-side{
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.top-small-tables{
-display:grid;
-grid-template-columns:38% 60%;
-gap:10px;
-}
-
-table{
+.grade-scale-print table,
+.analysis-print-footer{
 width:100%;
 border-collapse:collapse;
-table-layout:fixed;
 }
 
-th,
-td{
-border:1px solid rgba(255,255,255,.18);
-padding:7px;
+.grade-scale-print th,
+.grade-scale-print td,
+.analysis-print-footer td{
+border:1px solid rgba(255,255,255,.15);
+padding:8px;
 text-align:center;
 font-weight:900;
 }
 
-.chart-wrap{
-height:280px;
-background:white;
-border-radius:16px;
-padding:10px;
-}
-
-.analysis-print-footer{
-width:100%;
-border-collapse:collapse;
-margin-top:14px;
-}
-
 .care-row td,
 .care-text{
-color:#f97316!important;
-font-weight:900!important;
+color:#f97316 !important;
+font-weight:900 !important;
 }
 
 .case-row td,
 .case-text{
-color:#dc2626!important;
-font-weight:900!important;
+color:#dc2626 !important;
+font-weight:900 !important;
 }
 
-.final-text{
-color:#22c55e!important;
-font-weight:900!important;
+.chart-wrap{
+height:280px;
+margin-top:15px;
+background:white;
+border-radius:16px;
+padding:12px;
 }
 
 @media print{
 
 @page{
-size:A4 portrait;
-margin:10mm;
+size:A4 landscape;
+margin:6mm;
 }
 
 html,
@@ -160,7 +147,7 @@ background:white!important;
 color:black!important;
 -webkit-print-color-adjust:exact;
 print-color-adjust:exact;
-font-family:Arial,Tahoma,sans-serif!important;
+font-family:'Cairo',Arial,Tahoma,sans-serif!important;
 }
 
 .sidebar,
@@ -180,62 +167,103 @@ background:white!important;
 color:black!important;
 padding:0!important;
 margin:0!important;
-border:none!important;
 box-shadow:none!important;
+border:none!important;
 border-radius:0!important;
 overflow:visible!important;
 }
 
-.report-header{
-grid-template-columns:1fr 70px!important;
-gap:6px!important;
+.print-header{
+grid-template-columns:1fr 110px!important;
+gap:10px!important;
+margin-bottom:6px!important;
 border:1px solid #000!important;
-border-radius:0!important;
+padding:5px!important;
+align-items:center!important;
 background:white!important;
-padding:4px!important;
+border-radius:0!important;
+}
+
+.logo-circle{
+width:100px!important;
+height:100px!important;
+border-radius:50%!important;
+object-fit:cover!important;
+object-position:center!important;
+border:none!important;
+padding:0!important;
+background:transparent!important;
+}
+
+.header-center h1{
+font-size:18px!important;
+color:black!important;
+margin:0!important;
+line-height:1.25!important;
+}
+
+.header-center div{
+font-size:10px!important;
+color:black!important;
+line-height:1.35!important;
+}
+
+.stats-grid{
+grid-template-columns:repeat(5,1fr)!important;
+gap:4px!important;
 margin-bottom:5px!important;
 }
 
-.report-logo{
-width:64px!important;
-height:64px!important;
-border-radius:50%!important;
-object-fit:cover!important;
+.stat-card{
+background:white!important;
+border:1px solid #000!important;
+padding:4px!important;
+border-radius:0!important;
 }
 
-.report-title h1{
-font-size:15px!important;
+.stat-title,
+.stat-number{
+color:black!important;
+}
+
+.stat-title{
+font-size:8px!important;
+margin-bottom:0!important;
+}
+
+.stat-number{
+font-size:12px!important;
+}
+
+.grade-scale-print{
+display:block!important;
+margin-bottom:5px!important;
+}
+
+.grade-scale-print th,
+.grade-scale-print td{
+border:1px solid #000!important;
+padding:2px!important;
+font-size:8px!important;
+font-weight:900!important;
+text-align:center!important;
 color:#000!important;
-line-height:1.25!important;
+background:white!important;
 }
 
-.report-title div{
-font-size:9.5px!important;
-color:#000!important;
-line-height:1.25!important;
-}
-
-.print-body{
+.print-layout{
 display:grid!important;
-grid-template-columns:58% 40%!important;
-gap:6px!important;
+grid-template-columns:1.25fr .75fr!important;
+gap:8px!important;
 align-items:start!important;
-}
-
-.left-side{
-gap:5px!important;
-}
-
-.top-small-tables{
-display:grid!important;
-grid-template-columns:38% 60%!important;
-gap:5px!important;
 }
 
 table{
 width:100%!important;
+min-width:0!important;
 border-collapse:collapse!important;
 table-layout:fixed!important;
+font-size:8px!important;
 }
 
 th,
@@ -243,37 +271,13 @@ td{
 background:white!important;
 color:black!important;
 border:1px solid #000!important;
-padding:3px!important;
-font-size:10px!important;
-font-weight:900!important;
-text-align:center!important;
-line-height:1.18!important;
-word-break:break-word!important;
-}
-
-.students-table td{
-font-size:11.5px!important;
-}
-
-.students-table td:nth-child(2){
-font-size:12px!important;
-}
-
-.chart-wrap{
-height:185px!important;
-border:1px solid #000!important;
-border-radius:0!important;
 padding:2px!important;
-margin-top:0!important;
-}
-
-.analysis-print-footer{
-margin-top:6px!important;
-}
-
-.analysis-print-footer td{
-font-size:10px!important;
-padding:4px!important;
+font-size:8px!important;
+font-weight:900!important;
+white-space:normal!important;
+word-break:break-word!important;
+text-align:center!important;
+line-height:1.15!important;
 }
 
 .care-row td,
@@ -286,13 +290,33 @@ color:#f97316!important;
 color:#dc2626!important;
 }
 
-.final-text{
-color:#22c55e!important;
+.chart-wrap{
+height:165px!important;
+margin-top:5px!important;
+padding:2px!important;
+border:1px solid #000!important;
+border-radius:0!important;
+}
+
+.analysis-print-footer{
+margin-top:5px!important;
+font-family:Calibri,Arial,sans-serif!important;
+}
+
+.analysis-print-footer td{
+border:1px solid #000!important;
+padding:4px!important;
+font-size:9px!important;
+font-weight:900!important;
+text-align:center!important;
+color:black!important;
+background:white!important;
 }
 
 }
 
 </style>
+
 </head>
 
 <body>
@@ -300,33 +324,67 @@ color:#22c55e!important;
 <div class="dashboard-layout">
 
 <div class="sidebar">
-<div class="logo-box">Rased<br>Insights</div>
+
+<div class="logo-box">
+Rased<br>
+Insights
+</div>
 
 <div class="user-box">
-<div class="user-title">تحليل النتائج</div>
-<div class="user-name" id="supervisorName">Supervisor</div>
+
+<div class="user-title">
+تحليل النتائج
+</div>
+
+<div class="user-name" id="supervisorName">
+Supervisor
+</div>
+
 </div>
 
 <div class="menu">
-<button onclick="window.print()">طباعة التحليل</button>
-<button onclick="window.location.href='supervisor.html'">رجوع للمشرف</button>
-<button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+
+<button onclick="window.print()">
+طباعة التحليل
+</button>
+
+<button onclick="window.location.href='supervisor.html'">
+رجوع للمشرف
+</button>
+
+<button class="logout-btn" onclick="logout()">
+تسجيل الخروج
+</button>
+
 </div>
+
 </div>
 
 <div class="main">
+
 <div class="section active-section">
+
 <div class="analysis-card">
 
-<div class="report-header">
+<div class="print-header">
 
-<div class="report-title">
-<h1 id="mainTitle">تحليل نتائج اختبار لمادة اللغة الإنجليزية</h1>
-<div>مدارس الفلاح الأهلية</div>
-<div id="subTitle">اختر المعلم والفصل والاختبار</div>
+<div class="header-center">
+
+<h1 id="mainTitle">
+تحليل نتائج اختبار لمادة اللغة الإنجليزية
+</h1>
+
+<div>
+مدارس الفلاح الأهلية
 </div>
 
-<img src="school-new1.png" class="report-logo" alt="School Logo">
+<div id="subTitle">
+اختر المعلم والفصل والاختبار
+</div>
+
+</div>
+
+<img src="school-new1.png" class="logo-circle" alt="School Logo">
 
 </div>
 
@@ -334,23 +392,31 @@ color:#22c55e!important;
 
 <div class="analysis-box">
 <label>المعلم</label>
+
 <select id="teacherSelect">
 <option>اختر المعلم</option>
 </select>
+
 </div>
 
 <div class="analysis-box">
+
 <label>الفصل</label>
+
 <select id="classSelect">
 <option>اختر الفصل</option>
 </select>
+
 </div>
 
 <div class="analysis-box">
+
 <label>الاختبار</label>
+
 <select id="examSelect">
 <option>اختر الاختبار</option>
 </select>
+
 </div>
 
 </div>
@@ -388,47 +454,104 @@ color:#22c55e!important;
 </div>
 
 <div class="analysis-box" style="display:flex;align-items:end;">
-<button class="primary-btn" style="width:100%;" onclick="generateAnalysis()">تحليل النتائج</button>
-</div>
+
+<button class="primary-btn" style="width:100%;" onclick="generateAnalysis()">
+تحليل النتائج
+</button>
 
 </div>
 
-<div class="print-body">
+</div>
 
-<div class="left-side">
-
-<div class="top-small-tables">
+<div class="grade-scale-print">
 
 <table>
+
 <thead>
+
 <tr>
-<th colspan="2">معلومات عامة</th>
+<th>سلم الدرجات</th>
+<th>المدى</th>
+<th>ملاحظات</th>
 </tr>
+
 </thead>
-<tbody>
-<tr><td>عدد الطلاب</td><td id="totalStudents">0</td></tr>
-<tr><td>أعلى درجة</td><td id="highestGrade">0</td></tr>
-<tr><td>أدنى درجة</td><td id="lowestGrade">0</td></tr>
-<tr><td>المجموع</td><td id="totalGrades">0</td></tr>
-<tr><td>المتوسط</td><td id="averageGrade">0</td></tr>
-</tbody>
+
+<tbody id="gradeScaleTable"></tbody>
+
 </table>
 
+</div>
+
+<div class="stats-grid" style="margin-bottom:18px;">
+
+<div class="stat-card">
+<div class="stat-title">عدد الطلاب</div>
+<div class="stat-number" id="totalStudents">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">أعلى درجة</div>
+<div class="stat-number" id="highestGrade">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">أدنى درجة</div>
+<div class="stat-number" id="lowestGrade">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">المجموع</div>
+<div class="stat-number" id="totalGrades">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">المتوسط</div>
+<div class="stat-number" id="averageGrade">0</div>
+</div>
+
+</div>
+
+<div class="print-layout" style="display:grid;grid-template-columns:1.35fr .8fr;gap:15px;align-items:start;">
+
+<div style="overflow:auto;">
+
 <table>
+
 <thead>
+
 <tr>
-<th colspan="3">التصنيفات</th>
+<th>م</th>
+<th>اسم الطالب</th>
+<th>الدرجة</th>
+<th>التصنيف</th>
 </tr>
+
+</thead>
+
+<tbody id="studentsTable"></tbody>
+
+</table>
+
+</div>
+
+<div>
+
+<table>
+
+<thead>
+
 <tr>
 <th>التصنيف</th>
-<th>المدى</th>
 <th>العدد</th>
+<th>المدى</th>
 </tr>
-</thead>
-<tbody id="summaryTable"></tbody>
-</table>
 
-</div>
+</thead>
+
+<tbody id="summaryTable"></tbody>
+
+</table>
 
 <div class="chart-wrap">
 <canvas id="analysisChart"></canvas>
@@ -436,42 +559,32 @@ color:#22c55e!important;
 
 </div>
 
-<div>
-
-<table class="students-table">
-<thead>
-<tr>
-<th style="width:8%">م</th>
-<th style="width:48%">اسم الطالب</th>
-<th style="width:16%">الدرجة</th>
-<th style="width:28%">التصنيف</th>
-</tr>
-</thead>
-<tbody id="studentsTable"></tbody>
-</table>
-
-</div>
-
 </div>
 
 <table class="analysis-print-footer">
+
 <tr>
 <td>معلم المادة</td>
 <td>مشرف اللغة الإنجليزية</td>
 <td>رئيس قسم الإشراف والتدريب</td>
 <td>مدير المدرسة</td>
 </tr>
+
 <tr>
 <td id="footerTeacher">-</td>
 <td id="footerSupervisor">محمد عامر أحمد</td>
 <td>أحمد سمير</td>
 <td>سعيد بن علي الجمعان</td>
 </tr>
+
 </table>
 
 </div>
+
 </div>
+
 </div>
+
 </div>
 
 <script type="module">
@@ -524,10 +637,13 @@ snapshot.forEach(item=>{
 teachers.push(item.data().name);
 });
 
-teachers.sort((a,b)=>a.localeCompare(b,"ar"));
+teachers.sort((a,b)=>
+a.localeCompare(b,"ar")
+);
 
 teachers.forEach(name=>{
-teacherSelect.innerHTML += `<option>${name}</option>`;
+teacherSelect.innerHTML +=
+`<option>${name}</option>`;
 });
 
 }
@@ -535,7 +651,9 @@ teacherSelect.innerHTML += `<option>${name}</option>`;
 async function loadExams(){
 
 exams = [];
-examSelect.innerHTML = "<option>اختر الاختبار</option>";
+
+examSelect.innerHTML =
+"<option>اختر الاختبار</option>";
 
 const snapshot =
 await getDocs(collection(db,"exams"));
@@ -552,15 +670,23 @@ order:Number(data.order || 999)
 
 });
 
-exams.sort((a,b)=>a.order - b.order);
+exams.sort((a,b)=>
+a.order - b.order
+);
 
 exams.forEach(exam=>{
-examSelect.innerHTML += `<option value="${exam.examName}">${exam.examName}</option>`;
+examSelect.innerHTML +=
+`<option value="${exam.examName}">
+${exam.examName}
+</option>`;
 });
 
 }
 
-teacherSelect.addEventListener("change",loadTeacherClasses);
+teacherSelect.addEventListener(
+"change",
+loadTeacherClasses
+);
 
 async function loadTeacherClasses(){
 
@@ -574,8 +700,7 @@ if(teacherName === "اختر المعلم"){
 return;
 }
 
-const snapshot =
-await getDocs(
+const snapshot = await getDocs(
 query(
 collection(db,"assignments"),
 where("teacherName","==",teacherName)
@@ -588,289 +713,13 @@ snapshot.forEach(item=>{
 classes.push(item.data().className);
 });
 
-classes.sort((a,b)=>a.localeCompare(b,"ar"));
+classes.sort((a,b)=>
+a.localeCompare(b,"ar")
+);
 
 classes.forEach(className=>{
-classSelect.innerHTML += `<option>${className}</option>`;
-});
-
-}
-
-function getCategory(grade,ranges,maxDegree){
-
-if(grade === maxDegree){
-return "الدرجة النهائية";
-}
-
-if(grade >= ranges.highFrom && grade <= ranges.highTo){
-return "مستوى مرتفع";
-}
-
-if(grade >= ranges.careFrom && grade <= ranges.careTo){
-return "أولى بالرعاية";
-}
-
-if(grade >= ranges.caseFrom && grade <= ranges.caseTo){
-return "دراسة حالة";
-}
-
-return "خارج التصنيف";
-
-}
-
-function getRowClass(category){
-
-if(category === "أولى بالرعاية"){
-return "care-row";
-}
-
-if(category === "دراسة حالة"){
-return "case-row";
-}
-
-return "";
-
-}
-
-window.generateAnalysis = async function(){
-
-const teacherName = teacherSelect.value;
-const className = classSelect.value;
-const examName = examSelect.value;
-
-if(teacherName === "اختر المعلم"){
-alert("اختر المعلم");
-return;
-}
-
-if(className === "اختر الفصل"){
-alert("اختر الفصل");
-return;
-}
-
-if(examName === "اختر الاختبار"){
-alert("اختر الاختبار");
-return;
-}
-
-const selectedExam =
-exams.find(item=>item.examName === examName);
-
-const maxDegree =
-selectedExam ? selectedExam.maxDegree : 0;
-
-const ranges = {
-highFrom:Number(document.getElementById("highFrom").value || 0),
-highTo:Number(document.getElementById("highTo").value || 0),
-careFrom:Number(document.getElementById("careFrom").value || 0),
-careTo:Number(document.getElementById("careTo").value || 0),
-caseFrom:Number(document.getElementById("caseFrom").value || 0),
-caseTo:Number(document.getElementById("caseTo").value || 0)
-};
-
-document.getElementById("mainTitle").innerText =
-`تحليل نتائج ${examName} لمادة اللغة الإنجليزية`;
-
-document.getElementById("subTitle").innerText =
-`الفصل: ${className} | المادة: اللغة الإنجليزية | الاختبار: ${examName} | الدرجة النهائية: ${maxDegree}`;
-
-document.getElementById("footerTeacher").innerText =
-teacherName;
-
-const studentsSnapshot =
-await getDocs(
-query(
-collection(db,"students"),
-where("className","==",className)
-)
-);
-
-const gradesSnapshot =
-await getDocs(
-query(
-collection(db,"grades"),
-where("teacherName","==",teacherName),
-where("className","==",className),
-where("examName","==",examName)
-)
-);
-
-const grades = [];
-
-gradesSnapshot.forEach(item=>{
-grades.push(item.data());
-});
-
-const students = [];
-
-studentsSnapshot.forEach(item=>{
-students.push(item.data());
-});
-
-students.sort((a,b)=>a.name.localeCompare(b.name,"ar"));
-
-let tableHtml = "";
-let index = 1;
-let total = 0;
-let countWithGrades = 0;
-let highest = null;
-let lowest = null;
-
-const summary = {
-"الدرجة النهائية":0,
-"مستوى مرتفع":0,
-"أولى بالرعاية":0,
-"دراسة حالة":0,
-"خارج التصنيف":0
-};
-
-students.forEach(student=>{
-
-const gradeData =
-grades.find(g=>g.studentName === student.name);
-
-const grade =
-gradeData ? Number(gradeData.grade) : "";
-
-let category = "-";
-
-if(grade !== ""){
-category = getCategory(grade,ranges,maxDegree);
-summary[category]++;
-total += grade;
-countWithGrades++;
-
-if(highest === null || grade > highest){
-highest = grade;
-}
-
-if(lowest === null || grade < lowest){
-lowest = grade;
-}
-
-}
-
-const rowClass = getRowClass(category);
-
-tableHtml += `
-<tr class="${rowClass}">
-<td>${index}</td>
-<td>${student.name}</td>
-<td>${grade === "" ? "-" : grade}</td>
-<td>${category}</td>
-</tr>
-`;
-
-index++;
-
-});
-
-document.getElementById("studentsTable").innerHTML =
-tableHtml;
-
-document.getElementById("totalStudents").innerText =
-students.length;
-
-document.getElementById("highestGrade").innerText =
-highest === null ? 0 : highest;
-
-document.getElementById("lowestGrade").innerText =
-lowest === null ? 0 : lowest;
-
-document.getElementById("totalGrades").innerText =
-total;
-
-document.getElementById("averageGrade").innerText =
-countWithGrades ? Math.round(total / countWithGrades) : 0;
-
-document.getElementById("summaryTable").innerHTML = `
-<tr>
-<td class="final-text">الدرجة النهائية</td>
-<td class="final-text">${maxDegree}</td>
-<td class="final-text">${summary["الدرجة النهائية"]}</td>
-</tr>
-<tr>
-<td>مستوى مرتفع</td>
-<td>${ranges.highFrom} - ${ranges.highTo}</td>
-<td>${summary["مستوى مرتفع"]}</td>
-</tr>
-<tr>
-<td class="care-text">أولى بالرعاية</td>
-<td class="care-text">${ranges.careFrom} - ${ranges.careTo}</td>
-<td class="care-text">${summary["أولى بالرعاية"]}</td>
-</tr>
-<tr>
-<td class="case-text">دراسة حالة</td>
-<td class="case-text">${ranges.caseFrom} - ${ranges.caseTo}</td>
-<td class="case-text">${summary["دراسة حالة"]}</td>
-</tr>
-<tr>
-<td>خارج التصنيف</td>
-<td>-</td>
-<td>${summary["خارج التصنيف"]}</td>
-</tr>
-`;
-
-drawChart(summary);
-
-};
-
-function drawChart(summary){
-
-const ctx =
-document.getElementById("analysisChart");
-
-if(chartInstance){
-chartInstance.destroy();
-}
-
-chartInstance =
-new Chart(ctx,{
-type:"bar",
-data:{
-labels:[
-"الدرجة النهائية",
-"مستوى مرتفع",
-"أولى بالرعاية",
-"دراسة حالة",
-"خارج التصنيف"
-],
-datasets:[{
-label:"عدد الطلاب",
-data:[
-summary["الدرجة النهائية"],
-summary["مستوى مرتفع"],
-summary["أولى بالرعاية"],
-summary["دراسة حالة"],
-summary["خارج التصنيف"]
-],
-backgroundColor:[
-"#0f766e",
-"#22c55e",
-"#f97316",
-"#dc2626",
-"#6b7280"
-],
-borderWidth:1
-}]
-},
-options:{
-responsive:true,
-maintainAspectRatio:false,
-plugins:{
-legend:{
-display:false
-}
-},
-scales:{
-y:{
-beginAtZero:true,
-ticks:{
-precision:0
-}
-}
-}
-}
+classSelect.innerHTML +=
+`<option>${className}</option>`;
 });
 
 }
@@ -886,4 +735,5 @@ await loadExams();
 </script>
 
 </body>
+
 </html>
