@@ -107,7 +107,24 @@ background:linear-gradient(135deg,#0f766e,#115e59);
 .teacher-btn{
 background:linear-gradient(135deg,#ca8a04,#a16207);
 }
+.parent-btn{
+width:100%;
+padding:18px;
+border:none;
+border-radius:18px;
+font-size:28px;
+font-weight:900;
+cursor:pointer;
+color:white;
+background:linear-gradient(135deg,#7c3aed,#9333ea);
+transition:.3s;
+margin-top:14px;
+}
 
+.parent-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 25px rgba(124,58,237,.35);
+}
 .login-form{
 display:none;
 }
