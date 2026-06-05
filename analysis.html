@@ -126,6 +126,11 @@ color:#dc2626 !important;
 font-weight:900 !important;
 }
 
+.final-text{
+color:#22c55e !important;
+font-weight:900 !important;
+}
+
 .chart-wrap{
 height:280px;
 margin-top:15px;
@@ -288,6 +293,10 @@ color:#f97316!important;
 .case-row td,
 .case-text{
 color:#dc2626!important;
+}
+
+.final-text{
+color:#22c55e!important;
 }
 
 .chart-wrap{
@@ -720,6 +729,323 @@ a.localeCompare(b,"ar")
 classes.forEach(className=>{
 classSelect.innerHTML +=
 `<option>${className}</option>`;
+});
+
+}
+
+function getCategory(grade,ranges,maxDegree){
+
+if(grade === maxDegree){
+return "الدرجة النهائية";
+}
+
+if(grade >= ranges.highFrom && grade <= ranges.highTo){
+return "مستوى مرتفع";
+}
+
+if(grade >= ranges.careFrom && grade <= ranges.careTo){
+return "أولى بالرعاية";
+}
+
+if(grade >= ranges.caseFrom && grade <= ranges.caseTo){
+return "دراسة حالة";
+}
+
+return "خارج التصنيف";
+
+}
+
+function getRowClass(category){
+
+if(category === "أولى بالرعاية"){
+return "care-row";
+}
+
+if(category === "دراسة حالة"){
+return "case-row";
+}
+
+return "";
+
+}
+
+window.generateAnalysis = async function(){
+
+const teacherName =
+teacherSelect.value;
+
+const className =
+classSelect.value;
+
+const examName =
+examSelect.value;
+
+if(teacherName === "اختر المعلم"){
+alert("اختر المعلم");
+return;
+}
+
+if(className === "اختر الفصل"){
+alert("اختر الفصل");
+return;
+}
+
+if(examName === "اختر الاختبار"){
+alert("اختر الاختبار");
+return;
+}
+
+const selectedExam =
+exams.find(item=>item.examName === examName);
+
+const maxDegree =
+selectedExam ? selectedExam.maxDegree : 0;
+
+const ranges = {
+highFrom:Number(document.getElementById("highFrom").value || 0),
+highTo:Number(document.getElementById("highTo").value || 0),
+careFrom:Number(document.getElementById("careFrom").value || 0),
+careTo:Number(document.getElementById("careTo").value || 0),
+caseFrom:Number(document.getElementById("caseFrom").value || 0),
+caseTo:Number(document.getElementById("caseTo").value || 0)
+};
+
+document.getElementById("mainTitle").innerText =
+`تحليل نتائج ${examName} لمادة اللغة الإنجليزية`;
+
+document.getElementById("subTitle").innerText =
+`الفصل: ${className} | المادة: اللغة الإنجليزية | الاختبار: ${examName} | الدرجة النهائية: ${maxDegree}`;
+
+document.getElementById("footerTeacher").innerText =
+teacherName;
+
+document.getElementById("gradeScaleTable").innerHTML = `
+<tr>
+<td>الدرجة النهائية</td>
+<td>${maxDegree}</td>
+<td>الطلاب الحاصلون على الدرجة الكاملة</td>
+</tr>
+<tr>
+<td>مستوى مرتفع</td>
+<td>${ranges.highFrom} - ${ranges.highTo}</td>
+<td>طلاب ذوو مستوى متقدم</td>
+</tr>
+<tr>
+<td class="care-text">أولى بالرعاية</td>
+<td class="care-text">${ranges.careFrom} - ${ranges.careTo}</td>
+<td class="care-text">تظهر باللون البرتقالي</td>
+</tr>
+<tr>
+<td class="case-text">دراسة حالة</td>
+<td class="case-text">${ranges.caseFrom} - ${ranges.caseTo}</td>
+<td class="case-text">تظهر باللون الأحمر</td>
+</tr>
+`;
+
+const studentsSnapshot =
+await getDocs(
+query(
+collection(db,"students"),
+where("className","==",className)
+)
+);
+
+const gradesSnapshot =
+await getDocs(
+query(
+collection(db,"grades"),
+where("teacherName","==",teacherName),
+where("className","==",className),
+where("examName","==",examName)
+)
+);
+
+const grades = [];
+
+gradesSnapshot.forEach(item=>{
+grades.push(item.data());
+});
+
+const students = [];
+
+studentsSnapshot.forEach(item=>{
+students.push(item.data());
+});
+
+students.sort((a,b)=>
+a.name.localeCompare(b.name,"ar")
+);
+
+let tableHtml = "";
+let index = 1;
+let total = 0;
+let countWithGrades = 0;
+let highest = null;
+let lowest = null;
+
+const summary = {
+"الدرجة النهائية":0,
+"مستوى مرتفع":0,
+"أولى بالرعاية":0,
+"دراسة حالة":0,
+"خارج التصنيف":0
+};
+
+students.forEach(student=>{
+
+const gradeData =
+grades.find(g=>g.studentName === student.name);
+
+const grade =
+gradeData ? Number(gradeData.grade) : "";
+
+let category = "-";
+
+if(grade !== ""){
+category =
+getCategory(
+grade,
+ranges,
+maxDegree
+);
+
+summary[category]++;
+
+total += grade;
+countWithGrades++;
+
+if(highest === null || grade > highest){
+highest = grade;
+}
+
+if(lowest === null || grade < lowest){
+lowest = grade;
+}
+
+}
+
+const rowClass =
+getRowClass(category);
+
+tableHtml += `
+<tr class="${rowClass}">
+<td>${index}</td>
+<td>${student.name}</td>
+<td>${grade === "" ? "-" : grade}</td>
+<td>${category}</td>
+</tr>
+`;
+
+index++;
+
+});
+
+document.getElementById("studentsTable").innerHTML =
+tableHtml;
+
+document.getElementById("totalStudents").innerText =
+students.length;
+
+document.getElementById("highestGrade").innerText =
+highest === null ? 0 : highest;
+
+document.getElementById("lowestGrade").innerText =
+lowest === null ? 0 : lowest;
+
+document.getElementById("totalGrades").innerText =
+total;
+
+document.getElementById("averageGrade").innerText =
+countWithGrades ? Math.round(total / countWithGrades) : 0;
+
+document.getElementById("summaryTable").innerHTML = `
+<tr>
+<td class="final-text">الدرجة النهائية</td>
+<td class="final-text">${summary["الدرجة النهائية"]}</td>
+<td class="final-text">${maxDegree}</td>
+</tr>
+<tr>
+<td>مستوى مرتفع</td>
+<td>${summary["مستوى مرتفع"]}</td>
+<td>${ranges.highFrom} - ${ranges.highTo}</td>
+</tr>
+<tr>
+<td class="care-text">أولى بالرعاية</td>
+<td class="care-text">${summary["أولى بالرعاية"]}</td>
+<td class="care-text">${ranges.careFrom} - ${ranges.careTo}</td>
+</tr>
+<tr>
+<td class="case-text">دراسة حالة</td>
+<td class="case-text">${summary["دراسة حالة"]}</td>
+<td class="case-text">${ranges.caseFrom} - ${ranges.caseTo}</td>
+</tr>
+<tr>
+<td>خارج التصنيف</td>
+<td>${summary["خارج التصنيف"]}</td>
+<td>-</td>
+</tr>
+`;
+
+drawChart(summary);
+
+};
+
+function drawChart(summary){
+
+const ctx =
+document.getElementById("analysisChart");
+
+if(chartInstance){
+chartInstance.destroy();
+}
+
+chartInstance =
+new Chart(ctx,{
+type:"bar",
+data:{
+labels:[
+"الدرجة النهائية",
+"مستوى مرتفع",
+"أولى بالرعاية",
+"دراسة حالة",
+"خارج التصنيف"
+],
+datasets:[{
+label:"عدد الطلاب",
+data:[
+summary["الدرجة النهائية"],
+summary["مستوى مرتفع"],
+summary["أولى بالرعاية"],
+summary["دراسة حالة"],
+summary["خارج التصنيف"]
+],
+backgroundColor:[
+"#0f766e",
+"#22c55e",
+"#f97316",
+"#dc2626",
+"#6b7280"
+],
+borderWidth:1
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+plugins:{
+legend:{
+display:false
+}
+},
+scales:{
+y:{
+beginAtZero:true,
+ticks:{
+precision:0
+}
+}
+}
+}
 });
 
 }
