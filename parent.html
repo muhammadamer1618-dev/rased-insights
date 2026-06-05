@@ -1,1 +1,486 @@
-١
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>بوابة ولي الأمر</title>
+<link rel="stylesheet" href="style.css"/>
+
+<style>
+.parent-card{
+max-width:1050px;
+margin:auto;
+background:#111827;
+border-radius:24px;
+padding:24px;
+}
+
+.parent-header{
+text-align:center;
+margin-bottom:22px;
+}
+
+.parent-logo{
+width:95px;
+height:95px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.children-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:12px;
+margin:18px 0;
+}
+
+.child-card{
+background:#020617;
+border:1px solid rgba(255,255,255,.08);
+border-radius:16px;
+padding:16px;
+cursor:pointer;
+font-weight:900;
+text-align:center;
+color:white;
+}
+
+.child-card:hover{
+border-color:#facc15;
+}
+
+.support-message{
+margin-top:22px;
+padding:18px;
+border-radius:16px;
+color:white;
+font-weight:900;
+line-height:1.9;
+text-align:center;
+}
+
+.designer-credit{
+margin-top:25px;
+text-align:center;
+font-family:Calibri,Arial,sans-serif;
+font-size:13px;
+font-weight:900;
+color:#94a3b8;
+}
+
+@media print{
+.sidebar,
+.search-area,
+.children-grid,
+.print-actions{
+display:none!important;
+}
+
+body,
+.main,
+.section,
+.parent-card{
+background:white!important;
+color:black!important;
+padding:0!important;
+box-shadow:none!important;
+}
+
+table{
+width:100%!important;
+border-collapse:collapse!important;
+}
+
+th,
+td{
+border:1px solid #000!important;
+color:#000!important;
+background:white!important;
+font-size:12px!important;
+font-weight:900!important;
+padding:6px!important;
+text-align:center!important;
+}
+
+.stat-card{
+background:white!important;
+border:1px solid #000!important;
+}
+
+.stat-title,
+.stat-number{
+color:black!important;
+}
+
+.designer-credit{
+color:black!important;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="main" style="min-height:100vh;padding:25px;">
+
+<div class="section active-section parent-card">
+
+<div class="parent-header">
+<img src="school-new1.png" class="parent-logo">
+<h2 style="color:#facc15;margin:10px 0 5px;">بوابة ولي الأمر</h2>
+<div style="color:#cbd5e1;font-weight:800;">
+متابعة نتائج اختبارات مادة اللغة الإنجليزية
+</div>
+</div>
+
+<div class="search-area">
+
+<div class="input-group" style="max-width:430px;margin:0 auto 18px;">
+<input type="text" id="guardianPhoneInput" placeholder="أدخل رقم جوال ولي الأمر"/>
+</div>
+
+<div style="text-align:center;margin-bottom:20px;">
+<button class="primary-btn" onclick="searchStudents()">عرض النتائج</button>
+</div>
+
+</div>
+
+<div id="childrenArea" class="children-grid"></div>
+
+<div id="reportArea" style="display:none;">
+
+<div class="stats-grid" style="margin-bottom:20px;">
+
+<div class="stat-card">
+<div class="stat-title">اسم الطالب</div>
+<div class="stat-number" id="studentNameBox">-</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">الفصل</div>
+<div class="stat-number" id="classNameBox">-</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">المعلم</div>
+<div class="stat-number" id="teacherNameBox">-</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">المتوسط العام</div>
+<div class="stat-number" id="averageBox">0%</div>
+</div>
+
+</div>
+
+<table>
+<thead>
+<tr>
+<th>الاختبار</th>
+<th>درجة الطالب</th>
+<th>الدرجة النهائية</th>
+<th>النسبة</th>
+<th>مؤشر الأداء</th>
+</tr>
+</thead>
+<tbody id="gradesTable"></tbody>
+</table>
+
+<div id="supportMessage" class="support-message" style="display:none;"></div>
+
+<div class="print-actions" style="text-align:center;margin-top:22px;">
+<button class="primary-btn" onclick="window.print()">طباعة التقرير</button>
+</div>
+
+<div class="designer-credit">
+تصميم وتطوير: محمد عامر أحمد
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs,
+query,
+where
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+let allExams = [];
+let matchedStudents = [];
+
+function cleanPhone(phone){
+let value = String(phone || "").trim();
+value = value.replace(/[^\d]/g,"");
+
+if(value.startsWith("00")){
+value = value.slice(2);
+}
+
+if(value.startsWith("0")){
+value = "966" + value.slice(1);
+}
+
+if(!value.startsWith("966") && value.length === 9){
+value = "966" + value;
+}
+
+return value;
+}
+
+async function loadExams(){
+
+allExams = [];
+
+const snapshot = await getDocs(collection(db,"exams"));
+
+snapshot.forEach(item=>{
+
+const data = item.data();
+
+allExams.push({
+examName:data.examName,
+maxDegree:Number(data.maxDegree || 0),
+order:Number(data.order || 999)
+});
+
+});
+
+allExams.sort((a,b)=>a.order - b.order);
+
+}
+
+function getChange(current,previous){
+
+if(previous === null){
+return "-";
+}
+
+if(current > previous){
+return "تحسن";
+}
+
+if(current < previous){
+return "تراجع";
+}
+
+return "ثابت";
+
+}
+
+function getSupportLevel(average){
+
+if(average < 50){
+return "case";
+}
+
+if(average < 70){
+return "care";
+}
+
+return "normal";
+
+}
+
+window.searchStudents = async function(){
+
+const phoneInput = document.getElementById("guardianPhoneInput").value.trim();
+
+if(!phoneInput){
+alert("أدخل رقم جوال ولي الأمر");
+return;
+}
+
+document.getElementById("reportArea").style.display = "none";
+document.getElementById("childrenArea").innerHTML = "";
+
+const inputPhone = cleanPhone(phoneInput);
+
+const studentsSnapshot = await getDocs(collection(db,"students"));
+
+matchedStudents = [];
+
+studentsSnapshot.forEach(item=>{
+
+const student = {
+id:item.id,
+...item.data()
+};
+
+if(cleanPhone(student.guardianPhone) === inputPhone){
+matchedStudents.push(student);
+}
+
+});
+
+if(matchedStudents.length === 0){
+alert("لم يتم العثور على طالب مرتبط بهذا الرقم");
+return;
+}
+
+matchedStudents.sort((a,b)=>
+(a.name || "").localeCompare(b.name || "","ar")
+);
+
+if(matchedStudents.length === 1){
+loadStudentReport(0);
+return;
+}
+
+let html = "";
+
+matchedStudents.forEach((student,index)=>{
+
+html += `
+<div class="child-card" onclick="loadStudentReport(${index})">
+<div style="color:#facc15;font-size:17px;margin-bottom:8px;">
+${student.name || "-"}
+</div>
+<div>
+${student.className || "-"}
+</div>
+</div>
+`;
+
+});
+
+document.getElementById("childrenArea").innerHTML = html;
+
+};
+
+window.loadStudentReport = async function(index){
+
+const student = matchedStudents[index];
+
+if(!student){
+return;
+}
+
+await loadExams();
+
+const gradesSnapshot = await getDocs(
+query(
+collection(db,"grades"),
+where("studentName","==",student.name),
+where("className","==",student.className)
+)
+);
+
+const grades = [];
+
+gradesSnapshot.forEach(item=>{
+grades.push(item.data());
+});
+
+const assignmentSnapshot = await getDocs(
+query(
+collection(db,"assignments"),
+where("className","==",student.className)
+)
+);
+
+let teacherName = "-";
+
+assignmentSnapshot.forEach(item=>{
+teacherName = item.data().teacherName || "-";
+});
+
+document.getElementById("studentNameBox").innerText = student.name || "-";
+document.getElementById("classNameBox").innerText = student.className || "-";
+document.getElementById("teacherNameBox").innerText = teacherName;
+
+let html = "";
+let previousPercent = null;
+let totalPercent = 0;
+let count = 0;
+
+allExams.forEach(exam=>{
+
+const gradeData = grades.find(item=>item.examName === exam.examName);
+
+if(gradeData && gradeData.grade !== ""){
+
+const grade = Number(gradeData.grade);
+const maxDegree = Number(gradeData.maxDegree || exam.maxDegree || 0);
+
+const percent = maxDegree
+?
+Math.round((grade / maxDegree) * 100)
+:
+0;
+
+const change = getChange(percent,previousPercent);
+
+previousPercent = percent;
+totalPercent += percent;
+count++;
+
+html += `
+<tr>
+<td>${exam.examName}</td>
+<td>${grade}</td>
+<td>${maxDegree}</td>
+<td>${percent}%</td>
+<td>${change}</td>
+</tr>
+`;
+
+}else{
+
+html += `
+<tr>
+<td>${exam.examName}</td>
+<td>-</td>
+<td>${exam.maxDegree}</td>
+<td>-</td>
+<td>-</td>
+</tr>
+`;
+
+}
+
+});
+
+const average = count ? Math.round(totalPercent / count) : 0;
+
+document.getElementById("averageBox").innerText = average + "%";
+document.getElementById("gradesTable").innerHTML = html;
+
+const supportLevel = getSupportLevel(average);
+const supportMessage = document.getElementById("supportMessage");
+
+if(supportLevel === "care"){
+
+supportMessage.style.display = "block";
+supportMessage.style.background = "#f97316";
+supportMessage.innerText =
+"المكرم ولي أمر الطالب، نحيطكم علمًا بأنه تم إدراج ابنكم ضمن برنامج دعم الطلاب في مادة اللغة الإنجليزية، وذلك بهدف تعزيز مستوى التحصيل الدراسي ومعالجة جوانب الضعف الأكاديمية من خلال خطة دعم ومتابعة تعليمية مستمرة.";
+
+}else if(supportLevel === "case"){
+
+supportMessage.style.display = "block";
+supportMessage.style.background = "#dc2626";
+supportMessage.innerText =
+"المكرم ولي أمر الطالب، نحيطكم علمًا بأنه تم إدراج ابنكم ضمن برنامج دعم الطلاب المكثف في مادة اللغة الإنجليزية، وذلك نظرًا لحاجته إلى متابعة تعليمية إضافية؛ بهدف رفع مستوى الأداء الأكاديمي وتحسين نتائج الاختبارات القادمة.";
+
+}else{
+
+supportMessage.style.display = "none";
+
+}
+
+document.getElementById("reportArea").style.display = "block";
+
+};
+
+</script>
+
+</body>
+</html>
