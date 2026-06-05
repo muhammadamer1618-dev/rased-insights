@@ -107,24 +107,25 @@ background:linear-gradient(135deg,#0f766e,#115e59);
 .teacher-btn{
 background:linear-gradient(135deg,#ca8a04,#a16207);
 }
+
 .parent-btn{
 width:100%;
-padding:18px;
 border:none;
-border-radius:18px;
-font-size:28px;
-font-weight:900;
+padding:15px;
+border-radius:16px;
 cursor:pointer;
+font-size:15px;
+font-weight:800;
+transition:.3s;
 color:white;
 background:linear-gradient(135deg,#7c3aed,#9333ea);
-transition:.3s;
-margin-top:14px;
 }
 
 .parent-btn:hover{
-transform:translateY(-2px);
+transform:translateY(-3px);
 box-shadow:0 10px 25px rgba(124,58,237,.35);
 }
+
 .login-form{
 display:none;
 }
@@ -470,6 +471,42 @@ background:#facc15;
 border-radius:10px;
 }
 
+/* Parent page improvements */
+#reportArea .stats-grid{
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:16px;
+}
+
+#reportArea .stat-card{
+min-height:125px;
+padding:16px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+#reportArea .stat-title{
+font-size:14px;
+font-weight:800;
+color:#94a3b8;
+margin-bottom:8px;
+}
+
+#reportArea .stat-number{
+font-size:21px;
+font-weight:900;
+line-height:1.45;
+color:#facc15;
+overflow-wrap:anywhere;
+word-break:normal;
+}
+
+#averageBox{
+font-size:28px !important;
+}
+
 @media(max-width:950px){
 
 .dashboard-layout{
@@ -492,6 +529,14 @@ grid-template-columns:1fr;
 table{
 min-width:900px;
 font-size:13px;
+}
+
+#reportArea .stat-number{
+font-size:20px;
+}
+
+#averageBox{
+font-size:26px !important;
 }
 
 }
